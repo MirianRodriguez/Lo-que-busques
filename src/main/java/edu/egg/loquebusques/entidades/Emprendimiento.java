@@ -7,13 +7,16 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "emprendimiento", indexes = {@Index(name = "idx_nombre", columnList = "nombre")})
-
+@SQLDelete(sql = "UPDATE emprendimietno SET eliminado = true WHERE id = ?")
+@Where(clause = "eliminado = false")
 public class Emprendimiento {
     
     @Id
