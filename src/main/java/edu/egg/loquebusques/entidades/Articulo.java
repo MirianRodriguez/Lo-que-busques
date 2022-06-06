@@ -14,15 +14,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "articulo", indexes = {@Index(name = "idx_nombre", columnList = "nombre")})
+@SQLDelete(sql = "UPDATE articulo SET eliminado = true WHERE articulo_id = ?")
+@Where(clause = "eliminado = false")
 public class Articulo {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
+    @Column(name = "articulo_id")
     private Integer id;
 
     @Column(name = "nombre", length = 50, nullable = false)
@@ -42,18 +47,18 @@ public class Articulo {
     private Boolean envioADomicilio;
 
     @OneToOne(fetch = EAGER)
-    @JoinColumn(name = "demora", referencedColumnName = "id")
+    @JoinColumn(name = "demora_id", referencedColumnName = "demora_id")
     private Demora demora;
 
     @Column(name = "fecha_publicacion", nullable = false, columnDefinition = "DATE")
     private LocalDate fechaPublicacion;
 
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "categoria", referencedColumnName = "id")
+    @JoinColumn(name = "categoria_id", referencedColumnName = "categoria_id", nullable = false)
     private Categoria categoria;
 
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "emprendimiento", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "emprendimiento_id", nullable = false, referencedColumnName = "emprendimiento_id")
     private Emprendimiento emprendimiento;
 
     @Column(name = "eliminado", nullable = false)
