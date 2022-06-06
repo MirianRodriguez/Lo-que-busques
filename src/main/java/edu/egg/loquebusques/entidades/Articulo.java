@@ -14,11 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "articulo", indexes = {@Index(name = "idx_nombre", columnList = "nombre")})
+@SQLDelete(sql = "UPDATE articulo SET eliminado = true WHERE id = ?")
+@Where(clause = "eliminado = false")
 public class Articulo {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -49,7 +54,7 @@ public class Articulo {
     private LocalDate fechaPublicacion;
 
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "categoria", referencedColumnName = "id")
+    @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
     private Categoria categoria;
 
     @ManyToOne(fetch = EAGER)
