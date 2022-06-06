@@ -7,18 +7,21 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "emprendimiento", indexes = {@Index(name = "idx_nombre", columnList = "nombre")})
-
+@SQLDelete(sql = "UPDATE emprendimiento SET eliminado = true WHERE emprendimiento_id = ?")
+@Where(clause = "eliminado = false")
 public class Emprendimiento {
     
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
+    @Column(name = "emprendimiento_id")
     private Integer id;
 
     @Column(name = "nombre", length = 50, nullable = false)
@@ -42,7 +45,7 @@ public class Emprendimiento {
     private List<FormaPago> formasPago;
 
     @ManyToMany
-    @JoinColumn(name = "categorias", referencedColumnName = "id")
+    @JoinColumn(name = "categorias_id", referencedColumnName = "categorias_id")
     private List<Categoria> categorias;
 
     @ManyToMany
@@ -52,7 +55,7 @@ public class Emprendimiento {
     private LocalDate inicioActividades;
 
     @OneToMany(fetch = EAGER)
-    @JoinColumn(name = "articulos", referencedColumnName = "id")
+    @JoinColumn(name = "articulos_id", referencedColumnName = "articulos_id")
     private List<Articulo> articulos;
 
     @Column(name = "eliminado", nullable = false)
