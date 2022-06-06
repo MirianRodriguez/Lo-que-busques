@@ -69,7 +69,7 @@ public class Emprendimiento {
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String foto, String telefono, String horario,
-            FormaPago formasPago, List<Categoria> categorias, List<Domilicio> domicilios, LocalDate inicioActividades,
+            List<FormaPago> formasPago, List<Categoria> categorias, List<Domilicio> domicilios, LocalDate inicioActividades,
             List<Articulo> articulos, Boolean eliminado, Boolean pendiente) {
         this.id = id;
         this.nombre = nombre;
@@ -134,11 +134,11 @@ public class Emprendimiento {
         this.horario = horario;
     }
 
-    public FormaPago getFormaPago() {
+    public List<FormaPago> getFormaPago() {
         return formasPago;
     }
 
-    public void setFormaPago(FormaPago formasPago) {
+    public void setFormaPago(List<FormaPago> formasPago) {
         this.formasPago = formasPago;
     }
 
@@ -189,12 +189,5 @@ public class Emprendimiento {
     public void setPendiente(Boolean pendiente) {
         this.pendiente = pendiente;
     }
-
-    
-    
-
-
-
-
 
 }
