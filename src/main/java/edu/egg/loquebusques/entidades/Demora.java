@@ -15,13 +15,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "demora")
-@SQLDelete(sql = "UPDATE demora SET eliminado = true WHERE id = ?") 
+@SQLDelete(sql = "UPDATE demora SET eliminado = true WHERE demora_id = ?") 
 @Where(clause = "eliminado = false")
 public class Demora {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
+    @Column(name = "demora_id")
     private Integer id;
 
     @Column(name = "cantidad", nullable = false)
