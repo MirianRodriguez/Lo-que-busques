@@ -37,8 +37,8 @@ public class Articulo {
     @Column(name = "descripcion", columnDefinition="BLOB", nullable = false)
     private String descripcion;
 
-    @Column(name = "foto")
-    private String foto;
+    @Column(name = "imagen")
+    private String imagen;
 
     @Column(name = "precio", columnDefinition = "DECIMAL(10,2)", nullable = false)
     private BigDecimal precio;
@@ -70,13 +70,13 @@ public class Articulo {
         this.fechaPublicacion = LocalDate.now();
     }
 
-    public Articulo(Integer id, String nombre, String descripcion, String foto, BigDecimal precio,
+    public Articulo(Integer id, String nombre, String descripcion, String imagen, BigDecimal precio,
             Boolean envioADomicilio, Demora demora, LocalDate fechaPublicacion, Categoria categoria,
             Emprendimiento emprendimiento, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.foto = foto;
+        this.imagen = imagen;
         this.precio = precio;
         this.envioADomicilio = envioADomicilio;
         this.demora = demora;
@@ -85,8 +85,6 @@ public class Articulo {
         this.emprendimiento = emprendimiento;
         this.eliminado = eliminado;
     }
-
-
 
     public Integer getId() {
         return id;
@@ -112,12 +110,12 @@ public class Articulo {
         this.descripcion = descripcion;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public BigDecimal getPrecio() {
@@ -152,14 +150,13 @@ public class Articulo {
         this.fechaPublicacion = fechaPublicacion;
     }
 
-    public Boolean getEliminado() {
-        return eliminado;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setEliminado(Boolean eliminado) {
-        this.eliminado = eliminado;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
-
 
     public Emprendimiento getEmprendimiento() {
         return emprendimiento;
@@ -169,21 +166,14 @@ public class Articulo {
         this.emprendimiento = emprendimiento;
     }
 
-
-    public Categoria getCategoria() {
-        return categoria;
+    public Boolean getEliminado() {
+        return eliminado;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setEliminado(Boolean eliminado) {
+        this.eliminado = eliminado;
     }
 
-    @Override
-    public String toString() {
-        return "Articulo [demora=" + demora + ", descripcion=" + descripcion + ", eliminado=" + eliminado
-                + ", envioADomicilio=" + envioADomicilio + ", fechaPublicacion=" + fechaPublicacion + ", foto=" + foto
-                + ", id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
-    }
-
+    
     
 }
