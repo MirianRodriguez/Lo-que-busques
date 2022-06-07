@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -84,7 +85,7 @@ public class ArticuloControlador {
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
         articulo.setDemora(demora);
         articulo.setCategoria(articuloDTO.getCategoria());
-        articulo.setEmprendimiento(articuloDTO.getEmprendimiento());
+        articulo.setEmprendimiento(articuloDTO.getEmprendimiento()); //Cómo capturar el emprendimiento que está cargando el articulo?
 
         try {
             demoraServicio.crear(demora);
@@ -97,5 +98,81 @@ public class ArticuloControlador {
         }
         
         return redireccion;
+    }
+
+    @GetMapping("/formulario/{id}")
+    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("");            //nombre formulario
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (inputFlashMap != null){
+            mav.addObject("articuloDTO", inputFlashMap.get("articuloDTO"));
+            mav.addObject("error", inputFlashMap.get("error"));
+        }else{
+            ArticuloDTO articuloDTO = new ArticuloDTO();
+            Articulo articulo = articuloServicio.obtenerPorId(id);
+            Demora demora = articulo.getDemora();
+            articuloDTO.setArticuloId(articulo.getId());
+            articuloDTO.setNombre(articulo.getNombre());
+            articuloDTO.setDescripcion(articulo.getDescripcion());
+            articuloDTO.setPrecio(articulo.getPrecio());
+            articuloDTO.setEnvioADomicilio(articulo.getEnvioADomicilio());
+            articuloDTO.setCategoria(articulo.getCategoria());
+            articuloDTO.setEmprendimiento(articulo.getEmprendimiento());
+            articuloDTO.setDemoraId(demora.getId());
+            articuloDTO.setCantidad(demora.getCantidad());
+            articuloDTO.setUnidadTiempo(demora.getUnidadTiempo());
+
+            mav.addObject("articuloDTO", articuloDTO);
+        }
+        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        mav.addObject("unidadesTiempo", UnidadTiempo.values());
+        mav.addObject("action", "actualizar");
+        return mav;
+    }
+
+    @PostMapping("/actualizar")
+    public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos) {
+        RedirectView redireccion = new RedirectView("/articulos");
+        //creo el objeto demora
+        Demora demora = demoraServicio.obtenerPorId(articuloDTO.getDemoraId());
+        demora.setCantidad(articuloDTO.getCantidad());
+        demora.setUnidadTiempo(articuloDTO.getUnidadTiempo());
+        //creo el objeto articulo
+        Articulo articulo = articuloServicio.obtenerPorId(articuloDTO.getArticuloId());
+        articulo.setNombre(articuloDTO.getNombre());
+        articulo.setDescripcion(articuloDTO.getDescripcion());
+        articulo.setPrecio(articuloDTO.getPrecio());
+        articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
+        articulo.setDemora(demora);
+        articulo.setCategoria(articuloDTO.getCategoria());
+        articulo.setEmprendimiento(articuloDTO.getEmprendimiento());
+        
+        try {
+            demoraServicio.actualizar(demora);
+            articuloServicio.actualizar(articulo);
+            atributos.addFlashAttribute("exito", "El articulo se ha modificado");
+        } catch (IllegalArgumentException e) {
+            atributos.addFlashAttribute("articuloDTO", articuloDTO);
+            atributos.addFlashAttribute("error", e.getMessage());
+            redireccion.setUrl("/articulos/formulario");
+        }
+        return redireccion;
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
+        RedirectView redireccion = new RedirectView("/articulos");
+        articuloServicio.eliminarPorId(id);
+        atributos.addFlashAttribute("exito", "Se ha eliminado el libro");
+        return redireccion;
+    }
+
+    //ver un articulo
+    @GetMapping("/ver/{id}")
+    public ModelAndView verArticulo(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView("");                //nombre vista
+        mav.addObject("articulo", articuloServicio.obtenerPorId(id));
+        return mav;
     }
 }
