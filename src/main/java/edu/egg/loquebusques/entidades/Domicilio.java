@@ -44,8 +44,16 @@ public class Domicilio {
 
     @Column(name = "eliminado", nullable = false)
     private Boolean eliminado;
-    
-    public Domicilio(String calle, Integer numero, String codPostal, String referencia, Boolean eliminado) {
+
+
+    public Domicilio() {
+        this.eliminado = false;
+    }
+
+    public Domicilio(Integer id, Localidad localidad, String calle, Integer numero, String codPostal, String referencia,
+            Boolean eliminado) {
+        this.id = id;
+        this.localidad = localidad;
         this.calle = calle;
         this.numero = numero;
         this.codPostal = codPostal;
@@ -53,11 +61,19 @@ public class Domicilio {
         this.eliminado = eliminado;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Localidad getLocalidad() {
         return localidad;
     }
 
-    public void setUnidadTiempo(Localidad localidad) {
+    public void setLocalidad(Localidad localidad) {
         this.localidad = localidad;
     }
 
@@ -77,7 +93,7 @@ public class Domicilio {
         this.numero = numero;
     }
 
-    public String getcodPostal() {
+    public String getCodPostal() {
         return codPostal;
     }
 
@@ -90,7 +106,7 @@ public class Domicilio {
     }
 
     public void setReferencia(String referencia) {
-        this.referencia= referencia;
+        this.referencia = referencia;
     }
 
     public Boolean getEliminado() {
@@ -100,8 +116,4 @@ public class Domicilio {
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
     }
-
-
-    
-
 }
