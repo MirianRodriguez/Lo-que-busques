@@ -2,6 +2,7 @@ package edu.egg.loquebusques.dto;
 
 import java.math.BigDecimal;
 
+import edu.egg.loquebusques.entidades.Categoria;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
 

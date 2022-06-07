@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.egg.loquebusques.entidades.Categoria;
 import edu.egg.loquebusques.repositorios.CategoriaRepositorio;
 
 @Service
@@ -23,7 +24,7 @@ public class CategoriaServicio {
         }
         Categoria categoria = new Categoria();
         categoria.setNombre(categoriaDto.getNombre());
-        categoria.setDescripcion(categoriaDto.getNombre());
+        categoria.setDescripcion(categoriaDto.getDescripcion());
         
         categoriaRepositorio.save(categoria);
     }
@@ -32,7 +33,7 @@ public class CategoriaServicio {
     public void actualizar(Categoria categoriaDto) {
         Categoria categoria = categoriaRepositorio.findById(categoriaDto.getId()).get();
         categoria.setNombre(categoriaDto.getNombre());
-        categoria.setDescripcion(categoriaDto.getCategoria());
+        categoria.setDescripcion(categoriaDto.getDescripcion());
         
         categoriaRepositorio.save(categoria);
     }

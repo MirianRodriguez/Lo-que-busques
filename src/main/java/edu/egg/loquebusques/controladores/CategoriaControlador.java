@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
+
+import edu.egg.loquebusques.entidades.Categoria;
+import edu.egg.loquebusques.servicios.CategoriaServicio;
 
 @Controller
 public class CategoriaControlador {
@@ -73,7 +75,7 @@ public class CategoriaControlador {
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView("/categoria/formulario");
         mav.addObject("categoria", categoriaServicio.obtenerPorId(id));
-        mav.addObject("action", "actualizar"); /* ATENCION */
+        mav.addObject("action", "actualizar");
         return mav;
     }
 
