@@ -1,12 +1,10 @@
 package edu.egg.loquebusques.entidades;
 
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
