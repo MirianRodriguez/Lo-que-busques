@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Where(clause = "eliminado = false")
 
 public class Categoria{
-@Id
+    @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "categoria_id")
     private Integer id;
