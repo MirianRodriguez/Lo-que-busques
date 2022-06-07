@@ -49,7 +49,7 @@ public class Emprendimiento {
     private List<Categoria> categorias;
 
     @ManyToMany
-    private List<Domilicio> domicilios;
+    private List<Domicilio> domicilios;
 
     @Column(name = "inicioActividades", nullable =  false, columnDefinition = "DATE")
     private LocalDate inicioActividades;
@@ -72,7 +72,7 @@ public class Emprendimiento {
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String foto, String telefono, String horario,
-            List<FormaPago> formasPago, List<Categoria> categorias, List<Domilicio> domicilios, LocalDate inicioActividades,
+            List<FormaPago> formasPago, List<Categoria> categorias, List<Domicilio> domicilios, LocalDate inicioActividades,
             List<Articulo> articulos, Boolean eliminado, Boolean pendiente) {
         this.id = id;
         this.nombre = nombre;
@@ -153,11 +153,11 @@ public class Emprendimiento {
         this.categorias = categorias;
     }
 
-    public List<Domilicio> getDomicilio() {
+    public List<Domicilio> getDomicilio() {
         return domicilios;
     }
 
-    public void setDomicilio(List<Domilicio> domicilios) {
+    public void setDomicilio(List<Domicilio> domicilios) {
         this.domicilios = domicilios;
     }
 
