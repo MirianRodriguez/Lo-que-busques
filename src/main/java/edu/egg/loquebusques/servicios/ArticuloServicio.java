@@ -76,7 +76,7 @@ public class ArticuloServicio {
     }
 
     @Transactional
-    public void eliminarPorId(Integer id) throws Exception {
+    public void eliminarPorId(Integer id) {
         Articulo articulo = articuloRepositorio.findById(id).get();
         demoraRepositorio.deleteById(articulo.getDemora().getId());
         articuloRepositorio.deleteById(id);
