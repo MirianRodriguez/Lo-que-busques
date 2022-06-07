@@ -8,7 +8,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -38,40 +38,37 @@ public class Emprendimiento {
     @Column(name = "horario", length = 70)
     private String horario;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     @Column(name = "formas_pago")
-    private List<FormaPago> formasPago;
+    private FormaPago formasPago; //List<FormaPago>
 
     @ManyToMany
-    @JoinColumn(name = "categorias_id", referencedColumnName = "categorias_id")
+    @JoinColumn(name = "categorias", referencedColumnName = "categoria_id")
     private List<Categoria> categorias;
 
-    @ManyToMany
-    private List<Domicilio> domicilios;
+    @OneToOne
+    @JoinColumn(name = "domicilio_id", referencedColumnName = "domicilio_id")
+    private Domicilio domicilios;
 
     @Column(name = "inicioActividades", nullable =  false, columnDefinition = "DATE")
     private LocalDate inicioActividades;
 
-    @OneToMany(fetch = EAGER)
-    @JoinColumn(name = "articulos_id", referencedColumnName = "articulos_id")
+    @OneToMany(mappedBy = "emprendimiento")
+    //@JoinColumn(name = "articulos", referencedColumnName = "articulo_id")
     private List<Articulo> articulos;
 
     @Column(name = "eliminado", nullable = false)
     private Boolean eliminado;
 
-    @Column(name = "pendiente", nullable = false)
-    private Boolean pendiente;
-
         /* Constructores - Getters y Setters */
 
     public Emprendimiento() {
         this.eliminado = false;
-        this.pendiente = true;
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String foto, String telefono, String horario,
-            List<FormaPago> formasPago, List<Categoria> categorias, List<Domicilio> domicilios, LocalDate inicioActividades,
-            List<Articulo> articulos, Boolean eliminado, Boolean pendiente) {
+            FormaPago formasPago, List<Categoria> categorias, Domicilio domicilios, LocalDate inicioActividades,
+            List<Articulo> articulos, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -84,7 +81,6 @@ public class Emprendimiento {
         this.inicioActividades = inicioActividades;
         this.articulos = articulos;
         this.eliminado = eliminado;
-        this.pendiente = pendiente;
     }
 
     public Integer getId() {
@@ -135,27 +131,27 @@ public class Emprendimiento {
         this.horario = horario;
     }
 
-    public List<FormaPago> getFormaPago() {
+    public FormaPago getFormasPago() {
         return formasPago;
     }
 
-    public void setFormaPago(List<FormaPago> formasPago) {
+    public void setFormasPago(FormaPago formasPago) {
         this.formasPago = formasPago;
     }
 
-    public List<Categoria> getCategoria() {
+    public List<Categoria> getCategorias() {
         return categorias;
     }
 
-    public void setCategoria(List<Categoria> categorias) {
+    public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
     }
 
-    public List<Domicilio> getDomicilio() {
+    public Domicilio getDomicilios() {
         return domicilios;
     }
 
-    public void setDomicilio(List<Domicilio> domicilios) {
+    public void setDomicilios(Domicilio domicilios) {
         this.domicilios = domicilios;
     }
 
@@ -181,14 +177,6 @@ public class Emprendimiento {
 
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
-    }
-
-    public Boolean getPendiente() {
-        return pendiente;
-    }
-
-    public void setPendiente(Boolean pendiente) {
-        this.pendiente = pendiente;
     }
 
 }
