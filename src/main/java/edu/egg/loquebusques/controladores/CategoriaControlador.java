@@ -84,8 +84,16 @@ public class CategoriaControlador {
     @PostMapping("/actualizar")
     public RedirectView atualizar(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
-        categoriaServicio.actualizar(categoriaDTO);
-        atributos.addFlashAttribute("exito", "Categoria modificado.");
+
+        try {
+            categoriaServicio.actualizar(categoriaDTO);
+            atributos.addFlashAttribute("exito", "Categoria modificado.");
+        } catch (IllegalArgumentException e) {
+            atributos.addFlashAttribute("categoriaDTO", categoriaDTO);
+            atributos.addFlashAttribute("error", e.getMessage());
+            redireccion.setUrl("/categorias/formulario");
+        }
+
         return redireccion;
     }
 
@@ -99,5 +107,13 @@ public class CategoriaControlador {
             atributos.addFlashAttribute("error", e.getMessage());
         }
         return redireccion;
+    }
+
+    // ver un categoria
+    @GetMapping("/ver/{id}")
+    public ModelAndView verCategoria(@PathVariable Integer id) {
+        ModelAndView mav = new ModelAndView(""); // nombre vista
+        mav.addObject("categoria", categoriaServicio.obtenerPorId(id));
+        return mav;
     }
 }
