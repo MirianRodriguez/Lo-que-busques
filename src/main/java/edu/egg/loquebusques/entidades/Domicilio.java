@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "domicilio")
-@SQLDelete(sql = "UPDATE categoria SET eliminado = true WHERE domicilio_id = ?") 
+@SQLDelete(sql = "UPDATE domicilio SET eliminado = true WHERE domicilio_id = ?") 
 @Where(clause = "eliminado = false")
 public class Domicilio {
     @Id
@@ -35,7 +35,7 @@ public class Domicilio {
     @Column(name = "numero")
     private Integer numero;
 
-    @Column(name = "codPostal", length = 50, nullable = false)
+    @Column(name = "cod_postal", length = 50, nullable = false)
     private String codPostal;
 
     @Lob
@@ -50,6 +50,7 @@ public class Domicilio {
         this.eliminado = false;
     }
 
+
     public Domicilio(Integer id, Localidad localidad, String calle, Integer numero, String codPostal, String referencia,
             Boolean eliminado) {
         this.id = id;
@@ -61,59 +62,75 @@ public class Domicilio {
         this.eliminado = eliminado;
     }
 
+
     public Integer getId() {
         return id;
     }
+
 
     public void setId(Integer id) {
         this.id = id;
     }
 
+
     public Localidad getLocalidad() {
         return localidad;
     }
+
 
     public void setLocalidad(Localidad localidad) {
         this.localidad = localidad;
     }
 
+
     public String getCalle() {
         return calle;
     }
+
 
     public void setCalle(String calle) {
         this.calle = calle;
     }
 
+
     public Integer getNumero() {
         return numero;
     }
+
 
     public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
+
     public String getCodPostal() {
         return codPostal;
     }
+
 
     public void setCodPostal(String codPostal) {
         this.codPostal = codPostal;
     }
 
+
     public String getReferencia() {
         return referencia;
     }
+
 
     public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
 
+
     public Boolean getEliminado() {
         return eliminado;
     }
 
+
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
     }
+
+    
 }

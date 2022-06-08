@@ -29,8 +29,8 @@ public class Emprendimiento {
     @Column(name = "descripcion", columnDefinition="BLOB", nullable = false)
     private String descripcion;
 
-    @Column(name = "foto")
-    private String foto;
+    @Column(name = "imagen")
+    private String imagen;
 
     @Column(name = "telefono", length = 20)
     private String telefono;
@@ -66,13 +66,13 @@ public class Emprendimiento {
         this.eliminado = false;
     }
 
-    public Emprendimiento(Integer id, String nombre, String descripcion, String foto, String telefono, String horario,
+    public Emprendimiento(Integer id, String nombre, String descripcion, String imagen, String telefono, String horario,
             FormaPago formasPago, List<Categoria> categorias, Domicilio domicilios, LocalDate inicioActividades,
             List<Articulo> articulos, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.foto = foto;
+        this.imagen = imagen;
         this.telefono = telefono;
         this.horario = horario;
         this.formasPago = formasPago;
@@ -107,12 +107,12 @@ public class Emprendimiento {
         this.descripcion = descripcion;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getTelefono() {
