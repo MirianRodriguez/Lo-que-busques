@@ -92,7 +92,7 @@ public class ArticuloControlador {
 
         try {
             articuloServicio.crear(articulo, foto);
-            atributos.addFlashAttribute("exito", "El articulo se ha almacenado");
+            atributos.addFlashAttribute("exito", "El artículo se ha almacenado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("articuloDTO", articuloDTO);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -153,7 +153,7 @@ public class ArticuloControlador {
         
         try {
             articuloServicio.actualizar(articulo, foto);
-            atributos.addFlashAttribute("exito", "El articulo se ha modificado");
+            atributos.addFlashAttribute("exito", "El artículo se ha modificado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("articuloDTO", articuloDTO);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -166,7 +166,7 @@ public class ArticuloControlador {
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/articulos");
         articuloServicio.eliminarPorId(id);
-        atributos.addFlashAttribute("exito", "Se ha eliminado el articulo");
+        atributos.addFlashAttribute("exito", "Se ha eliminado el artículo");
         return redireccion;
     }
 
