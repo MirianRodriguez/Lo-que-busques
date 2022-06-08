@@ -15,7 +15,7 @@ public class EmprendimientoDTO {
     private String descripcion;
     private String telefono;
     private String horario;
-    private FormaPago formasPago;
+    private List<FormaPago> formasPago;
     private LocalDate inicioActividades;
     private List<Categoria> categorias;
 
@@ -31,7 +31,7 @@ public class EmprendimientoDTO {
     }
 
     public EmprendimientoDTO(Integer emprendimientoId, String nombre, String descripcion, String telefono,
-            String horario, FormaPago formasPago, LocalDate inicioActividades, List<Categoria> categorias,
+            String horario, List<FormaPago> formasPago, LocalDate inicioActividades, List<Categoria> categorias,
             Integer domicilioId, Localidad localidad, String calle, Integer numero, String codPostal,
             String referencia) {
         this.emprendimientoId = emprendimientoId;
@@ -90,11 +90,11 @@ public class EmprendimientoDTO {
         this.horario = horario;
     }
 
-    public FormaPago getFormasPago() {
+    public List<FormaPago> getFormasPago() {
         return formasPago;
     }
 
-    public void setFormasPago(FormaPago formasPago) {
+    public void setFormasPago(List<FormaPago> formasPago) {
         this.formasPago = formasPago;
     }
 
@@ -161,6 +161,8 @@ public class EmprendimientoDTO {
     public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
+
+    
 
     
     
