@@ -1,5 +1,7 @@
 package edu.egg.loquebusques.servicios;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,12 @@ public class EmprendimientoServicio{
         
 
         emprendimientoRepositorio.save(emprendimiento);
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<Emprendimiento> obtenerTodos() {
+        return emprendimientoRepositorio.findAll();
     }
 }
 

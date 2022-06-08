@@ -81,6 +81,11 @@ public class ArticuloServicio {
         return articuloRepositorio.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Articulo> obtenerMasRecientes() {
+        return articuloRepositorio.obtenerMasRecientes();
+    }
+
     @Transactional
     public void eliminarPorId(Integer id) {
         Articulo articulo = articuloRepositorio.findById(id).get();
