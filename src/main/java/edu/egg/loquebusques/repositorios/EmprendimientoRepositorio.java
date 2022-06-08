@@ -7,5 +7,7 @@ import edu.egg.loquebusques.entidades.Emprendimiento;
 
 @Repository
 public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento, Integer>{
+
+    boolean existsByNombre(String nombre);
     
 }
