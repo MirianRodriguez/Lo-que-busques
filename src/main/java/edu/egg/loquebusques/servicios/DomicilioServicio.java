@@ -43,6 +43,11 @@ public class DomicilioServicio {
         domicilioRepositorio.save(domicilio);
     }
 
+    @Transactional(readOnly = true)
+    public Domicilio obtenerPorId(Integer id) {
+        return domicilioRepositorio.findById(id).get();
+    }
+
     @Transactional
     public void eliminarPorId(Integer id) {
         domicilioRepositorio.deleteById(id);
