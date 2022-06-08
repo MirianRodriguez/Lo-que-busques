@@ -9,7 +9,7 @@ import edu.egg.loquebusques.repositorios.EmprendimientoRepositorio;
 
 
 @Service
-public class EmprendimientoServicio (Emprendimiento emprendimientoDto) {
+public class EmprendimientoServicio{
 
     @Autowired
     private EmprendimientoRepositorio emprendimientoRepositorio;
@@ -17,25 +17,25 @@ public class EmprendimientoServicio (Emprendimiento emprendimientoDto) {
     @Transactional
     public void crear(Emprendimiento emprendimientoDto) {
 
-    if (emprendimientoRepositorio.existsByNombre(emprendimientoDto.getNombre())){
-        throw new IllegalArgumentException("Ya existe un emprendimiento con ese nombre");
+        if (emprendimientoRepositorio.existsByNombre(emprendimientoDto.getNombre())){
+            throw new IllegalArgumentException("Ya existe un emprendimiento con ese nombre");
+        }
+
+        Emprendimiento emprendimiento = new Emprendimiento();
+
+        emprendimiento.setNombre(emprendimientoDto.getNombre());
+        emprendimiento.setDescripcion(emprendimientoDto.getDescripcion());
+        emprendimiento.setImagen(emprendimientoDto.getImagen());
+        emprendimiento.setTelefono(emprendimientoDto.getTelefono());
+        emprendimiento.setHorario(emprendimientoDto.getHorario());
+        emprendimiento.setFormasPago(emprendimientoDto.getFormasPago());
+        emprendimiento.setCategorias(emprendimientoDto.getCategorias());
+        emprendimiento.setDomicilio(emprendimientoDto.getDomicilio());
+        emprendimiento.setInicioActividades(emprendimientoDto.getInicioActividades());
+        emprendimiento.setArticulos(emprendimientoDto.getArticulos());
+        
+
+        emprendimientoRepositorio.save(emprendimiento);
     }
-
-    Emprendimiento emprendimiento = new Emprendimiento();
-
-
-    emprendimiento.setNombre(emprendimientoDto.getNombre());
-    emprendimiento.setDescripcion(emprendimientoDto.getDescripcion());
-    emprendimiento.setImagen(emprendimientoDto.getImagen());
-    emprendimiento.setTelefono(emprendimientoDto.getTelefono());
-    emprendimiento.setHorario(emprendimientoDto.getHorario());
-    emprendimiento.setFormasPago(emprendimientoDto.getFormasPago());
-    emprendimiento.setCategorias(emprendimientoDto.getCategorias());
-    emprendimiento.setDomicilios(emprendimientoDto.getDomicilios());
-    emprendimiento.setInicioActividades(emprendimientoDto.getInicioActividades());
-    emprendimiento.setArticulos(emprendimientoDto.getArticulos());
-     
-
-    emprendimientoRepositorio.save(emprendimiento);
 }
-}
+

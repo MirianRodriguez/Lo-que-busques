@@ -48,7 +48,7 @@ public class Emprendimiento {
 
     @OneToOne
     @JoinColumn(name = "domicilio_id", referencedColumnName = "domicilio_id")
-    private Domicilio domicilios;
+    private Domicilio domicilio;
 
     @Column(name = "inicioActividades", nullable =  false, columnDefinition = "DATE")
     private LocalDate inicioActividades;
@@ -67,7 +67,7 @@ public class Emprendimiento {
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String imagen, String telefono, String horario,
-            FormaPago formasPago, List<Categoria> categorias, Domicilio domicilios, LocalDate inicioActividades,
+            FormaPago formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
             List<Articulo> articulos, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
@@ -77,7 +77,7 @@ public class Emprendimiento {
         this.horario = horario;
         this.formasPago = formasPago;
         this.categorias = categorias;
-        this.domicilios = domicilios;
+        this.domicilio = domicilio;
         this.inicioActividades = inicioActividades;
         this.articulos = articulos;
         this.eliminado = eliminado;
@@ -147,12 +147,12 @@ public class Emprendimiento {
         this.categorias = categorias;
     }
 
-    public Domicilio getDomicilios() {
-        return domicilios;
+    public Domicilio getDomicilio() {
+        return domicilio;
     }
 
-    public void setDomicilios(Domicilio domicilios) {
-        this.domicilios = domicilios;
+    public void setDomicilio(Domicilio domicilio) {
+        this.domicilio = domicilio;
     }
 
     public LocalDate getInicioActividades() {
