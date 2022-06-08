@@ -38,9 +38,11 @@ public class Emprendimiento {
     @Column(name = "horario", length = 70)
     private String horario;
 
+    @ElementCollection(targetClass = FormaPago.class)
     @Enumerated(STRING)
     @Column(name = "formas_pago")
-    private FormaPago formasPago; //List<FormaPago>
+    @JoinTable(name = "emprendimiento_formas_pago")
+    private List<FormaPago> formasPago; //List<FormaPago>
 
     @ManyToMany
     @JoinColumn(name = "categorias", referencedColumnName = "categoria_id")
@@ -67,7 +69,7 @@ public class Emprendimiento {
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String imagen, String telefono, String horario,
-            FormaPago formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
+            List<FormaPago> formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
             List<Articulo> articulos, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
@@ -131,11 +133,11 @@ public class Emprendimiento {
         this.horario = horario;
     }
 
-    public FormaPago getFormasPago() {
+    public List<FormaPago> getFormasPago() {
         return formasPago;
     }
 
-    public void setFormasPago(FormaPago formasPago) {
+    public void setFormasPago(List<FormaPago> formasPago) {
         this.formasPago = formasPago;
     }
 
@@ -150,7 +152,6 @@ public class Emprendimiento {
     public Domicilio getDomicilio() {
         return domicilio;
     }
-
 
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
@@ -179,5 +180,7 @@ public class Emprendimiento {
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
     }
+
+    
 
 }
