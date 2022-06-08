@@ -24,7 +24,7 @@ import edu.egg.loquebusques.servicios.DomicilioServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 
 @Controller
-@RequestMapping("/Emprendimientos")
+@RequestMapping("/emprendimientos")
 public class EmprendimientoControlador {
     
     @Autowired
