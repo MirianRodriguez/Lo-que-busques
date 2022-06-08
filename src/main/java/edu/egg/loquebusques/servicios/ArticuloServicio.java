@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.repositorios.ArticuloRepositorio;
@@ -15,14 +16,13 @@ public class ArticuloServicio {
     
     @Autowired
     private ArticuloRepositorio articuloRepositorio;
-
     @Autowired
     private DemoraRepositorio demoraRepositorio;
+    @Autowired
+    private ImagenServicio imagenServicio;
 
     @Transactional
-    public void crear(Articulo articuloDto) { //MultipartFile foto
-        // if (articuloRepositorio.existsByNombre(articuloDto.getNombre()))
-        //     throw new IllegalArgumentException("Ya existe un articulo con ese nombre"); 
+    public void crear(Articulo articuloDto, MultipartFile foto) { 
 
         Articulo articulo = new Articulo();
 
@@ -37,15 +37,18 @@ public class ArticuloServicio {
         articulo.setEmprendimiento(articuloDto.getEmprendimiento());
         
 
-        // if (!foto.isEmpty()){
-        //     articulo.setImagen(imagenServicio.copy(foto));
-        // }
-        
+        if (!foto.isEmpty()){
+            articulo.setImagen(imagenServicio.copiar(foto));
+        }
+
+        if(articuloDto.getDemora()!=null){      
+            demoraRepositorio.save(articulo.getDemora());
+        }
         articuloRepositorio.save(articulo);
     }
 
     @Transactional
-    public void actualizar(Articulo articuloDto) { //MultipartFile foto
+    public void actualizar(Articulo articuloDto, MultipartFile foto) { 
         Articulo articulo = articuloRepositorio.findById(articuloDto.getId()).get();
 
         articulo.setNombre(articuloDto.getNombre());
@@ -58,10 +61,13 @@ public class ArticuloServicio {
         articulo.setCategoria(articuloDto.getCategoria());
         articulo.setEmprendimiento(articuloDto.getEmprendimiento());
         
-        // if(!foto.isEmpty()){
-        //     articulo.setImagen(imagenServicio.copy(foto));
-        // }
+        if(!foto.isEmpty()){
+            articulo.setImagen(imagenServicio.copiar(foto));
+        }
         
+        if(articuloDto.getDemora()!=null){
+            demoraRepositorio.save(articulo.getDemora());
+        }
         articuloRepositorio.save(articulo);
     }
 
@@ -73,6 +79,11 @@ public class ArticuloServicio {
     @Transactional(readOnly = true)
     public List<Articulo> obtenerTodos() {
         return articuloRepositorio.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Articulo> obtenerMasRecientes() {
+        return articuloRepositorio.obtenerMasRecientes();
     }
 
     @Transactional

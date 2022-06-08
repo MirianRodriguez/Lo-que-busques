@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -33,6 +35,7 @@ public class ArticuloControlador {
     private DemoraServicio demoraServicio;
     @Autowired
     private CategoriaServicio categoriaServicio;
+
 
     @GetMapping
     public ModelAndView obtenerArticulos(HttpServletRequest request) {
@@ -70,7 +73,7 @@ public class ArticuloControlador {
     }
 
     @PostMapping("/crear")
-    public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos) { // @RequestParam(required = false) MultipartFile foto
+    public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/articulos");
 
         //creo el objeto demora
@@ -88,9 +91,8 @@ public class ArticuloControlador {
         articulo.setEmprendimiento(articuloDTO.getEmprendimiento()); //Cómo capturar el emprendimiento que está cargando el articulo?
 
         try {
-            demoraServicio.crear(demora);
-            articuloServicio.crear(articulo);
-            atributos.addFlashAttribute("exito", "El articulo se ha almacenado");
+            articuloServicio.crear(articulo, foto);
+            atributos.addFlashAttribute("exito", "El artículo se ha almacenado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("articuloDTO", articuloDTO);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -119,6 +121,7 @@ public class ArticuloControlador {
             articuloDTO.setEnvioADomicilio(articulo.getEnvioADomicilio());
             articuloDTO.setCategoria(articulo.getCategoria());
             articuloDTO.setEmprendimiento(articulo.getEmprendimiento());
+
             articuloDTO.setDemoraId(demora.getId());
             articuloDTO.setCantidad(demora.getCantidad());
             articuloDTO.setUnidadTiempo(demora.getUnidadTiempo());
@@ -132,7 +135,7 @@ public class ArticuloControlador {
     }
 
     @PostMapping("/actualizar")
-    public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos) {
+    public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/articulos");
         //creo el objeto demora
         Demora demora = demoraServicio.obtenerPorId(articuloDTO.getDemoraId());
@@ -149,9 +152,8 @@ public class ArticuloControlador {
         articulo.setEmprendimiento(articuloDTO.getEmprendimiento());
         
         try {
-            demoraServicio.actualizar(demora);
-            articuloServicio.actualizar(articulo);
-            atributos.addFlashAttribute("exito", "El articulo se ha modificado");
+            articuloServicio.actualizar(articulo, foto);
+            atributos.addFlashAttribute("exito", "El artículo se ha modificado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("articuloDTO", articuloDTO);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -164,7 +166,7 @@ public class ArticuloControlador {
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/articulos");
         articuloServicio.eliminarPorId(id);
-        atributos.addFlashAttribute("exito", "Se ha eliminado el libro");
+        atributos.addFlashAttribute("exito", "Se ha eliminado el artículo");
         return redireccion;
     }
 

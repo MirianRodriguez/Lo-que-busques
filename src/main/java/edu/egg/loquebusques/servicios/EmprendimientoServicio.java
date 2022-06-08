@@ -11,7 +11,7 @@ import edu.egg.loquebusques.repositorios.EmprendimientoRepositorio;
 
 
 @Service
-public class EmprendimientoServicio (Emprendimiento emprendimientoDto) {
+public class EmprendimientoServicio {
 
     @Autowired
     private EmprendimientoRepositorio emprendimientoRepositorio;
@@ -65,14 +65,6 @@ public void actualizar(Emprendimiento emprendimientoDto) {
         return emprendimientoRepositorio.findAll();
     }
 
-    @Transactional
-    public void eliminarPorId(Integer id) throws Exception {
-        if(emprendimientoRepositorio.referenciasEnArticulo(id)>0){
-            throw new Exception("No se puede eliminar porque hay registros asociados.");
-        }
-        
-    }
-
-
-
 }
+
+
