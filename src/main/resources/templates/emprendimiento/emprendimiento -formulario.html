@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/head :: head"></head>
+
+    <body>
+        <header th:replace="fragments/header :: header"></header>
+        <main>
+
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-8">
+                        <div class="mb-3">
+                            <form th:action="@{/crear}" method="post">
+                                <label for="nombre" class="form-label">Nombre Emprendimiento</label>
+                                <input type="text" name="nombre" placeholder="nombre emprendimientoto" class="form-control" required/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripcion</label>
+                            <input type="text" name="descripcion" placeholder="descripcion" class="form-control"
+                                   required/>  
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Cargar Foto</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Telefono</label>
+                            <input type="number" name="telefono" placeholder="telefono" class="form-control"
+                                   required/>
+                        </div>     
+                        <div class="mb-3">
+                            <label for="horario" class="form-label">Horarios De Atencion</label>
+                            <input type="number" name="horario" placeholder="horario" class="form-control"
+                                   required/>
+                        </div>   
+                        <div class="mb-3">
+                            <label for="Forma de pago" class="form-label">Formas de pago</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Formas de pago</option>
+                                <option value="1">Efectivo</option>
+                                <option value="2">Credito</option>
+                                <option value="3">Debito</option>
+                            </select>
+                        </div>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="Año Inicio Actividad">Inicio Actividad</label>
+                        <input type="date" name="Año Inicio Actividad" placeholder="Año Inicio Actividad"
+                               required/>
+                    </div> 
+                    </form>
+                    <div class="mb-3">
+                        <div align="center">
+                            <button type="button" class="btn btn-primary">Guardar cambios</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </body>
+</html>

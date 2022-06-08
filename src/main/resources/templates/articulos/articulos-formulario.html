@@ -7,25 +7,31 @@
             <div class="container">
                 <div class="row mt-5">
                     <div class="col-8">
-                        <form th:action="@{/crear}" method="post">
+                        <form th:action="@{articulos/crear}" th:object="${articulo}" method="post">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre Producto</label>
-                                <input type="text" name="nombre" placeholder="nombre producto" class="form-control" required/>
+                                <input type="text" th:field="*{nombre}" placeholder="nombre producto" class="form-control" required/>
                             </div>
 
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Descripcion</label>
-                                <input type="text" name="descripcion" placeholder="descripcion" class="form-control"
+                                <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control"
                                        required/>  
                             </div>
                             <div class="mb-3">
                                 <label for="precio" class="form-label">Precio</label>
-                                <input type="number" name="precio" placeholder="precio" class="form-control"
+                                <input type="number"th:field="*{precio}" placeholder="precio" class="form-control"
+                                       required/>
+                            </div>     
+                            
+                            <div class="mb-3">
+                                <label for="fechaPublicacion" class="form-label">Fecha de Publicacion</label>
+                                <input type="date"th:field="*{fechaPublicacion}" placeholder="fecha dePublicacion" class="form-control"
                                        required/>
                             </div>     
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                                <input type="file" class="form-control" id="inputGroupFile02">
+                                <input type="file" th:field="*{foto}" class="form-control" id="inputGroupFile02">
                             </div>
                             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                                 <option selected>categoria</option>
