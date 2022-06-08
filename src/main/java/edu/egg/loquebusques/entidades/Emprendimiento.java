@@ -151,6 +151,7 @@ public class Emprendimiento {
         return domicilio;
     }
 
+
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
     }
