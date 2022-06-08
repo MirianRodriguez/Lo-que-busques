@@ -56,14 +56,14 @@ public class CategoriaControlador {
     }
 
     @PostMapping("/crear")
-    public RedirectView crear(Categoria categoriaDto, RedirectAttributes atributos) {
+    public RedirectView crear(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
 
         try {
-            categoriaServicio.crear(categoriaDto);
+            categoriaServicio.crear(categoriaDTO);
             atributos.addFlashAttribute("exito", "El categoria se ha almacenado.");
         } catch (IllegalArgumentException e) {
-            atributos.addFlashAttribute("categoria", categoriaDto);
+            atributos.addFlashAttribute("categoria", categoriaDTO);
             atributos.addFlashAttribute("error", e.getMessage());
             redireccion.setUrl("/categorias/formulario");
         }
@@ -80,9 +80,9 @@ public class CategoriaControlador {
     }
 
     @PostMapping("/actualizar")
-    public RedirectView atualizar(Categoria categoriaDto, RedirectAttributes atributos) {
+    public RedirectView atualizar(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
-        categoriaServicio.actualizar(categoriaDto);
+        categoriaServicio.actualizar(categoriaDTO);
         atributos.addFlashAttribute("exito", "Categoria modificado.");
         return redireccion;
     }
