@@ -35,7 +35,7 @@ public class UsuarioServicio implements UserDetailsService{
 
 
     @Transactional
-    public void create(Usuario usuarioDto) {
+    public void crear(Usuario usuarioDto) {
         if (usuarioRepositorio.existsByEmail(usuarioDto.getEmail()))
             throw new IllegalArgumentException("Ya existe un usuario con este email");
 
