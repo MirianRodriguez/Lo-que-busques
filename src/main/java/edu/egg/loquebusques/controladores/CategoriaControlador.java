@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -18,6 +19,7 @@ import edu.egg.loquebusques.entidades.Categoria;
 import edu.egg.loquebusques.servicios.CategoriaServicio;
 
 @Controller
+@RequestMapping("/categorias")
 public class CategoriaControlador {
 
     @Autowired
@@ -82,8 +84,16 @@ public class CategoriaControlador {
     @PostMapping("/actualizar")
     public RedirectView atualizar(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
-        categoriaServicio.actualizar(categoriaDTO);
-        atributos.addFlashAttribute("exito", "Categoria modificado.");
+
+        try {
+            categoriaServicio.actualizar(categoriaDTO);
+            atributos.addFlashAttribute("exito", "Categoria modificado.");
+        } catch (IllegalArgumentException e) {
+            atributos.addFlashAttribute("categoriaDTO", categoriaDTO);
+            atributos.addFlashAttribute("error", e.getMessage());
+            redireccion.setUrl("/categorias/formulario");
+        }
+
         return redireccion;
     }
 
@@ -97,5 +107,13 @@ public class CategoriaControlador {
             atributos.addFlashAttribute("error", e.getMessage());
         }
         return redireccion;
+    }
+
+    // ver un categoria
+    @GetMapping("/ver/{id}")
+    public ModelAndView verCategoria(@PathVariable Integer id) {
+        ModelAndView mav = new ModelAndView(""); // nombre vista
+        mav.addObject("categoria", categoriaServicio.obtenerPorId(id));
+        return mav;
     }
 }

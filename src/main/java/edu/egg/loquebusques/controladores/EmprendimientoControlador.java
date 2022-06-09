@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -25,7 +26,7 @@ import edu.egg.loquebusques.servicios.DomicilioServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 
 @Controller
-@RequestMapping("/Emprendimientos")
+@RequestMapping("/emprendimientos")
 public class EmprendimientoControlador {
     
     @Autowired
@@ -71,7 +72,7 @@ public class EmprendimientoControlador {
     }
 
     @PostMapping("/crear")
-    public RedirectView crear(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos) { // @RequestParam(required = false) MultipartFile foto
+    public RedirectView crear(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos,@RequestParam(required = false) MultipartFile foto) { // 
         RedirectView redireccion = new RedirectView("/emprendimientos");
 
         //creo el objeto domicilio
@@ -94,8 +95,7 @@ public class EmprendimientoControlador {
         
 
         try {
-            domicilioServicio.crear(domicilio);
-            emprendimientoServicio.crear(emprendimiento);
+            emprendimientoServicio.crear(emprendimiento, foto);
             atributos.addFlashAttribute("exito", "El emprendimiento se ha almacenado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("emprendimientoDTO", emprendimientoDTO);
@@ -143,7 +143,7 @@ public class EmprendimientoControlador {
     }
 
     @PostMapping("/actualizar")
-    public RedirectView actualizar(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos) {
+    public RedirectView actualizar(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/emprendimientos");
         //creo el objeto domicilio
         Domicilio domicilio = domicilioServicio.obtenerPorId(emprendimientoDTO.getDomicilioId());
@@ -164,7 +164,7 @@ public class EmprendimientoControlador {
         emprendimiento.setCategorias(emprendimientoDTO.getCategorias());
         
         try {
-            emprendimientoServicio.actualizar(emprendimiento);
+            emprendimientoServicio.actualizar(emprendimiento, foto);
             atributos.addFlashAttribute("exito", "El emprendimiento se ha modificado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("emprendimientoDTO", emprendimientoDTO);
