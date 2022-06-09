@@ -14,5 +14,6 @@ public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento,
 
     @Modifying
     @Query(value = "UPDATE articulo set eliminado = true where emprendimiento_id = ?1;" , nativeQuery = true)
+    void eliminarArticulosDelEmprendimiento(Integer id);
 
 }
