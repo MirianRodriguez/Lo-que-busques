@@ -13,6 +13,6 @@ public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento,
     boolean existsByNombre(String nombre);
 
     @Modifying
-    @Query("UPDATE Articulo a set a.eliminado = true where a.emprendimiento_id = ?1")
+    @Query(value = "UPDATE articulo set eliminado = true where emprendimiento_id = ?1;" , nativeQuery = true)
      void eliminarArticulosDelEmprendimiento(Integer id);
 }
