@@ -22,11 +22,11 @@ public class Emprendimiento {
     @Column(name = "emprendimiento_id")
     private Integer id;
 
-    @Column(name = "nombre", length = 50, nullable = false)
+    @Column(name = "nombre", length = 50)
     private String nombre;
 
     @Lob
-    @Column(name = "descripcion", columnDefinition="BLOB", nullable = false)
+    @Column(name = "descripcion", columnDefinition="BLOB")
     private String descripcion;
 
     @Column(name = "imagen")
@@ -42,7 +42,7 @@ public class Emprendimiento {
     @Enumerated(STRING)
     @Column(name = "formas_pago")
     @JoinTable(name = "emprendimiento_formas_pago")
-    private List<FormaPago> formasPago; //List<FormaPago>
+    private List<FormaPago> formasPago;
 
     @ManyToMany
     @JoinColumn(name = "categorias", referencedColumnName = "categoria_id")
@@ -52,11 +52,10 @@ public class Emprendimiento {
     @JoinColumn(name = "domicilio_id", referencedColumnName = "domicilio_id")
     private Domicilio domicilio;
 
-    @Column(name = "inicioActividades", nullable =  false, columnDefinition = "DATE")
+    @Column(name = "inicioActividades", columnDefinition = "DATE")
     private LocalDate inicioActividades;
 
     @OneToMany(mappedBy = "emprendimiento")
-    //@JoinColumn(name = "articulos", referencedColumnName = "articulo_id")
     private List<Articulo> articulos;
 
     @OneToOne

@@ -28,7 +28,7 @@ public class AutenticacionControlador {
 
     @GetMapping("/acceder")
     public ModelAndView acceso(@RequestParam(required = false) String error, @RequestParam(required = false) String cerrar, Principal principal) {
-        ModelAndView mav = new ModelAndView("");        //nombre de la vista
+        ModelAndView mav = new ModelAndView("autenticacion/acceder");       
 
         if (error != null) mav.addObject("error", "Email o contraseña incorrecto");
         if (cerrar != null) mav.addObject("cerrar", "Se ha cerrado sesión");
@@ -39,7 +39,7 @@ public class AutenticacionControlador {
 
     @GetMapping("/registro")
     public ModelAndView registro(HttpServletRequest request, Principal principal) {
-        ModelAndView mav = new ModelAndView("");         //nombre de la vista
+        ModelAndView mav = new ModelAndView("autenticacion/registrar");         
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (principal != null) mav.setViewName("redirect:/");
