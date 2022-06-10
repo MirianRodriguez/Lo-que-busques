@@ -1,7 +1,5 @@
 package edu.egg.loquebusques.servicios;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,20 +17,18 @@ import edu.egg.loquebusques.entidades.Rol;
 import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.repositorios.UsuarioRepositorio;
 
-import static java.util.Collections.emptyList;
-
+import static java.util.Collections.singletonList;
 
 
 import javax.servlet.http.HttpSession;
 
 @Service
-public class UsuarioServicio implements UserDetailsService{
+public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
-    private BCryptPasswordEncoder codificador;  
-
+    private BCryptPasswordEncoder codificador;
 
     @Transactional
     public void crear(Usuario usuarioDto) {
@@ -43,11 +39,12 @@ public class UsuarioServicio implements UserDetailsService{
 
         usuario.setEmail(usuarioDto.getEmail());
         usuario.setContrasenia(codificador.encode(usuarioDto.getContrasenia()));
+        usuario.setRol(usuarioDto.getRol());
 
-        if (usuarioDto.getRol() == null){
-            if(usuarioRepositorio.count()==0){
+        if (usuarioDto.getRol() == null) {
+            if (usuarioRepositorio.count() == 0) {
                 usuario.setRol(Rol.ADMIN);
-            }else{
+            } else {
                 usuario.setRol(Rol.USUARIO);
             }
         }
@@ -56,21 +53,20 @@ public class UsuarioServicio implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No hay un usuario asociado con el email ingresado."));
+        Usuario usuario = usuarioRepositorio.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("No hay un usuario asociado con el email ingresado."));
 
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol());
 
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes();
         HttpSession session = attributes.getRequest().getSession(true);
 
         session.setAttribute("id", usuario.getId());
         session.setAttribute("email", usuario.getEmail());
         session.setAttribute("rol", usuario.getRol());
 
-        return new User(usuario.getEmail(), usuario.getContrasenia(),emptyList());
+        return new User(usuario.getEmail(), usuario.getContrasenia(), singletonList(authority));
     }
-    
-
-
 
 }

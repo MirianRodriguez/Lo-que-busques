@@ -21,9 +21,12 @@ import edu.egg.loquebusques.dto.EmprendimientoDTO;
 import edu.egg.loquebusques.entidades.Domicilio;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.Localidad;
+import edu.egg.loquebusques.entidades.Rol;
+import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DomicilioServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
+import edu.egg.loquebusques.servicios.UsuarioServicio;
 
 @Controller
 @RequestMapping("/emprendimientos")
@@ -35,6 +38,8 @@ public class EmprendimientoControlador {
     private DomicilioServicio domicilioServicio;
     @Autowired
     private CategoriaServicio categoriaServicio;
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
     @GetMapping
     public ModelAndView obtenerEmprendimientos(HttpServletRequest request) {
@@ -56,50 +61,33 @@ public class EmprendimientoControlador {
 
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");                //nombre de la vista
+        ModelAndView mav = new ModelAndView("emprendimiento/formulario");                
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
-            mav.addObject("emprendimientoDTO", inputFlashMap.get("emprendimientoDTO"));
+            mav.addObject("usuario", inputFlashMap.get("usuario"));
             mav.addObject("error", inputFlashMap.get("error"));
         }else{
-            mav.addObject("emprendimientoDTO", new EmprendimientoDTO());
+            mav.addObject("usuario", new Usuario());
         }
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
-        mav.addObject("Localidad", Localidad.values());
+
         mav.addObject("action", "crear");
         return mav;        
     }
 
     @PostMapping("/crear")
-    public RedirectView crear(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos,@RequestParam(required = false) MultipartFile foto) { // 
+    public RedirectView crear(Usuario usuario, RedirectAttributes atributos) { 
         RedirectView redireccion = new RedirectView("/emprendimientos");
 
-        //creo el objeto domicilio
-        Domicilio domicilio = new Domicilio();
-        domicilio.setLocalidad(emprendimientoDTO.getLocalidad());
-        domicilio.setCalle(emprendimientoDTO.getCalle());
-        domicilio.setNumero(emprendimientoDTO.getNumero());
-        domicilio.setCodPostal(emprendimientoDTO.getCodPostal());
-        domicilio.setReferencia(emprendimientoDTO.getReferencia());
-
-        //creo el objeto emprendimiento
-        Emprendimiento emprendimiento = new Emprendimiento();
-        emprendimiento.setNombre(emprendimientoDTO.getNombre());
-        emprendimiento.setDescripcion(emprendimientoDTO.getDescripcion());
-        emprendimiento.setTelefono(emprendimientoDTO.getTelefono());
-        emprendimiento.setHorario(emprendimientoDTO.getHorario());
-        emprendimiento.setFormasPago(emprendimientoDTO.getFormasPago());
-        emprendimiento.setInicioActividades(emprendimientoDTO.getInicioActividades());
-        emprendimiento.setCategorias(emprendimientoDTO.getCategorias());
-        
 
         try {
-            emprendimientoServicio.crear(emprendimiento, foto);
+            usuario.setRol(Rol.EMPRENDEDOR);
+            usuarioServicio.crear(usuario);
+            emprendimientoServicio.crear(usuario);
             atributos.addFlashAttribute("exito", "El emprendimiento se ha almacenado");
         } catch (IllegalArgumentException e) {
-            atributos.addFlashAttribute("emprendimientoDTO", emprendimientoDTO);
             atributos.addFlashAttribute("error", e.getMessage());
+            atributos.addFlashAttribute("usuario", usuario);
             redireccion.setUrl("/emprendimientos/formulario");
         }
         
@@ -108,7 +96,7 @@ public class EmprendimientoControlador {
 
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");                                                  //nombre formulario
+        ModelAndView mav = new ModelAndView("emprendimiento/formulario");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -137,7 +125,7 @@ public class EmprendimientoControlador {
             mav.addObject("emprendimientoDTO", emprendimientoDTO);
         }
         mav.addObject("categorias", categoriaServicio.obtenerTodos());
-        mav.addObject("Localidad", Localidad.values());
+        mav.addObject("localidades", Localidad.values());
         mav.addObject("action", "actualizar");
         return mav;
     }
