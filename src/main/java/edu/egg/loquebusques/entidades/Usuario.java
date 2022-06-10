@@ -31,7 +31,7 @@ public class Usuario {
     @Column(name = "rol", nullable = false)
     private Rol rol;
 
-    @Column(name = "alta", nullable = false)
+    @Column(name = "eliminado", nullable = false)
     private boolean eliminado;
 
     public Usuario() {

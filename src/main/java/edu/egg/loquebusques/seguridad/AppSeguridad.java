@@ -32,7 +32,7 @@ public class AppSeguridad extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/auth/sign-up", "/auth/register", "/css/*", "/js/*").permitAll()
+                    .antMatchers("/autenticacion/registro", "/autenticacion/registrar", "/css/*", "/js/*", "/img/*", "/subidas/*", "/").permitAll()
                     .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()
@@ -46,7 +46,7 @@ public class AppSeguridad extends WebSecurityConfigurerAdapter{
                 .and()
                     .logout()
                         .logoutUrl("/salir")
-                        .logoutSuccessUrl("/autenticacion/acceder?cerrar=true")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 .and()
                     .csrf()

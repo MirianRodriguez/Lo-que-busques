@@ -59,6 +59,10 @@ public class Emprendimiento {
     //@JoinColumn(name = "articulos", referencedColumnName = "articulo_id")
     private List<Articulo> articulos;
 
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     @Column(name = "eliminado", nullable = false)
     private Boolean eliminado;
 
@@ -70,7 +74,7 @@ public class Emprendimiento {
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String imagen, String telefono, String horario,
             List<FormaPago> formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
-            List<Articulo> articulos, Boolean eliminado) {
+            List<Articulo> articulos, Usuario usuario, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -82,6 +86,7 @@ public class Emprendimiento {
         this.domicilio = domicilio;
         this.inicioActividades = inicioActividades;
         this.articulos = articulos;
+        this.usuario = usuario;
         this.eliminado = eliminado;
     }
 
@@ -171,6 +176,14 @@ public class Emprendimiento {
 
     public void setArticulos(List<Articulo> articulos) {
         this.articulos = articulos;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Boolean getEliminado() {
