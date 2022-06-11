@@ -7,6 +7,19 @@
             <div class="container">
                 <div class="row mt-5">
                     <div class="col">
+                        <div class="col-auto">
+                            <a th:href="@{/articulos/formulario}" class="btn btn-primary">Crear</a>
+                        </div>
+
+                        <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <span th:text="${exito}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen articulos</div>
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr class="table-dark">
@@ -17,7 +30,8 @@
                                     <th>Envio a Domicilio</th>
                                     <th>Fecha de Publicacion</th>
                                     <th>Demora</th>
-                                    <th></th>
+                                    <th>Actualizar</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,6 +43,12 @@
                                     <td th:text="${articulo.envioADomicilio}"></td>
                                     <td th:text="${articulo.fechaPublicacion}"></td>
                                     <td th:text="${articulo.demora}"></td>
+                                    <td><a th:href="@{/articulos/formulario/__${articulo.id}__}">Actualizar</a></td>
+                                    <td>
+                                        <form method="POST" th:action="@{/articulos/eliminar/__${articulo.id}__}">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button> 
+                                        </form>
+                                    </td
                                 </tr>
                             </tbody>
                         </table>
@@ -37,9 +57,8 @@
             </div>
         </div>
     </main>
-
+    <footer th:replace="fragmentos/footer :: footer"></footer>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-</body>
-
+    <script th:src="@{/js/validation.js}"></script>
 </body>
 </html>
