@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class ArticuloControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
 
-
+    
     @GetMapping
     public ModelAndView obtenerArticulos(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("");                    //nombre de la vista
@@ -55,6 +56,7 @@ public class ArticuloControlador {
         return mav;
     }
 
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("");                //nombre de la vista
@@ -72,6 +74,7 @@ public class ArticuloControlador {
         return mav;        
     }
 
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/crear")
     public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/articulos");
@@ -102,6 +105,7 @@ public class ArticuloControlador {
         return redireccion;
     }
 
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("");            //nombre formulario
@@ -134,6 +138,7 @@ public class ArticuloControlador {
         return mav;
     }
 
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/actualizar")
     public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/articulos");
@@ -161,7 +166,8 @@ public class ArticuloControlador {
         }
         return redireccion;
     }
-
+    
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/articulos");
@@ -171,6 +177,7 @@ public class ArticuloControlador {
     }
 
     //ver un articulo
+    @PreAuthorize("hasAnyRole('USUARIO', 'EMPRENDEDOR')")
     @GetMapping("/ver/{id}")
     public ModelAndView verArticulo(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("");                //nombre vista

@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ public class EmprendimientoControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ModelAndView obtenerEmprendimientos(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("");                    //nombre de la vista
@@ -59,6 +61,7 @@ public class EmprendimientoControlador {
         return mav;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("emprendimiento/formulario");                
@@ -75,6 +78,7 @@ public class EmprendimientoControlador {
         return mav;        
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
     public RedirectView crear(Usuario usuario, RedirectAttributes atributos) { 
         RedirectView redireccion = new RedirectView("/emprendimientos");
@@ -94,6 +98,7 @@ public class EmprendimientoControlador {
         return redireccion;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("emprendimiento/formulario");
@@ -130,6 +135,7 @@ public class EmprendimientoControlador {
         return mav;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
     @PostMapping("/actualizar")
     public RedirectView actualizar(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/emprendimientos");
@@ -162,6 +168,7 @@ public class EmprendimientoControlador {
         return redireccion;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/emprendimientos");
@@ -171,10 +178,20 @@ public class EmprendimientoControlador {
     }
 
     //ver un emprendimiento
+    @PreAuthorize("hasAnyRole('ADMIN' 'USUARIO')")
     @GetMapping("/ver/{id}")
     public ModelAndView verEmprendimiento(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("");                //nombre vista
         mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(id));
+        return mav;
+    }
+
+    //ver articulos del emprendimiento
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR', 'USUARIO')")
+    @GetMapping("/ver/{id}")
+    public ModelAndView verArticulos(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView("");                //nombre vista
+        mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
         return mav;
     }
 }
