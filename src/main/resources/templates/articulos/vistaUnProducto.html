@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragmentos/head :: head"></head>
+    <body>
+        <header th:replace="fragmentos/header :: header"></header>
+        <main>
+            <h1>Producto(nombre)</h1>
+            <div class="container" th:object="${articulo}">
+                <div class="row mt-5">
+                    <div class="col">
+                        <table>
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Foto</th>
+                                    <th>Precio</th>
+                                    <th>Fecha de Publicacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            <td th:text="${articulo.nombre}"></td>
+                            <td th:text="${articulo.descripcion}"></td>
+                            <td th:text="${articulo.foto}"></td>
+                            <td th:text="${articulo.precio}"></td>
+                            <td th:text="${articulo.envioADomicilio}"></td>
+                            <td th:text="${articulo.fechaPublicacion}"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer th:replace="fragmentos/footer :: footer"></footer>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/js/validation.js}"></script>
+    </body>
+</html>
+
