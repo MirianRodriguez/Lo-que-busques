@@ -31,11 +31,11 @@ public class Usuario {
     @Column(name = "rol", nullable = false)
     private Rol rol;
 
-    @Column(name = "alta", nullable = false)
+    @Column(name = "eliminado", nullable = false)
     private boolean eliminado;
 
     public Usuario() {
-        this.eliminado = true;
+        this.eliminado = false;
     }
 
     public Usuario(Integer id, String email, String contrasenia, Rol rol, boolean eliminado) {

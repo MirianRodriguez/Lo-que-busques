@@ -22,11 +22,11 @@ public class Emprendimiento {
     @Column(name = "emprendimiento_id")
     private Integer id;
 
-    @Column(name = "nombre", length = 50, nullable = false)
+    @Column(name = "nombre", length = 50)
     private String nombre;
 
     @Lob
-    @Column(name = "descripcion", columnDefinition="BLOB", nullable = false)
+    @Column(name = "descripcion", columnDefinition="BLOB")
     private String descripcion;
 
     @Column(name = "imagen")
@@ -38,9 +38,11 @@ public class Emprendimiento {
     @Column(name = "horario", length = 70)
     private String horario;
 
+    @ElementCollection(targetClass = FormaPago.class)
     @Enumerated(STRING)
     @Column(name = "formas_pago")
-    private FormaPago formasPago; //List<FormaPago>
+    @JoinTable(name = "emprendimiento_formas_pago")
+    private List<FormaPago> formasPago;
 
     @ManyToMany
     @JoinColumn(name = "categorias", referencedColumnName = "categoria_id")
@@ -50,12 +52,15 @@ public class Emprendimiento {
     @JoinColumn(name = "domicilio_id", referencedColumnName = "domicilio_id")
     private Domicilio domicilio;
 
-    @Column(name = "inicioActividades", nullable =  false, columnDefinition = "DATE")
+    @Column(name = "inicioActividades", columnDefinition = "DATE")
     private LocalDate inicioActividades;
 
     @OneToMany(mappedBy = "emprendimiento")
-    //@JoinColumn(name = "articulos", referencedColumnName = "articulo_id")
     private List<Articulo> articulos;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     @Column(name = "eliminado", nullable = false)
     private Boolean eliminado;
@@ -67,8 +72,8 @@ public class Emprendimiento {
     }
 
     public Emprendimiento(Integer id, String nombre, String descripcion, String imagen, String telefono, String horario,
-            FormaPago formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
-            List<Articulo> articulos, Boolean eliminado) {
+            List<FormaPago> formasPago, List<Categoria> categorias, Domicilio domicilio, LocalDate inicioActividades,
+            List<Articulo> articulos, Usuario usuario, Boolean eliminado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -80,6 +85,7 @@ public class Emprendimiento {
         this.domicilio = domicilio;
         this.inicioActividades = inicioActividades;
         this.articulos = articulos;
+        this.usuario = usuario;
         this.eliminado = eliminado;
     }
 
@@ -131,11 +137,11 @@ public class Emprendimiento {
         this.horario = horario;
     }
 
-    public FormaPago getFormasPago() {
+    public List<FormaPago> getFormasPago() {
         return formasPago;
     }
 
-    public void setFormasPago(FormaPago formasPago) {
+    public void setFormasPago(List<FormaPago> formasPago) {
         this.formasPago = formasPago;
     }
 
@@ -150,7 +156,6 @@ public class Emprendimiento {
     public Domicilio getDomicilio() {
         return domicilio;
     }
-
 
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
@@ -172,6 +177,14 @@ public class Emprendimiento {
         this.articulos = articulos;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public Boolean getEliminado() {
         return eliminado;
     }
@@ -179,5 +192,7 @@ public class Emprendimiento {
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
     }
+
+    
 
 }

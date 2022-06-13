@@ -1,0 +1,40 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragmentos/head :: head"></head>
+
+    <body>
+        <header th:replace="fragmentos/header :: header"></header>
+        <main>
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-8">
+                        <form th:action="@{/categorias/__${action}__}" th:object="${categoria}" method="post" class="needs-validation" novalidate>
+                            <input type="hidden" th:field="*{id}">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" th:field="*{nombre}" placeholder="nombre" class="form-control" required/>
+                                <div class="invalid-feedback">Nombre es Requerido</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control"required/>
+                                <div class="invalid-feedback">Descripcion es Requerida</div>        
+                            </div>
+                            <div class="mb-5">
+                                <div>
+                                    <button class="btn btn-primary" type="submit" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer th:replace="fragmentos/footer :: footer"></footer>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/js/validation.js}"></script>
+    </body>
+</html>
+
+
