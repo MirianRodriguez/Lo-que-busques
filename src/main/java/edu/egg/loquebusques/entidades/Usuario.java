@@ -35,7 +35,7 @@ public class Usuario {
     private boolean eliminado;
 
     public Usuario() {
-        this.eliminado = true;
+        this.eliminado = false;
     }
 
     public Usuario(Integer id, String email, String contrasenia, Rol rol, boolean eliminado) {

@@ -27,7 +27,7 @@ public class CategoriaControlador {
 
     @GetMapping
     public ModelAndView obtenerCategoria(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("categoria/index.html");
+        ModelAndView mav = new ModelAndView("categorias/index.html");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -45,7 +45,7 @@ public class CategoriaControlador {
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
 
-        ModelAndView mav = new ModelAndView("categoria/formulario.html");
+        ModelAndView mav = new ModelAndView("categorias/formulario.html");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if (inputFlashMap != null) {
             mav.addObject("categoria", inputFlashMap.get("categoria"));
