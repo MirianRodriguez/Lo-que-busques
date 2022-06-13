@@ -66,6 +66,21 @@
                         </div>
                     </div>
                 </div>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="Año Inicio Actividad">Inicio Actividad</label>
+                        <input type="date" th:field="*{inicioActividades}" placeholder="Año Inicio Actividad"required/>
+                        <div class="invalid-feedback">Inicio Actividad es Requerido</div>
+                    </div> 
+                    </form>
+                    <div class="mb-3">
+                        <div align="center">
+                            <button class="btn btn-primary" type="button" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
         <footer th:replace="fragmentos/footer :: footer"></footer>

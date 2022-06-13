@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head :: head"></head>
+    <head th:replace="fragmentos/head :: head"></head>
 
     <body>
-        <header th:replace="fragments/header :: header"></header>
+        <header th:replace="fragmentos/header :: header"></header>
         <main>
             <div class="container">
                 <div class="row mt-5">
@@ -20,13 +20,11 @@
                                 <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control"required/>
                                 <div class="invalid-feedback">Descripcion es Requerida</div>        
                             </div>
-
-                        </form>
-                        <div class="mb-5">
-                            <div align="center">
-                                <button class="btn btn-primary" type="button" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                            <div class="mb-5">
+                                <div>
+                                    <button class="btn btn-primary" type="submit" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                                </div>
                             </div>
-                        </div>
                         </form>
                     </div>
                 </div>

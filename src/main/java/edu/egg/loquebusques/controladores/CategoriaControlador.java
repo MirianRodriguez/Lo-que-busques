@@ -27,7 +27,7 @@ public class CategoriaControlador {
 
     @GetMapping
     public ModelAndView obtenerCategoria(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("categoria/index.html");
+        ModelAndView mav = new ModelAndView("categorias/index.html");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -45,7 +45,7 @@ public class CategoriaControlador {
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
 
-        ModelAndView mav = new ModelAndView("categoria/formulario.html");
+        ModelAndView mav = new ModelAndView("categorias/formulario.html");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if (inputFlashMap != null) {
             mav.addObject("categoria", inputFlashMap.get("categoria"));
@@ -58,14 +58,14 @@ public class CategoriaControlador {
     }
 
     @PostMapping("/crear")
-    public RedirectView crear(Categoria categoriaDTO, RedirectAttributes atributos) {
+    public RedirectView crear(Categoria categoria, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
 
         try {
-            categoriaServicio.crear(categoriaDTO);
-            atributos.addFlashAttribute("exito", "El categoria se ha almacenado.");
+            categoriaServicio.crear(categoria);
+            atributos.addFlashAttribute("exito", "La categoria se ha almacenado.");
         } catch (IllegalArgumentException e) {
-            atributos.addFlashAttribute("categoria", categoriaDTO);
+            atributos.addFlashAttribute("categoria", categoria);
             atributos.addFlashAttribute("error", e.getMessage());
             redireccion.setUrl("/categorias/formulario");
         }
@@ -75,21 +75,21 @@ public class CategoriaControlador {
 
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id) {
-        ModelAndView mav = new ModelAndView("/categoria/formulario");
+        ModelAndView mav = new ModelAndView("/categorias/formulario");
         mav.addObject("categoria", categoriaServicio.obtenerPorId(id));
         mav.addObject("action", "actualizar");
         return mav;
     }
 
     @PostMapping("/actualizar")
-    public RedirectView atualizar(Categoria categoriaDTO, RedirectAttributes atributos) {
+    public RedirectView atualizar(Categoria categoria, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
 
         try {
-            categoriaServicio.actualizar(categoriaDTO);
-            atributos.addFlashAttribute("exito", "Categoria modificado.");
+            categoriaServicio.actualizar(categoria);
+            atributos.addFlashAttribute("exito", "Categoria modificada.");
         } catch (IllegalArgumentException e) {
-            atributos.addFlashAttribute("categoriaDTO", categoriaDTO);
+            atributos.addFlashAttribute("categoria", categoria);
             atributos.addFlashAttribute("error", e.getMessage());
             redireccion.setUrl("/categorias/formulario");
         }
@@ -102,7 +102,7 @@ public class CategoriaControlador {
         RedirectView redireccion = new RedirectView("/categorias");
         try {
             categoriaServicio.eliminarPorId(id);
-            atributos.addFlashAttribute("exito", "Categoria eliminado.");
+            atributos.addFlashAttribute("exito", "Categoria eliminada.");
         } catch (Exception e) {
             atributos.addFlashAttribute("error", e.getMessage());
         }

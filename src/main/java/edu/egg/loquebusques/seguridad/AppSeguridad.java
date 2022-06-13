@@ -33,7 +33,7 @@ public class AppSeguridad extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests()
                     .antMatchers("/autenticacion/registro", "/autenticacion/registrar", "/css/*", "/js/*", "/img/*", "/subidas/*", "/").permitAll()
-                    .antMatchers("/**").authenticated()
+                    .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
                     .loginPage("/autenticacion/acceder")
