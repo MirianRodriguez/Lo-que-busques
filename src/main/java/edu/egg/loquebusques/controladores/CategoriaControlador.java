@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class CategoriaControlador {
         return mav;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
 
@@ -54,7 +56,8 @@ public class CategoriaControlador {
         mav.addObject("action", "crear");
         return mav;
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
     public RedirectView crear(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
@@ -71,6 +74,7 @@ public class CategoriaControlador {
         return redireccion;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView("/categoria/formulario");
@@ -79,6 +83,7 @@ public class CategoriaControlador {
         return mav;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/actualizar")
     public RedirectView atualizar(Categoria categoriaDTO, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");
@@ -87,6 +92,7 @@ public class CategoriaControlador {
         return redireccion;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/categorias");

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.repositorios.EmprendimientoRepositorio;
 
@@ -71,6 +72,11 @@ public class EmprendimientoServicio {
     public void eliminarPorId(Integer id){
         emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
         emprendimientoRepositorio.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Articulo> articulosDeUnEmprendimiento(Integer id) {
+        return emprendimientoRepositorio.articulosDeUnEmprendimiento(id);
     }
 
 }
