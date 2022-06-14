@@ -51,6 +51,16 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
+    @Transactional(readOnly = true)
+    public Usuario obtenerPorId(Integer id) {
+        return usuarioRepositorio.findById(id).get();        
+    }
+
+    @Transactional(readOnly = true)
+    public Usuario obtenerPorEmail(String email) {
+        return usuarioRepositorio.findByEmail(email).get();        
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.findByEmail(email)

@@ -72,6 +72,11 @@ public class EmprendimientoServicio {
     }
 
     @Transactional(readOnly = true)
+    public List<Emprendimiento> obtenerTodosActivos() {
+        return emprendimientoRepositorio.obtenerTodosActivos();
+    }
+
+    @Transactional(readOnly = true)
     public Emprendimiento obtenerPorId(Integer id) {
         return emprendimientoRepositorio.findById(id).get();
     }
