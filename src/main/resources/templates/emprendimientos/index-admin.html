@@ -28,7 +28,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="emprendimiento : ${emprendimientos}">
-                                <td th:text="${emprendimiento.usuario.email}"></td>
+                                <td><a th:text="${emprendimiento.usuario.email}" th:href="@{/emprendimientos/ver/__${emprendimiento.id}__}"></a></td>
                                 <td sec:authorize="hasRole('ADMIN')">
                                     <form method="POST" th:action="@{/emprendimientos/eliminar/__${emprendimiento.id}__}">
                                         <button type="submit" class="btn btn-danger">Eliminar</button> 

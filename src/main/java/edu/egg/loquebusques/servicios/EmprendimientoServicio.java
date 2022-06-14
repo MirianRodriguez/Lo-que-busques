@@ -88,8 +88,8 @@ public class EmprendimientoServicio {
     }
 
     @Transactional(readOnly = true)
-    public List<Articulo> articulosDeUnEmprendimiento(Integer id) {
-        return emprendimientoRepositorio.articulosDeUnEmprendimiento(id);
+    public List<Articulo> articulosDeUnEmprendimiento(Integer emprendimiento_id) {
+        return emprendimientoRepositorio.articulosDeUnEmprendimiento(emprendimiento_id);
     }
 
 }
