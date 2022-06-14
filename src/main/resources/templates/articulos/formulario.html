@@ -35,10 +35,12 @@
                                 <label class="input-group-text" for="inputGroupFile02">Upload</label>
                                 <input type="file" th:field="*{foto}" class="form-control" id="inputGroupFile02">
                             </div>
-                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                <option selected>categoria</option>
-
-                            </select>
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label">Categoria</label>
+                                <select th:field="*{categorias}" id="categoria" class="form-select" aria-label="Select categoria"multiple>
+                                    <option th:each="categoria : ${categorias}" th: value="${categoria.id}">Categoria</option>   
+                                </select
+                            </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Envío a domicilio</label>
