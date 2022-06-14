@@ -45,7 +45,7 @@ public class EmprendimientoControlador {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ModelAndView obtenerEmprendimientos(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");                    //nombre de la vista
+        ModelAndView mav = new ModelAndView("emprendimientos/index-admin.html");                    //nombre de la vista
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -62,9 +62,9 @@ public class EmprendimientoControlador {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/formulario")
+    @GetMapping("/alta-emprendimiento")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("emprendimiento/formulario");                
+        ModelAndView mav = new ModelAndView("emprendimientos/alta-emprendimiento");                
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -83,11 +83,10 @@ public class EmprendimientoControlador {
     public RedirectView crear(Usuario usuario, RedirectAttributes atributos) { 
         RedirectView redireccion = new RedirectView("/emprendimientos");
 
-
         try {
             usuario.setRol(Rol.EMPRENDEDOR);
             usuarioServicio.crear(usuario);
-            emprendimientoServicio.crear(usuario);
+            emprendimientoServicio.crear(usuarioServicio.obtenerPorEmail(usuario.getEmail()));
             atributos.addFlashAttribute("exito", "El emprendimiento se ha almacenado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("error", e.getMessage());
@@ -101,7 +100,7 @@ public class EmprendimientoControlador {
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("emprendimiento/formulario");
+        ModelAndView mav = new ModelAndView("emprendimientos/formulario");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -178,20 +177,38 @@ public class EmprendimientoControlador {
     }
 
     //ver un emprendimiento
-    @PreAuthorize("hasAnyRole('ADMIN' 'USUARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
     @GetMapping("/ver/{id}")
     public ModelAndView verEmprendimiento(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("");                //nombre vista
+        ModelAndView mav = new ModelAndView("emprendimientos/vistaUnEmprendimiento.html");                //nombre vista
         mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(id));
         return mav;
     }
 
     //ver articulos del emprendimiento
     @PreAuthorize("hasAnyRole('EMPRENDEDOR', 'USUARIO')")
-    @GetMapping("/ver/{id}")
+    @GetMapping("/ver-articulos/{id}")
     public ModelAndView verArticulos(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("");                //nombre vista
+        ModelAndView mav = new ModelAndView("articulos/index");                //nombre vista
         mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
+        return mav;
+    }
+
+    @GetMapping("/activos")
+    public ModelAndView obtenerEmprendimientosActivos(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("emprendimientos/index.html");                    //nombre de la vista
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (inputFlashMap != null) {
+            if(inputFlashMap.containsKey("exito")){
+                mav.addObject("exito", inputFlashMap.get("exito"));
+            }
+            if(inputFlashMap.containsKey("error")){
+                mav.addObject("error", inputFlashMap.get("error"));
+            }
+        }
+        mav.addObject("emprendimientos", emprendimientoServicio.obtenerTodosActivos());
+
         return mav;
     }
 }
