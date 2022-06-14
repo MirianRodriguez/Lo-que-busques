@@ -13,11 +13,13 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">nombre emprendimiento</h5>
-                                <p class="card-text">descripcion</p>
-                                <p class="card-text">año de fundacion</p>
-                                <p class="card-text">sucursal</p>
-                                <p class="card-text">envio a domicilio</p>
+                                <h5 class="card-title" th:text="${emprendimiento.nombre}">nombre emprendimiento</h5>
+                                <p class="card-text" th:text="${emprendimiento.descripcion}">descripcion</p>
+                                <p class="card-text" th:text="${emprendimiento.inicioActividades}">inicio de actividades</p>
+                                <p class="card-text" th:text="${emprendimiento.formasPago}">formas de pago</p>
+                                <p class="card-text" th:text="${emprendimiento.categorias}">categorias</p>
+                                <p class="card-text" th:text="${emprendimiento.horario}">horarios</p>
+                                <a sec:authorize="hasRole('EMPRENDEDOR')" th:href="@{/emprendimientos/actualizar-perfil/__${emprendimiento.id}__}" class="btn btn-warning">Editar perfil</a>
                                 <p class="card-text">Registrarse para obtener datos de contacto<a href="#" class="btn btn-primary">Registrarse</a></p>
                             </div>
                         </div>
@@ -28,7 +30,7 @@
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripcion</p>
+                            <p class="card-text">Descripción</p>
                         </div>
                         <div class="card-footer">
                             <a href="#" class="btn btn-primary">Ver Producto</a>
@@ -38,7 +40,7 @@
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripcion</p>
+                            <p class="card-text">Descripción</p>
                         </div>
                         <div class="card-footer">
                             <a href="#" class="btn btn-primary">Ver Producto</a>
@@ -48,7 +50,7 @@
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripcion</p>
+                            <p class="card-text">Descripción</p>
                         </div>
                         <div class="card-footer">
                             <a href="#" class="btn btn-primary">Ver Producto</a>
