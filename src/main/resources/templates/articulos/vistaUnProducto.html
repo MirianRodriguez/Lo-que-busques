@@ -4,34 +4,58 @@
     <body>
         <header th:replace="fragmentos/header :: header"></header>
         <main>
-            <h1>Producto(nombre)</h1>
-            <div class="container" th:object="${articulo}">
-                <div class="row mt-5">
-                    <div class="col">
-                        <table>
-                            <thead>
-                                <tr class="table-dark">
-                                    <th>Nombre</th>
-                                    <th>Descripcion</th>
-                                    <th>Foto</th>
-                                    <th>Precio</th>
-                                    <th>Fecha de Publicacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            <td th:text="${articulo.nombre}"></td>
-                            <td th:text="${articulo.descripcion}"></td>
-                            <td th:text="${articulo.foto}"></td>
-                            <td th:text="${articulo.precio}"></td>
-                            <td th:text="${articulo.envioADomicilio}"></td>
-                            <td th:text="${articulo.fechaPublicacion}"></td>
-                            </tbody>
-                        </table>
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="..." class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2 class="card-title">Nombre Producto</h2>
+                            <p class="card-text">Descripcion Producto</p>
+                            <p class="card-text">Tiempo de Preparacion</p>
+                            <p class="card-text">envio a domicilio</p>
+                            <p class="card-text">Vendido Por</p>
+                            <p class="card-text">fecha publicacion</p>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            <div>
+                <h1>Productos similares</h1>
+            </div>
+            <div class="card-group">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripcion</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Ver Producto</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripcion</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Ver Producto</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripcion</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Ver Producto</a>
+                    </div>
+                </div>
+            </div>
         </main>
         <footer th:replace="fragmentos/footer :: footer"></footer>
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
