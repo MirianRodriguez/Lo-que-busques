@@ -4,27 +4,29 @@
     <body>
         <header th:replace="fragmentos/header :: header"></header>
         <main>
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h2 class="card-title">Nombre Producto</h2>
-                            <p class="card-text">Descripcion Producto</p>
-                            <p class="card-text">Tiempo de Preparacion</p>
-                            <p class="card-text">envio a domicilio</p>
-                            <p class="card-text">Vendido Por</p>
-                            <p class="card-text">fecha publicacion</p>
+            <div class="row mt-3">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}" class="img-fluid rounded-start" alt="Img. del artículo">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title" th:text = "${articulo.nombre}"></h2>
+                                <p class="card-text" th:text = "${articulo.descripcion}"></p>
+                                <p class="card-text" th:if="${articulo.demora != null}" th:text = "|Tenemos una demora de ${articulo.demora.cantidad} ${articulo.demora.unidadTiempo} desde que hacés el pedido.|"></p>
+                                <p class="card-text" th:text = "${articulo.envioADomicilio ? 'Hacemos envío a domicilio' : 'No hacemos envío a domicilio'"></p>
+                                <p class="card-text" th:text = 'Vendido por: ${articulo.emprendimiento.nombre}'></p>
+                                <p class="card-text" th:text = 'Publicado el: ${articulo.fechaPublicacion}'></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="row mt-3">
                 <h1>Productos similares</h1>
             </div>
-            <div class="card-group">
+            <div class="card-group row mt-3">
                 <div class="card">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">

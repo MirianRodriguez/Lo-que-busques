@@ -190,7 +190,7 @@ public class EmprendimientoControlador {
     @PreAuthorize("hasAnyRole('EMPRENDEDOR', 'USUARIO')")
     @GetMapping("/ver-articulos/{id}")
     public ModelAndView verArticulos(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("articulos/index");                //nombre vista
+        ModelAndView mav = new ModelAndView("articulos/index"); 
         mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
         return mav;
     }

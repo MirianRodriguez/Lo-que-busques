@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="fragmentos/head :: head"></head>
     <body>
         <header th:replace="fragmentos/header :: header"></header>
@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row mt-5">
                     <div class="col">
-                        <div class="col-auto">
+                        <div sec:authorize="hasRole('ADMIN')" class="col-auto">
                             <a th:href="@{/categorias/formulario}" class="btn btn-primary">Crear</a>
                         </div>
 
@@ -24,16 +24,16 @@
                                 <tr class="table-dark">
                                     <th>Nombre</th>
                                     <th>Descripción</th>
-                                    <th>Actualizar</th>
-                                    <th>Eliminar</th>
+                                    <th sec:authorize="hasRole('ADMIN')">Actualizar</th>
+                                    <th sec:authorize="hasRole('ADMIN')">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="categoria : ${categorias}">
                                     <td th:text="${categoria.nombre}"></td>
                                     <td th:text="${categoria.descripcion}"></td>
-                                    <td><a th:href="@{/categorias/formulario/__${categoria.id}__}">Actualizar</a></td>
-                                    <td>
+                                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/categorias/formulario/__${categoria.id}__}">Actualizar</a></td>
+                                    <td sec:authorize="hasRole('ADMIN')">
                                         <form method="POST" th:action="@{/categorias/eliminar/__${categoria.id}__}">
                                             <button type="submit" class="btn btn-danger">Eliminar</button> 
                                         </form>
