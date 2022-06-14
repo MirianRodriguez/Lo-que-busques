@@ -97,9 +97,9 @@ public class EmprendimientoControlador {
         return redireccion;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
-    @GetMapping("/formulario/{id}")
-    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
+    @GetMapping("/perfil/{id}")
+    public ModelAndView obtenerFormularioActualizarPerfil(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("emprendimientos/formulario");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
@@ -134,9 +134,9 @@ public class EmprendimientoControlador {
         return mav;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
-    @PostMapping("/actualizar")
-    public RedirectView actualizar(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
+    @PostMapping("/actualizar-perfil")
+    public RedirectView actualizarPerfil(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
         RedirectView redireccion = new RedirectView("/emprendimientos");
         //creo el objeto domicilio
         Domicilio domicilio = domicilioServicio.obtenerPorId(emprendimientoDTO.getDomicilioId());
@@ -180,8 +180,9 @@ public class EmprendimientoControlador {
     @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
     @GetMapping("/ver/{id}")
     public ModelAndView verEmprendimiento(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("emprendimientos/vistaUnEmprendimiento.html");                //nombre vista
+        ModelAndView mav = new ModelAndView("emprendimientos/UnEmprendimiento.html");
         mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(id));
+        mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
         return mav;
     }
 

@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragmentos/head ::head"></head>
     <body>
-        <header th:replace="fragmentos/header ::header"></header>
+        <div th:if="${session.id == null}" th:insert="fragmentos/auth-header :: auth-header"></div>
+        <div th:if="${session.id != null}" th:insert="fragmentos/header :: header"></div>
         <main>
             <div class="container">
                 <div class="row">

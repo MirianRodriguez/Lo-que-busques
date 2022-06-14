@@ -1,29 +1,23 @@
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Lo que busques</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#">Lo Que Busques</a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a th:href="@{/emprendimientos}" class="nav-link text-white">Emprendimientos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Sumate</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Quienes Somos</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    <div class="d-flex justify-content-end" id="menu">
-                        <a class="btn btn-light me-2" th:href="@{/autenticacion/acceder}">Acceder</a>
-                        <a class="btn btn-light" th:href="@{/autenticacion/registro}">Registrarse</a>
-                    </div>
-                </form>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/categorias}">Categorias</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/emprendimientos}">Emprendimientos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Articulos</a>
+                </li>
+              </ul>
+              <a class="btn btn-light" th:href="@{/salir}">Cerrar sesión </a>
             </div>
         </div>
     </nav>
