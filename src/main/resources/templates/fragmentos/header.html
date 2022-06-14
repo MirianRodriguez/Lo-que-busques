@@ -18,8 +18,8 @@
                     <li sec:authorize="hasRole('USUARIO')" class="nav-item">
                         <a class="nav-link" th:href="@{/emprendimientos/activos}">Emprendimientos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Articulos</a>
+                    <li sec:authorize="hasRole('EMPRENDEDOR')" class="nav-item">
+                        <a class="nav-link" th:href="@{/articulos}">Articulos</a>
                     </li>
                     <li sec:authorize="hasRole('EMPRENDEDOR')" class="nav-item">
                         <a class="nav-link" href="#">Mi perfil</a>

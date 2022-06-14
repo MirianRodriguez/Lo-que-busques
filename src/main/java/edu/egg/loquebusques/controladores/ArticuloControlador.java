@@ -37,10 +37,10 @@ public class ArticuloControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
 
-    
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
     @GetMapping
     public ModelAndView obtenerArticulos(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");                    //nombre de la vista
+        ModelAndView mav = new ModelAndView("articulos/index.html");                    //nombre de la vista
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -59,7 +59,7 @@ public class ArticuloControlador {
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");                //nombre de la vista
+        ModelAndView mav = new ModelAndView("articulos/formulario");                //nombre de la vista
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
