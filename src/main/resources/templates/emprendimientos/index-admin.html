@@ -6,6 +6,10 @@
             <div class="container">
                 <div class="row mt-5">
 
+                    <div class="col-auto">
+                        <a th:href="@{/emprendimientos/alta-emprendimiento}" class="btn btn-primary">Crear</a>
+                    </div>
+
                     <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                         <span th:text="${exito}"></span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -18,26 +22,18 @@
                     <table class="table table-hover table-bordered">
                         <thead>
                             <tr class="table-dark">
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Foto</th>
-                                <th>Telefono</th>
-                                <th>Horarios</th>
-                                <th>Formas De Pago</th>
-                                <th>categorias</th>
-                                <th>Inicio Actividad</th>
+                                <th sec:authorize="hasRole('ADMIN')">Email</th>
+                                <th sec:authorize="hasRole('ADMIN')">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="emprendimiento : ${emprendimientos}">
-                                <td th:text="${emprendimiento.nombre}"></td>
-                                <td th:text="${emprendimiento.descripcion}"></td>
-                                <td th:text="${emprendimiento.imagen}"></td>
-                                <td th:text="${emprendimiento.telefono}"></td>
-                                <td th:text="${emprendimiento.horario}"></td>
-                                <td th:text="${emprendimiento.formasPago}"></td>
-                                <td th:text="${emprendimiento.categorias}"></td>
-                                <td th:text="${emprendimiento.inicioActividades}"></td>
+                                <td th:text="${emprendimiento.usuario.email}"></td>
+                                <td sec:authorize="hasRole('ADMIN')">
+                                    <form method="POST" th:action="@{/emprendimientos/eliminar/__${emprendimiento.id}__}">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button> 
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.repositorios.DomicilioRepositorio;
@@ -71,6 +72,11 @@ public class EmprendimientoServicio {
     }
 
     @Transactional(readOnly = true)
+    public List<Emprendimiento> obtenerTodosActivos() {
+        return emprendimientoRepositorio.obtenerTodosActivos();
+    }
+
+    @Transactional(readOnly = true)
     public Emprendimiento obtenerPorId(Integer id) {
         return emprendimientoRepositorio.findById(id).get();
     }
@@ -79,6 +85,11 @@ public class EmprendimientoServicio {
     public void eliminarPorId(Integer id) {
         emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
         emprendimientoRepositorio.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Articulo> articulosDeUnEmprendimiento(Integer id) {
+        return emprendimientoRepositorio.articulosDeUnEmprendimiento(id);
     }
 
 }
