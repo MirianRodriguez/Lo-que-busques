@@ -22,7 +22,7 @@
                         <a class="nav-link" href="#">Articulos</a>
                     </li>
                     <li sec:authorize="hasRole('EMPRENDEDOR')" class="nav-item">
-                        <a class="nav-link" href="#">Mi perfil</a>
+                        <a class="nav-link" th:href="@{/emprendimientos/ver/__${session.id}__}">Mi perfil</a>
                     </li>
                 </ul>
                 <a class="btn btn-light" th:href="@{/salir}">Cerrar sesión </a>

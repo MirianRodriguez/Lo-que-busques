@@ -91,7 +91,7 @@ public class EmprendimientoControlador {
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("error", e.getMessage());
             atributos.addFlashAttribute("usuario", usuario);
-            redireccion.setUrl("/emprendimientos/formulario");
+            redireccion.setUrl("/emprendimientos/alta-emprendimiento");
         }
         
         return redireccion;
@@ -177,7 +177,7 @@ public class EmprendimientoControlador {
     }
 
     //ver un emprendimiento
-    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
+    //@PreAuthorize("hasAnyRole('ADMIN', 'USUARIO', 'EMPRENDEDOR')")
     @GetMapping("/ver/{id}")
     public ModelAndView verEmprendimiento(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("emprendimientos/UnEmprendimiento.html");
