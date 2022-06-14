@@ -1,72 +1,61 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head :: head"></head>
+    <head th:replace="fragmentos/head :: head"></head>
 
     <body>
-        <header th:replace="fragments/header :: header"></header>
+        <header th:replace="fragmentos/header :: header"></header>
         <main>
             <div class="container">
                 <div class="row mt-5">
                     <div class="col-8">
-                        <form th:action="@{articulos/__${action}__}" th:object="${articulo}" method="post" class="needs-validation" novalidate>
-                            <input type="hidden" th:field="*{id}">
+                        <form th:action="@{articulos/__${action}__}" th:object="${articuloDTO}" method="post" class="needs-validation" novalidate>
+                            <input type="hidden" th:field="*{articuloId}">
+                            <input type="hidden" th:field="*{demoraId}">
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre Producto</label>
+                                <label for="nombre" class="form-label">Nombre producto</label>
                                 <input type="text" th:field="*{nombre}" placeholder="nombre producto" class="form-control" required/>
-                                <div class="invalid-feedback">Nombre de Producto es Requerido</div>
+                                <div class="invalid-feedback">Nombre de producto es requerido</div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <label for="descripcion" class="form-label">Descripción</label>
                                 <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control"required/>
-                                <div class="invalid-feedback">Descripcion es Requerida</div>        
+                                <div class="invalid-feedback">Descripción es requerida</div>        
                             </div>
                             <div class="mb-3">
                                 <label for="precio" class="form-label">Precio</label>
                                 <input type="number"th:field="*{precio}" placeholder="precio" class="form-control"required/>
-                                <div class="invalid-feedback">Precio es Requerido</div>        
+                                <div class="invalid-feedback">Precio es requerido</div>        
                             </div>     
-
-                            <div class="mb-3">
-                                <label for="fechaPublicacion" class="form-label">Fecha de Publicacion</label>
-                                <input type="date"th:field="*{fechaPublicacion}" placeholder="fecha dePublicacion" class="form-control"required/>
-                                <div class="invalid-feedback">Fecha de Publicacion es Requerida</div>      
-                            </div>     
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                                <input type="file" th:field="*{foto}" class="form-control" id="inputGroupFile02">
+                            <div class="mt-3">
+                                <label for="foto">Subir imagen</label>
+                                <input class="form-control mt-3" type="file" name="foto" accept="image/*">
                             </div>
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoria</label>
-                                <select th:field="*{categorias}" id="categoria" class="form-select" aria-label="Select categoria"multiple>
-                                    <option th:each="categoria : ${categorias}" th: value="${categoria.id}">Categoria</option>   
-                                </select
+                                <select th:field="*{categoria}" id="categoria" class="form-select" aria-label="Select categoria">
+                                    <option selected value="">Categoría</option>
+                                    <option th:each="categoria : ${categorias}" th:text="${categoria.nombre}" th:value="${categoria.id}"></option>   
+                                </select>
                             </div>
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch mb-3">
                                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Envío a domicilio</label>
                             </div>
-                            <form>
-
-
-                                <div class="mt-3">
-                                    <label for="disabledTextInput"class="form-label" >Cantidad</label>
-                                    <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
+                            <div class="row">
+                                <label for="disabledSelect" class="form-label">Demora</label>
+                                <div class="mb-3 col-6">
+                                    <input type="number" id="disabledTextInput" class="form-control" placeholder="Cantidad">
                                     <div class="invalid-feedback">Cantidad es Requerido</div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="disabledSelect" class="form-label">Demora</label>
+                                <div class="mb-3 col-6">   
                                     <select id="disabledSelect" class="form-select">
-                                        <option>Disabled select</option>
+                                        <option Selected value="">Tipo</option>
+                                        <option th:each="unidad : ${unidadesTiempo}" th:text="${unidad.name}" th:value="${unidad.name}"></option>   
                                     </select>
                                 </div>
-
-                                </label>
-                                </div>
-                                </div>
-
-                            </form>
+                            </div>
                             <div class="mb-5">
-                                <div align="center">
+                                <div>
                                     <button class="btn btn-primary" type="button" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
                                 </div>
                             </div>
