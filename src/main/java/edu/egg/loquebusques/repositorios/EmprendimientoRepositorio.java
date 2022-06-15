@@ -1,6 +1,7 @@
 package edu.egg.loquebusques.repositorios;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,4 +26,7 @@ public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento,
 
     @Query(value = "SELECT * FROM emprendimiento WHERE nombre != null AND eliminado = false;" , nativeQuery = true)
     List<Emprendimiento> obtenerTodosActivos();
+
+    @Query(value = "SELECT * FROM emprendimiento where usuario_id = ?1" , nativeQuery = true)
+    Optional<Emprendimiento> buscarPorUsuario(Integer id);
 }

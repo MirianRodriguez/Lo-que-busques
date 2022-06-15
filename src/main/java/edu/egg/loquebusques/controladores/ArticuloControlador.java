@@ -1,5 +1,6 @@
 package edu.egg.loquebusques.controladores;
 
+import java.security.Principal;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,10 +23,14 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.egg.loquebusques.dto.ArticuloDTO;
 import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Demora;
+import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
+import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.servicios.ArticuloServicio;
 import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DemoraServicio;
+import edu.egg.loquebusques.servicios.EmprendimientoServicio;
+import edu.egg.loquebusques.servicios.UsuarioServicio;
 
 @Controller
 @RequestMapping("/articulos")
@@ -36,6 +42,10 @@ public class ArticuloControlador {
     private DemoraServicio demoraServicio;
     @Autowired
     private CategoriaServicio categoriaServicio;
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+    @Autowired
+    private EmprendimientoServicio emprendimientoServicio;
 
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
     @GetMapping
@@ -76,9 +86,11 @@ public class ArticuloControlador {
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/crear")
-    public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
+    public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto, @RequestParam Integer usuarioId) {
         RedirectView redireccion = new RedirectView("/articulos");
 
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        
         //creo el objeto demora
         Demora demora = new Demora();
         demora.setCantidad(articuloDTO.getCantidad());
@@ -91,7 +103,7 @@ public class ArticuloControlador {
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
         articulo.setDemora(demora);
         articulo.setCategoria(articuloDTO.getCategoria());
-        articulo.setEmprendimiento(articuloDTO.getEmprendimiento()); //Cómo capturar el emprendimiento que está cargando el articulo?
+        articulo.setEmprendimiento(emprendimiento); //Cómo capturar el emprendimiento que está cargando el articulo?
 
         try {
             articuloServicio.crear(articulo, foto);

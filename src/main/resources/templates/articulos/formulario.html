@@ -7,9 +7,11 @@
             <div class="container">
                 <div class="row mt-5">
                     <div class="col-8">
-                        <form th:action="@{articulos/__${action}__}" th:object="${articuloDTO}" method="post" class="needs-validation" novalidate>
+                        <form th:action="@{/articulos/__${action}__}" th:object="${articuloDTO}" method="post" 
+                        enctype="multipart/form-data" class="needs-validation" novalidate>
                             <input type="hidden" th:field="*{articuloId}">
                             <input type="hidden" th:field="*{demoraId}">
+                            <input type="hidden" th:value="${session.id}" name="usuarioId"/>
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre producto</label>
                                 <input type="text" th:field="*{nombre}" placeholder="nombre producto" class="form-control" required/>
@@ -38,17 +40,17 @@
                                 </select>
                             </div>
                             <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="*{envioADomicilio}">
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Envío a domicilio</label>
                             </div>
                             <div class="row">
                                 <label for="disabledSelect" class="form-label">Demora</label>
                                 <div class="mb-3 col-6">
-                                    <input type="number" id="disabledTextInput" class="form-control" placeholder="Cantidad">
+                                    <input type="number" id="disabledTextInput" class="form-control" placeholder="Cantidad" th:field="*{cantidad}">
                                     <div class="invalid-feedback">Cantidad es Requerido</div>
                                 </div>
                                 <div class="mb-3 col-6">   
-                                    <select id="disabledSelect" class="form-select">
+                                    <select th:field="*{unidadTiempo}" id="unidadTiempo" class="form-select">
                                         <option Selected value="">Tipo</option>
                                         <option th:each="unidad : ${unidadesTiempo}" th:text="${unidad.name}" th:value="${unidad.name}"></option>   
                                     </select>
@@ -56,7 +58,7 @@
                             </div>
                             <div class="mb-5">
                                 <div>
-                                    <button class="btn btn-primary" type="button" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                                    <button class="btn btn-primary" type="submit" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
                                 </div>
                             </div>
                         </form>

@@ -34,8 +34,8 @@ public class ArticuloServicio {
             articulo.setDemora(articuloDto.getDemora());
         }
         articulo.setCategoria(articuloDto.getCategoria());
-        articulo.setEmprendimiento(articuloDto.getEmprendimiento());
         
+        articulo.setEmprendimiento(articuloDto.getEmprendimiento());
 
         if (!foto.isEmpty()){
             articulo.setImagen(imagenServicio.copiar(foto));
