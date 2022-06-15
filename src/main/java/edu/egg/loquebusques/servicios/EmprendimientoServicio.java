@@ -81,6 +81,11 @@ public class EmprendimientoServicio {
         return emprendimientoRepositorio.findById(id).get();
     }
 
+    @Transactional(readOnly = true)
+    public Emprendimiento obtenerPorUsuario(Integer id) {
+        return emprendimientoRepositorio.buscarPorUsuario(id).get();
+    }
+
     @Transactional
     public void eliminarPorId(Integer id) {
         emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
