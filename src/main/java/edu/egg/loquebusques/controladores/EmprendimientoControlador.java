@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.egg.loquebusques.dto.EmprendimientoDTO;
 import edu.egg.loquebusques.entidades.Domicilio;
 import edu.egg.loquebusques.entidades.Emprendimiento;
+import edu.egg.loquebusques.entidades.FormaPago;
 import edu.egg.loquebusques.entidades.Localidad;
 import edu.egg.loquebusques.entidades.Rol;
 import edu.egg.loquebusques.entidades.Usuario;
@@ -131,6 +132,7 @@ public class EmprendimientoControlador {
 
             mav.addObject("emprendimientoDTO", emprendimientoDTO);
         }
+        mav.addObject("formasPagos", FormaPago.values());
         mav.addObject("categorias", categoriaServicio.obtenerTodos());
         mav.addObject("localidades", Localidad.values());
         mav.addObject("action", "actualizar");
