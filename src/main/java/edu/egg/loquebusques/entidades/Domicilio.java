@@ -29,13 +29,13 @@ public class Domicilio {
     @Column(name = "localidad", nullable = false)
     private Localidad localidad;
 
-    @Column(name = "calle", length = 50, nullable = false)
+    @Column(name = "calle", length = 50)
     private String calle;
 
     @Column(name = "numero")
     private Integer numero;
 
-    @Column(name = "cod_postal", length = 50, nullable = false)
+    @Column(name = "cod_postal", length = 50)
     private String codPostal;
 
     @Lob

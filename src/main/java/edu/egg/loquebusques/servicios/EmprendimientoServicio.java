@@ -35,15 +35,14 @@ public class EmprendimientoServicio {
     @Transactional
     public void actualizar(Emprendimiento emprendimientoDTO, MultipartFile foto) {
 
-        if (emprendimientoRepositorio.existsByNombre(emprendimientoDTO.getNombre())) {
+        /*if (emprendimientoRepositorio.existsByNombre(emprendimientoDTO.getNombre())) {
             throw new IllegalArgumentException("Ya existe un emprendimiento con ese nombre");
-        }
+        }*/
 
         Emprendimiento emprendimiento = emprendimientoRepositorio.findById(emprendimientoDTO.getId()).get();
 
         emprendimiento.setNombre(emprendimientoDTO.getNombre());
         emprendimiento.setDescripcion(emprendimientoDTO.getDescripcion());
-        emprendimiento.setImagen(emprendimientoDTO.getImagen());
         emprendimiento.setTelefono(emprendimientoDTO.getTelefono());
         emprendimiento.setHorario(emprendimientoDTO.getHorario());
         emprendimiento.setFormasPago(emprendimientoDTO.getFormasPago());
