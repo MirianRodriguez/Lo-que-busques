@@ -40,6 +40,37 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="calle" class="form-label">Calle</label>
+                            <input type="text" th:field="*{calle}" placeholder="Calle" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="numero" class="form-label">Número</label>
+                            <input type="number" th:field="*{numero}" name="numero" placeholder="Número" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="codPostal" class="form-label">Código Postal</label>
+                            <input type="number" th:field="*{codPostal}" name="codPostal" placeholder="Código Postal" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="referencia" class="form-label">Referencia</label>
+                            <input type="text" th:field="*{referencia}" placeholder="Referencia" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="localidades" class="form-label">Localidad</label>
+                            <select th:field="*{Localidad}" id="localidad" class="form-select">
+                                <option Selected value=""></option>
+                                <option th:each="tipo : ${localidades}" th:text="${tipo.name}" th:value="${tipo.name}"></option>
+                            </select>
+                        </div>
+
+
+
+
+                        <div class="mb-3">
                             <label for="horario" class="form-label">Horarios de atención</label>
                             <input type="text" th:field="*{horario}" placeholder="Horarios" class="form-control" required />
                             <div class="invalid-feedback">Horario es requerido</div>
@@ -73,6 +104,7 @@
                                     th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
