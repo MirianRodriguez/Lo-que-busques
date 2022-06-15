@@ -25,6 +25,7 @@ import edu.egg.loquebusques.entidades.FormaPago;
 import edu.egg.loquebusques.entidades.Localidad;
 import edu.egg.loquebusques.entidades.Rol;
 import edu.egg.loquebusques.entidades.Usuario;
+import edu.egg.loquebusques.servicios.ArticuloServicio;
 import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DomicilioServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
@@ -42,6 +43,8 @@ public class EmprendimientoControlador {
     private CategoriaServicio categoriaServicio;
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private ArticuloServicio articuloServicio;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
@@ -187,7 +190,7 @@ public class EmprendimientoControlador {
     public ModelAndView verEmprendimiento(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("emprendimientos/UnEmprendimiento.html");
         mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(id));
-        mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
+        mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(id));
         return mav;
     }
 
@@ -196,7 +199,7 @@ public class EmprendimientoControlador {
     @GetMapping("/ver-articulos/{id}")
     public ModelAndView verArticulos(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("articulos/index"); 
-        mav.addObject("articulos", emprendimientoServicio.articulosDeUnEmprendimiento(id));
+        mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(id));
         return mav;
     }
 

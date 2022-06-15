@@ -1,6 +1,5 @@
 package edu.egg.loquebusques.controladores;
 
-import java.security.Principal;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,12 +23,10 @@ import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Demora;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
-import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.servicios.ArticuloServicio;
 import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DemoraServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
-import edu.egg.loquebusques.servicios.UsuarioServicio;
 
 @Controller
 @RequestMapping("/articulos")
@@ -43,14 +39,12 @@ public class ArticuloControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
     @Autowired
-    private UsuarioServicio usuarioServicio;
-    @Autowired
     private EmprendimientoServicio emprendimientoServicio;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPRENDEDOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ModelAndView obtenerArticulos(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("articulos/index.html");                    //nombre de la vista
+        ModelAndView mav = new ModelAndView("articulos/index.html");  
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -62,14 +56,13 @@ public class ArticuloControlador {
             }
         }
         mav.addObject("articulos", articuloServicio.obtenerTodos());
-
         return mav;
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @GetMapping("/formulario")
     public ModelAndView obtenerFormulario(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("articulos/formulario");                //nombre de la vista
+        ModelAndView mav = new ModelAndView("articulos/formulario");               
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -87,9 +80,9 @@ public class ArticuloControlador {
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/crear")
     public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto, @RequestParam Integer usuarioId) {
-        RedirectView redireccion = new RedirectView("/articulos");
-
+        
         Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        RedirectView redireccion = new RedirectView("/articulos/emprendimiento/"+emprendimiento.getId());
         
         //creo el objeto demora
         Demora demora = new Demora();
@@ -101,9 +94,11 @@ public class ArticuloControlador {
         articulo.setDescripcion(articuloDTO.getDescripcion());
         articulo.setPrecio(articuloDTO.getPrecio());
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
-        articulo.setDemora(demora);
+        if(demora.getCantidad() != null && demora.getUnidadTiempo() != null){
+            articulo.setDemora(demora);
+        }
         articulo.setCategoria(articuloDTO.getCategoria());
-        articulo.setEmprendimiento(emprendimiento); //Cómo capturar el emprendimiento que está cargando el articulo?
+        articulo.setEmprendimiento(emprendimiento);
 
         try {
             articuloServicio.crear(articulo, foto);
@@ -137,10 +132,11 @@ public class ArticuloControlador {
             articuloDTO.setEnvioADomicilio(articulo.getEnvioADomicilio());
             articuloDTO.setCategoria(articulo.getCategoria());
             articuloDTO.setEmprendimiento(articulo.getEmprendimiento());
-
-            articuloDTO.setDemoraId(demora.getId());
-            articuloDTO.setCantidad(demora.getCantidad());
-            articuloDTO.setUnidadTiempo(demora.getUnidadTiempo());
+            if(demora!=null){
+                articuloDTO.setDemoraId(demora.getId());
+                articuloDTO.setCantidad(demora.getCantidad());
+                articuloDTO.setUnidadTiempo(demora.getUnidadTiempo());
+            }
 
             mav.addObject("articuloDTO", articuloDTO);
         }
@@ -182,7 +178,9 @@ public class ArticuloControlador {
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminar(@PathVariable Integer id, RedirectAttributes atributos) {
-        RedirectView redireccion = new RedirectView("/articulos");
+        Articulo articulo = articuloServicio.obtenerPorId(id);
+        Emprendimiento emprendimiento = articulo.getEmprendimiento();
+        RedirectView redireccion = new RedirectView("/articulos/emprendimiento/"+emprendimiento.getUsuario().getId());
         articuloServicio.eliminarPorId(id);
         atributos.addFlashAttribute("exito", "Se ha eliminado el artículo");
         return redireccion;
@@ -196,4 +194,26 @@ public class ArticuloControlador {
         mav.addObject("articulo", articuloServicio.obtenerPorId(id));
         return mav;
     }
+
+    //ver un articulo
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR')")
+    @GetMapping("/emprendimiento/{id}")
+    public ModelAndView verArticulosDeUnEmprendimiento(@PathVariable Integer id, HttpServletRequest request){
+        ModelAndView mav = new ModelAndView("articulos/index.html");  
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (inputFlashMap != null) {
+            if(inputFlashMap.containsKey("exito")){
+                mav.addObject("exito", inputFlashMap.get("exito"));
+            }
+            if(inputFlashMap.containsKey("error")){
+                mav.addObject("error", inputFlashMap.get("error"));
+            }
+        }
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(id);
+        mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(emprendimiento.getId()));
+        return mav;
+    }
+
+    
 }

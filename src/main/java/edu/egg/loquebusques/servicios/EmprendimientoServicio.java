@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.repositorios.DomicilioRepositorio;
@@ -90,11 +89,6 @@ public class EmprendimientoServicio {
     public void eliminarPorId(Integer id) {
         emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
         emprendimientoRepositorio.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Articulo> articulosDeUnEmprendimiento(Integer emprendimiento_id) {
-        return emprendimientoRepositorio.articulosDeUnEmprendimiento(emprendimiento_id);
     }
 
 }

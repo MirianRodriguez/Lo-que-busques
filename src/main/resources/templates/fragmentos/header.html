@@ -19,7 +19,10 @@
                         <a class="nav-link" th:href="@{/emprendimientos/activos}">Emprendimientos</a>
                     </li>
                     <li sec:authorize="hasRole('EMPRENDEDOR')" class="nav-item">
-                        <a class="nav-link" th:href="@{/articulos}">Articulos</a>
+                        <a class="nav-link" th:href="@{/articulos/emprendimiento/__${session.id}__}">Mis artículos</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/articulos}">Artículos</a>
                     </li>
                     <li sec:authorize="hasRole('EMPRENDEDOR')" class="nav-item">
                         <a class="nav-link" th:href="@{/emprendimientos/ver/__${session.id}__}">Mi perfil</a>
