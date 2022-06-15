@@ -7,9 +7,11 @@
     <main>
 
         <div class="container">
+            <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+            <div th:if="${exito}" th:text="${exito}" class="alert alert-success" role="alert"></div>
             <div class="row mt-5">
                 <div class="col-8">
-                    <form th:action="@{emprendimientos/__${action}__}" th:object="${emprendimientoDTO}" method="post"
+                    <form th:action="@{/emprendimientos/__${action}__}" th:object="${emprendimientoDTO}" method="post"
                         class="needs-validation" enctype="multipart/form-data" novalidate>
                         <input type="hidden" th:field="*{emprendimientoId}">
                         <input type="hidden" th:field="*{domicilioId}">
@@ -99,15 +101,13 @@
 
                         <div class="mb-3">
                             <label for="inicioActividades">Inicio actividad</label>
-                            <input type="date" th:field="*{inicioActividades}" placeholder="Año de inicio actividad"
-                                required />
+                            <input type="date" th:field="*{inicioActividades}" placeholder="Año de inicio actividad" required />
                             <div class="invalid-feedback">Inicio Actividad es Requerido</div>
                         </div>
 
                         <div class="mb-3">
                             <div>
-                                <button class="btn btn-primary" type="submit"
-                                    th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                                <button class="btn btn-primary" type="submit" th:text="Actualizar">
                             </div>
                         </div>
 

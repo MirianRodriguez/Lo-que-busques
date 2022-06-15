@@ -138,21 +138,25 @@ public class EmprendimientoControlador {
         mav.addObject("formasPagos", FormaPago.values());
         mav.addObject("categorias", categoriaServicio.obtenerTodos());
         mav.addObject("localidades", Localidad.values());
-        mav.addObject("action", "actualizar");
+        mav.addObject("action", "actualizar-perfil");
         return mav;
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/actualizar-perfil")
     public RedirectView actualizarPerfil(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
-        RedirectView redireccion = new RedirectView("/emprendimientos");
+        RedirectView redireccion = new RedirectView("/emprendimientos/ver/"+emprendimientoDTO.getEmprendimientoId());
         //creo el objeto domicilio
-        Domicilio domicilio = domicilioServicio.obtenerPorId(emprendimientoDTO.getDomicilioId());
-        domicilio.setLocalidad(emprendimientoDTO.getLocalidad());
-        domicilio.setCalle(emprendimientoDTO.getCalle());
-        domicilio.setNumero(emprendimientoDTO.getNumero());
-        domicilio.setCodPostal(emprendimientoDTO.getCodPostal());
-        domicilio.setReferencia(emprendimientoDTO.getReferencia());
+
+        Domicilio domicilio = new Domicilio();
+        if(emprendimientoDTO.getDomicilioId() != null){
+            domicilio = domicilioServicio.obtenerPorId(emprendimientoDTO.getDomicilioId());
+        }
+            domicilio.setLocalidad(emprendimientoDTO.getLocalidad());
+            domicilio.setCalle(emprendimientoDTO.getCalle());
+            domicilio.setNumero(emprendimientoDTO.getNumero());
+            domicilio.setCodPostal(emprendimientoDTO.getCodPostal());
+            domicilio.setReferencia(emprendimientoDTO.getReferencia());
 
         //creo el objeto emprendimiento
         Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorId(emprendimientoDTO.getEmprendimientoId());
@@ -164,13 +168,17 @@ public class EmprendimientoControlador {
         emprendimiento.setInicioActividades(emprendimientoDTO.getInicioActividades());
         emprendimiento.setCategorias(emprendimientoDTO.getCategorias());
         
+        if(domicilio.getLocalidad()!=null){
+            emprendimiento.setDomicilio(domicilio);
+        }
+        
         try {
             emprendimientoServicio.actualizar(emprendimiento, foto);
             atributos.addFlashAttribute("exito", "El emprendimiento se ha modificado");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("emprendimientoDTO", emprendimientoDTO);
             atributos.addFlashAttribute("error", e.getMessage());
-            redireccion.setUrl("/emprendimientos/formulario");
+            redireccion.setUrl("/emprendimientos/perfil/"+emprendimiento.getId());
         }
         return redireccion;
     }
