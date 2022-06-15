@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row mt-5">
                     <div class="col">
-                        <div class="col-auto">
+                        <div sec:authorize="hasRole('EMPRENDEDOR')" class="col-auto">
                             <a th:href="@{/articulos/formulario}" class="btn btn-primary">Crear</a>
                         </div>
 
@@ -19,30 +19,34 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen articulos</div>
-                        <table th:unless="${articulos.isEmpty()}" class="table table-hover table-bordered">
+                        <table th:unless="${articulos.isEmpty()}" class="table table-hover table-bordered mt-3">
                             <thead>
                                 <tr class="table-dark">
-                                    <th>Nombre</th>
-                                    <th>Descripcion</th>
                                     <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
                                     <th>Precio</th>
-                                    <th>Envio a Domicilio</th>
-                                    <th>Fecha de Publicacion</th>
+                                    <th>Envío a domicilio</th>
+                                    <th>Fecha de publicación</th>
                                     <th>Demora</th>
-                                    <th>Actualizar</th>
+                                    <th sec:authorize="hasRole('ADMIN')">Emprendedor</th>
+                                    <th sec:authorize="hasRole('EMPRENDEDOR')">Actualizar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="articulo : ${articulos}">
+                                    <td><img class="rounded-circle"
+                                        th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
+                                        width="50" height="50"></td>
                                     <td th:text="${articulo.nombre}"></td>
                                     <td th:text="${articulo.descripcion}"></td>
-                                    <td th:text="${articulo.foto}"></td>
-                                    <td th:text="${articulo.precio}"></td>
-                                    <td th:text="${articulo.envioADomicilio}"></td>
+                                    <td th:text="|$${articulo.precio}|"></td>
+                                    <td th:text="${articulo.envioADomicilio ? 'Si' : 'No'}"></td>
                                     <td th:text="${articulo.fechaPublicacion}"></td>
-                                    <td th:text="${articulo.demora}"></td>
-                                    <td><a th:href="@{/articulos/formulario/__${articulo.id}__}">Actualizar</a></td>
+                                    <td th:text="${articulo.demora !=null} ? |${articulo.demora.cantidad} ${articulo.demora.unidadTiempo}| : '-'"></td>
+                                    <td sec:authorize="hasRole('ADMIN')" th:text="${articulo.emprendimiento.usuario.email}"></td>
+                                    <td sec:authorize="hasRole('EMPRENDEDOR')"><a th:href="@{/articulos/formulario/__${articulo.id}__}">Actualizar</a></td>
                                     <td>
                                         <form method="POST" th:action="@{/articulos/eliminar/__${articulo.id}__}">
                                             <button type="submit" class="btn btn-danger">Eliminar</button> 
