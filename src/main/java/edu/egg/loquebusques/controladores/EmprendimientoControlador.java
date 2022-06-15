@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.egg.loquebusques.dto.EmprendimientoDTO;
 import edu.egg.loquebusques.entidades.Domicilio;
 import edu.egg.loquebusques.entidades.Emprendimiento;
+import edu.egg.loquebusques.entidades.FormaPago;
 import edu.egg.loquebusques.entidades.Localidad;
 import edu.egg.loquebusques.entidades.Rol;
 import edu.egg.loquebusques.entidades.Usuario;
@@ -119,15 +120,19 @@ public class EmprendimientoControlador {
             emprendimientoDTO.setFormasPago(emprendimiento.getFormasPago());
             emprendimientoDTO.setInicioActividades(emprendimientoDTO.getInicioActividades());
 
-            emprendimientoDTO.setDomicilioId(domicilio.getId());
-            emprendimientoDTO.setLocalidad(domicilio.getLocalidad());
-            emprendimientoDTO.setCalle(domicilio.getCalle());
-            emprendimientoDTO.setNumero(domicilio.getNumero());
-            emprendimientoDTO.setCodPostal(domicilio.getCodPostal());
-            emprendimientoDTO.setReferencia(domicilio.getReferencia());
+            if(domicilio != null){
+
+                emprendimientoDTO.setDomicilioId(domicilio.getId());
+                emprendimientoDTO.setLocalidad(domicilio.getLocalidad());
+                emprendimientoDTO.setCalle(domicilio.getCalle());
+                emprendimientoDTO.setNumero(domicilio.getNumero());
+                emprendimientoDTO.setCodPostal(domicilio.getCodPostal());
+                emprendimientoDTO.setReferencia(domicilio.getReferencia());
+            }
 
             mav.addObject("emprendimientoDTO", emprendimientoDTO);
         }
+        mav.addObject("formasPagos", FormaPago.values());
         mav.addObject("categorias", categoriaServicio.obtenerTodos());
         mav.addObject("localidades", Localidad.values());
         mav.addObject("action", "actualizar");
@@ -147,7 +152,7 @@ public class EmprendimientoControlador {
         domicilio.setReferencia(emprendimientoDTO.getReferencia());
 
         //creo el objeto emprendimiento
-        Emprendimiento emprendimiento = new Emprendimiento();
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorId(emprendimientoDTO.getEmprendimientoId());
         emprendimiento.setNombre(emprendimientoDTO.getNombre());
         emprendimiento.setDescripcion(emprendimientoDTO.getDescripcion());
         emprendimiento.setTelefono(emprendimientoDTO.getTelefono());
