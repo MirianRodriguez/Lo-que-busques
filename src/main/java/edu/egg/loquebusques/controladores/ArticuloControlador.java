@@ -82,7 +82,7 @@ public class ArticuloControlador {
     public RedirectView crear(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto, @RequestParam Integer usuarioId) {
         
         Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
-        RedirectView redireccion = new RedirectView("/articulos/emprendimiento/"+emprendimiento.getId());
+        RedirectView redireccion = new RedirectView("/articulos/emprendimiento/"+usuarioId);
         
         //creo el objeto demora
         Demora demora = new Demora();
@@ -115,7 +115,7 @@ public class ArticuloControlador {
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @GetMapping("/formulario/{id}")
     public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("");            //nombre formulario
+        ModelAndView mav = new ModelAndView("articulos/formulario");            //nombre formulario
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -148,10 +148,14 @@ public class ArticuloControlador {
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/actualizar")
-    public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
-        RedirectView redireccion = new RedirectView("/articulos");
+    public RedirectView actualizar(ArticuloDTO articuloDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto, @RequestParam Integer usuarioId) {
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        RedirectView redireccion = new RedirectView("/articulos/emprendimiento/"+usuarioId);
         //creo el objeto demora
-        Demora demora = demoraServicio.obtenerPorId(articuloDTO.getDemoraId());
+        Demora demora = new Demora();
+        if(articuloDTO.getDemoraId()!=null){
+            demora = demoraServicio.obtenerPorId(articuloDTO.getDemoraId());
+        }
         demora.setCantidad(articuloDTO.getCantidad());
         demora.setUnidadTiempo(articuloDTO.getUnidadTiempo());
         //creo el objeto articulo
@@ -162,7 +166,7 @@ public class ArticuloControlador {
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
         articulo.setDemora(demora);
         articulo.setCategoria(articuloDTO.getCategoria());
-        articulo.setEmprendimiento(articuloDTO.getEmprendimiento());
+        articulo.setEmprendimiento(emprendimiento);
         
         try {
             articuloServicio.actualizar(articulo, foto);
@@ -197,8 +201,8 @@ public class ArticuloControlador {
 
     //ver un articulo
     @PreAuthorize("hasAnyRole('EMPRENDEDOR')")
-    @GetMapping("/emprendimiento/{id}")
-    public ModelAndView verArticulosDeUnEmprendimiento(@PathVariable Integer id, HttpServletRequest request){
+    @GetMapping("/emprendimiento/{usuarioId}")
+    public ModelAndView verArticulosDeUnEmprendimiento(@PathVariable Integer usuarioId, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("articulos/index.html");  
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
@@ -210,7 +214,7 @@ public class ArticuloControlador {
                 mav.addObject("error", inputFlashMap.get("error"));
             }
         }
-        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(id);
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
         mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(emprendimiento.getId()));
         return mav;
     }
