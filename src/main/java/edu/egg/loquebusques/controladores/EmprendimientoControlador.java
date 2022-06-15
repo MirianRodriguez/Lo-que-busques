@@ -119,12 +119,15 @@ public class EmprendimientoControlador {
             emprendimientoDTO.setFormasPago(emprendimiento.getFormasPago());
             emprendimientoDTO.setInicioActividades(emprendimientoDTO.getInicioActividades());
 
-            emprendimientoDTO.setDomicilioId(domicilio.getId());
-            emprendimientoDTO.setLocalidad(domicilio.getLocalidad());
-            emprendimientoDTO.setCalle(domicilio.getCalle());
-            emprendimientoDTO.setNumero(domicilio.getNumero());
-            emprendimientoDTO.setCodPostal(domicilio.getCodPostal());
-            emprendimientoDTO.setReferencia(domicilio.getReferencia());
+            if(domicilio != null){
+
+                emprendimientoDTO.setDomicilioId(domicilio.getId());
+                emprendimientoDTO.setLocalidad(domicilio.getLocalidad());
+                emprendimientoDTO.setCalle(domicilio.getCalle());
+                emprendimientoDTO.setNumero(domicilio.getNumero());
+                emprendimientoDTO.setCodPostal(domicilio.getCodPostal());
+                emprendimientoDTO.setReferencia(domicilio.getReferencia());
+            }
 
             mav.addObject("emprendimientoDTO", emprendimientoDTO);
         }
@@ -147,7 +150,7 @@ public class EmprendimientoControlador {
         domicilio.setReferencia(emprendimientoDTO.getReferencia());
 
         //creo el objeto emprendimiento
-        Emprendimiento emprendimiento = new Emprendimiento();
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorId(emprendimientoDTO.getEmprendimientoId());
         emprendimiento.setNombre(emprendimientoDTO.getNombre());
         emprendimiento.setDescripcion(emprendimientoDTO.getDescripcion());
         emprendimiento.setTelefono(emprendimientoDTO.getTelefono());
