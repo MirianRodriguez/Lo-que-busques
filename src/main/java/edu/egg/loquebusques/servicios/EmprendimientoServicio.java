@@ -84,6 +84,10 @@ public class EmprendimientoServicio {
     public Emprendimiento obtenerPorUsuario(Integer id) {
         return emprendimientoRepositorio.buscarPorUsuario(id).get();
     }
+    @Transactional(readOnly = true)
+    public List<Emprendimiento> obtenerMasRecientes() {
+        return emprendimientoRepositorio.obtenerMasRecientes();
+    }
 
     @Transactional
     public void eliminarPorId(Integer id) {

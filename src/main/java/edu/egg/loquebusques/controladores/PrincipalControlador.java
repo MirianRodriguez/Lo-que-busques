@@ -24,6 +24,7 @@ public class PrincipalControlador {
         mav.addObject("emprendimiento", emprendimientoServicio.obtenerTodos());
         mav.addObject("articulos", articuloServicio.obtenerTodos());
         mav.addObject("articulosMasRecientes", articuloServicio.obtenerMasRecientes());
+        mav.addObject("emprendimientosMasRecientes", emprendimientoServicio.obtenerMasRecientes());
         mav.addObject("categorias", categoriaServicio.obtenerTodos());
         return mav;
     }
