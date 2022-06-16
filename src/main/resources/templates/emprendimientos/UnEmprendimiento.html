@@ -4,7 +4,8 @@
 <head th:replace="fragmentos/head :: head"></head>
 
 <body>
-    <header th:replace="fragmentos/header :: header"></header>
+    <header th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"
+    ></header>
     <main>
         <div class="mb-3">
             <div class="card mb-3" style="max-width: 540px;">
@@ -18,16 +19,29 @@
 
                             <h5 class="card-title" th:text="${emprendimiento.nombre}"></h5>
                             <p class="card-text" th:text="${emprendimiento.descripcion}"></p>
-                            <p class="card-text" th:text="${emprendimiento.inicioActividades}"></p>
-                            <p class="card-text" th:text="${emprendimiento.formasPago}"></p>
-                            <ul>
-                                <li th:each="categoria : ${emprendimiento.categorias}" th:text="${categoria.nombre}"></li>
-                                
+                            <ul class="list-unstyled">
+                                <li>Categoría</li>
+                                <ul>
+                                    <li th:each="categoria : ${emprendimiento.categorias}" th:text="${categoria.nombre}">
+                                    </li>
+                                </ul>
                             </ul>
-                            <p class="card-text" th:text="${emprendimiento.horario}"></p>
+                            <ul class="list-unstyled">
+                                <li>Forma de pago:</li>
+                                <ul>
+                                    <li th:each="formasPago : ${emprendimiento.formasPago}" th:text="${formasPago}">
+                                    </li>
+                                </ul>
+                            </ul>
+                            
+                            <p class="card-text" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|"></p>
+                            <p class="card-text" th:text="|Referencia: ${emprendimiento.domicilio.referencia}"></p>
+                            <p class="card-text" th:text="|Horario de atención: ${emprendimiento.horario}|"></p>
+                            <p class="card-text" th:text="|Inicio de actividades: ${emprendimiento.inicioActividades}|">
+                            </p>
                             <a sec:authorize="hasRole('EMPRENDEDOR')"
                                 th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                                class="btn btn-primary" >Editar perfil</a>
+                                class="btn btn-primary">Editar perfil</a>
                             <!-- <p class="card-text">Registrarse para obtener datos de contacto<a href="#"
                                     class="btn btn-primary">Registrarse</a></p> -->
                         </div>
@@ -35,7 +49,7 @@
                             th:if="${emprendimiento.nombre == null}">
                             <div class="alert alert-info mt-3" role="alert">Completa tu perfil</div>
                             <a th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                            class="btn btn-primary">Completar</a>
+                                class="btn btn-primary">Completar</a>
                         </div>
                     </div>
                 </div>
