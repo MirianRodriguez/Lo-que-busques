@@ -16,8 +16,8 @@
                                 <p class="card-text" th:text = "${articulo.descripcion}"></p>
                                 <p class="card-text" th:if="${articulo.demora != null}" th:text = "|Tenemos una demora de ${articulo.demora.cantidad} ${articulo.demora.unidadTiempo} desde que hacés el pedido.|"></p>
                                 <p class="card-text" th:text = "${articulo.envioADomicilio ? 'Hacemos envío a domicilio' : 'No hacemos envío a domicilio'"></p>
-                                <p class="card-text" th:text = 'Vendido por: ${articulo.emprendimiento.nombre}'></p>
-                                <p class="card-text" th:text = 'Publicado el: ${articulo.fechaPublicacion}'></p>
+                                <p class="card-text" th:text = '|Vendido por: ${articulo.emprendimiento.nombre}|'></p>
+                                <p class="card-text" th:text = '|Publicado el: ${articulo.fechaPublicacion}|'></p>
                             </div>
                         </div>
                     </div>
