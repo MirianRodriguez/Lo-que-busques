@@ -121,7 +121,8 @@ public class EmprendimientoControlador {
             emprendimientoDTO.setTelefono(emprendimiento.getTelefono());
             emprendimientoDTO.setHorario(emprendimiento.getHorario());
             emprendimientoDTO.setFormasPago(emprendimiento.getFormasPago());
-            emprendimientoDTO.setInicioActividades(emprendimientoDTO.getInicioActividades());
+            emprendimientoDTO.setInicioActividades(emprendimiento.getInicioActividades());
+            emprendimientoDTO.setCategorias(emprendimiento.getCategorias());
 
             if(domicilio != null){
 
@@ -144,8 +145,10 @@ public class EmprendimientoControlador {
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @PostMapping("/actualizar-perfil")
-    public RedirectView actualizarPerfil(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto) {
-        RedirectView redireccion = new RedirectView("/emprendimientos/ver/"+emprendimientoDTO.getEmprendimientoId());
+    public RedirectView actualizarPerfil(EmprendimientoDTO emprendimientoDTO, RedirectAttributes atributos, @RequestParam(required = false) MultipartFile foto, @RequestParam Integer usuarioId) {
+        
+        
+        RedirectView redireccion = new RedirectView("/emprendimientos/ver/"+usuarioId);
         //creo el objeto domicilio
 
         Domicilio domicilio = new Domicilio();
@@ -194,11 +197,12 @@ public class EmprendimientoControlador {
 
     //ver un emprendimiento
     //@PreAuthorize("hasAnyRole('ADMIN', 'USUARIO', 'EMPRENDEDOR')")
-    @GetMapping("/ver/{id}")
-    public ModelAndView verEmprendimiento(@PathVariable Integer id){
+    @GetMapping("/ver/{usuarioId}")
+    public ModelAndView verEmprendimiento(@PathVariable Integer usuarioId){
         ModelAndView mav = new ModelAndView("emprendimientos/UnEmprendimiento.html");
-        mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(id));
-        mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(id));
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        mav.addObject("emprendimiento", emprendimientoServicio.obtenerPorId(emprendimiento.getId()));
+        mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(emprendimiento.getId()));
         return mav;
     }
 
