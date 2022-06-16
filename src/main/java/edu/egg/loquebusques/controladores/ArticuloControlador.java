@@ -60,8 +60,8 @@ public class ArticuloControlador {
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
-    @GetMapping("/formulario")
-    public ModelAndView obtenerFormulario(HttpServletRequest request) {
+    @PostMapping("/formulario")
+    public ModelAndView obtenerFormulario(HttpServletRequest request, @RequestParam Integer usuarioId) {
         ModelAndView mav = new ModelAndView("articulos/formulario");               
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
@@ -71,7 +71,8 @@ public class ArticuloControlador {
         }else{
             mav.addObject("articuloDTO", new ArticuloDTO());
         }
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        mav.addObject("categorias", emprendimiento.getCategorias());
         mav.addObject("unidadesTiempo", UnidadTiempo.values());
         mav.addObject("action", "crear");
         return mav;        
@@ -113,9 +114,9 @@ public class ArticuloControlador {
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
-    @GetMapping("/formulario/{id}")
-    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("articulos/formulario");            //nombre formulario
+    @PostMapping("/formulario/{id}")
+    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request, @RequestParam Integer usuarioId) {
+        ModelAndView mav = new ModelAndView("articulos/formulario");  
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -140,7 +141,8 @@ public class ArticuloControlador {
 
             mav.addObject("articuloDTO", articuloDTO);
         }
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        mav.addObject("categorias", emprendimiento.getCategorias());
         mav.addObject("unidadesTiempo", UnidadTiempo.values());
         mav.addObject("action", "actualizar");
         return mav;

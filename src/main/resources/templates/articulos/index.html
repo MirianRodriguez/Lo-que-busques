@@ -7,7 +7,10 @@
                 <div class="row mt-5">
                     <div class="col">
                         <div sec:authorize="hasRole('EMPRENDEDOR')" class="col-auto">
-                            <a th:href="@{/articulos/formulario}" class="btn btn-primary">Crear</a>
+                            <form method="POST" th:action="@{/articulos/formulario}">
+                                <input type="hidden" th:value="${session.id}" name="usuarioId"/>
+                                <button type="submit" class="btn btn-primary">Crear</button> 
+                            </form>
                         </div>
 
                         <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -46,7 +49,11 @@
                                     <td th:text="${articulo.fechaPublicacion}"></td>
                                     <td th:text="${articulo.demora !=null} ? |${articulo.demora.cantidad} ${articulo.demora.unidadTiempo}| : '-'"></td>
                                     <td sec:authorize="hasRole('ADMIN')" th:text="${articulo.emprendimiento.usuario.email}"></td>
-                                    <td sec:authorize="hasRole('EMPRENDEDOR')"><a th:href="@{/articulos/formulario/__${articulo.id}__}">Actualizar</a></td>
+                                    <td sec:authorize="hasRole('EMPRENDEDOR')">
+                                        <form method="POST" th:action="@{/articulos/formulario/__${articulo.id}__}">
+                                            <input type="hidden" th:value="${session.id}" name="usuarioId"/>
+                                            <button type="submit" class="btn btn-primary">Actualizar</button> 
+                                        </form>
                                     <td>
                                         <form method="POST" th:action="@{/articulos/eliminar/__${articulo.id}__}">
                                             <button type="submit" class="btn btn-danger">Eliminar</button> 
