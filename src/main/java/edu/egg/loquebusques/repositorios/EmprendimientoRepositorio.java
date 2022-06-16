@@ -26,6 +26,6 @@ public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento,
     @Query(value = "SELECT * FROM emprendimiento where usuario_id = ?1" , nativeQuery = true)
     Optional<Emprendimiento> buscarPorUsuario(Integer id);
 
-    @Query(value = "SELECT * FROM emprendimiento ORDER BY emprendimiento_id DESC LIMIT 6;", nativeQuery = true)
+    @Query(value = "SELECT * FROM emprendimiento WHERE eliminado = 0 ORDER BY emprendimiento_id DESC LIMIT 6;", nativeQuery = true)
     List<Emprendimiento> obtenerMasRecientes();
 }

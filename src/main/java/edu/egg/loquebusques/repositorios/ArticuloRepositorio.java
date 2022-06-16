@@ -10,7 +10,7 @@ import edu.egg.loquebusques.entidades.Articulo;
 
 @Repository
 public interface ArticuloRepositorio extends JpaRepository<Articulo, Integer>{
-    @Query(value = "SELECT * FROM articulo ORDER BY articulo_id DESC LIMIT 9;", nativeQuery = true)
+    @Query(value = "SELECT * FROM articulo WHERE eliminado = 0 ORDER BY articulo_id DESC LIMIT 9;", nativeQuery = true)
     List<Articulo> obtenerMasRecientes();
 
     

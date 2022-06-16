@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="fragmentos/head :: head"></head>
     <body>
-        <header th:replace="fragmentos/header :: header"></header>
+        <div th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"></div>
         <main>
             <div class="container">
                 <div class="row mt-5">
@@ -49,6 +49,4 @@
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/js/validation.js}"></script>
     </body>
-
-</body>
 </html>
