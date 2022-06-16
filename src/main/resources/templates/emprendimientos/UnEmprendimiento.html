@@ -20,7 +20,10 @@
                             <p class="card-text" th:text="${emprendimiento.descripcion}"></p>
                             <p class="card-text" th:text="${emprendimiento.inicioActividades}"></p>
                             <p class="card-text" th:text="${emprendimiento.formasPago}"></p>
-                            <p class="card-text" th:text="${emprendimiento.categorias}"></p>
+                            <ul>
+                                <li th:each="categoria : ${emprendimiento.categorias}" th:text="${categoria.nombre}"></li>
+                                
+                            </ul>
                             <p class="card-text" th:text="${emprendimiento.horario}"></p>
                             <a sec:authorize="hasRole('EMPRENDEDOR')"
                                 th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"

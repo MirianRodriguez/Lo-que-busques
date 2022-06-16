@@ -15,19 +15,20 @@
                         class="needs-validation" enctype="multipart/form-data" novalidate>
                         <input type="hidden" th:field="*{emprendimientoId}">
                         <input type="hidden" th:field="*{domicilioId}">
+                        <input type="hidden" th:value="${session.id}" name="usuarioId"/>
 
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre emprendimiento</label>
                             <input type="text" th:field="*{nombre}" placeholder="Nombre emprendimiento"
                                 class="form-control" required />
-                            <div class="invalid-feedback">El nombre de emprendimiento es requerido</div>
+                            <div class="invalid-feedback">El nombre de emprendimiento es requerido.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" th:field="*{descripcion}" placeholder="Descripción" class="form-control"
                                 required />
-                            <div class="invalid-feedback">La descripción es requerida</div>
+                            <div class="invalid-feedback">La descripción es requerida.</div>
                         </div>
 
                         <div class="mt-3">
@@ -39,7 +40,7 @@
                             <label for="telefono" class="form-label">Teléfono</label>
                             <input type="number" th:field="*{telefono}" name="telefono" placeholder="Teléfono"
                                 class="form-control" required />
-                            <div class="invalid-feedback">Teléfono es requerido</div>
+                            <div class="invalid-feedback">El teléfono es requerido.</div>
                         </div>
 
                         <div class="mb-3">
@@ -66,18 +67,19 @@
 
                         <div class="mb-3">
                             <label for="localidades" class="form-label">Localidad</label>
-                            <select th:field="*{Localidad}" id="localidad" class="form-select">
+                            <select th:field="*{Localidad}" id="localidad" class="form-select" required>
                                 <option Selected value=""></option>
                                 <option th:each="tipo : ${localidades}" th:text="${tipo.name}" th:value="${tipo.name}">
                                 </option>
                             </select>
+                            <div class="invalid-feedback">La localidad es requerida.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="horario" class="form-label">Horarios de atención</label>
                             <input type="text" th:field="*{horario}" placeholder="Horarios" class="form-control"
                                 required />
-                            <div class="invalid-feedback">Horario es requerido</div>
+                                <div class="invalid-feedback">El horario es requerida.</div>
                         </div>
 
                         <div class="mb-3">
@@ -96,12 +98,11 @@
                                 <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
                                     th:text="${categoria.nombre}"> </option>
                             </select>
-                            <div class="invalid-feedback">Categoria es Requerido</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="inicioActividades">Inicio actividad</label>
-                            <input type="date" th:field="*{inicioActividades}" placeholder="Año de inicio actividad" required />
+                            <input type="date" class="form-control" th:field="*{inicioActividades}" placeholder="Año de inicio actividad" required />
                             <div class="invalid-feedback">Inicio Actividad es Requerido</div>
                         </div>
 
