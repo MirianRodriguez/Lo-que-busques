@@ -6,7 +6,12 @@
     <header th:replace="fragmentos/header :: header"></header>
     <main>
         <div class="container">
-            <div class="row mt-5">
+            <div class="row">
+                <div class="col lead mt-3">
+                    Emprendimientos en el sistema
+                </div>
+            </div>
+            <div class="row">
 
                 <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     <span th:text="${exito}"></span>
