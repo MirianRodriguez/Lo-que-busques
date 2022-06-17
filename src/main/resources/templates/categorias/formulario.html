@@ -5,20 +5,31 @@
         <header th:replace="fragmentos/header :: header"></header>
         <main>
             <div class="container">
-                <div class="row mt-5">
-                    <div class="col-8">
+                <div class="row">
+                    <div class="col lead mt-3">
+                        Cargue los datos de la nueva categoría
+                    </div>
+                </div>
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="row">
+                    <div class="col-8 mt-3">
                         <form th:action="@{/categorias/__${action}__}" th:object="${categoria}" method="post" class="needs-validation" novalidate>
                             <input type="hidden" th:field="*{id}">
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" th:field="*{nombre}" placeholder="nombre" class="form-control" required/>
-                                <div class="invalid-feedback">Nombre es Requerido</div>
+                                <label for="nombre" class="form-label">Nombre <span
+                                    class="text-danger">*</span></label>
+                                <input type="text" th:field="*{nombre}" class="form-control" required/>
+                                <div class="invalid-feedback">Nombre es requerido</div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control"required/>
-                                <div class="invalid-feedback">Descripción es Requerida</div>        
+                                <label for="descripcion" class="form-label">Descripción <span
+                                    class="text-danger">*</span></label>
+                                <input type="text" th:field="*{descripcion}" class="form-control"required/>
+                                <div class="invalid-feedback">Descripción es requerida</div>        
                             </div>
                             <div class="mb-5">
                                 <div>

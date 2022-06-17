@@ -14,7 +14,7 @@
                     </div>
                     <div class="card border-success mb-3" style="max-width: 840px;">
                         <div class="card-header">Crea el usuario y contraseña para el emprendedor</div>
-                        <div class="card-body text-success">
+                        <div class="card-body text-success p-3">
                             <form th:action="@{/emprendimientos/crear}" th:object="${usuario}" method="post"
                                 autocomplete="off" class="needs-validation mb-4" novalidate>
                                 <input type="hidden" th:field="*{id}">
@@ -38,11 +38,12 @@
                                 </div>
 
                                 <!-- <input type="hidden" th:field="*{rol}"> -->
-                                <div class="card-footer bg-transparent border-success"></div>
-
-                                <div class="form-group mb-3 col-md-12 text-center">
-                                    <button class="btn btn-primary" type="submit">Aceptar</button>
+                                <div class="card-footer bg-transparent border-success">
+                                    <div class="form-group col-md-12 text-center align-middle">
+                                        <button class="btn btn-primary" type="submit">Aceptar</button>
+                                    </div>
                                 </div>
+
                             </form>
                         </div>
                     </div>
