@@ -4,71 +4,96 @@
 <head th:replace="fragmentos/head :: head"></head>
 
 <body>
-    <header th:replace="fragmentos/header :: header"></header>
+    <header th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"
+    ></header>
     <main>
-        <div class="mb-3">
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img th:src="${emprendimiento.imagen} ? @{/subidas/__${emprendimiento.imagen}__} : @{/subidas/default-image.png}"
-                            class="img-fluid rounded-start" alt="...">
+        <div class="container">
+            <div class="row">
+                <div class="col mt-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img th:src="${emprendimiento.imagen} ? @{/subidas/__${emprendimiento.imagen}__} : @{/subidas/default-image.png}"
+                                    class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body" th:if="${emprendimiento.nombre != null}">
+            
+                                    <h5 class="card-title" th:text="${emprendimiento.nombre}"></h5>
+                                    <p class="card-text" th:text="${emprendimiento.descripcion}"></p>
+                                    <ul class="list-unstyled">
+                                        <li>Categoría</li>
+                                        <ul>
+                                            <li th:each="categoria : ${emprendimiento.categorias}" th:text="${categoria.nombre}">
+                                            </li>
+                                        </ul>
+                                    </ul>
+                                    <ul class="list-unstyled">
+                                        <li>Forma de pago:</li>
+                                        <ul>
+                                            <li th:each="formasPago : ${emprendimiento.formasPago}" th:text="${formasPago}">
+                                            </li>
+                                        </ul>
+                                    </ul>
+                                    <p th:text="|Estamos en ${emprendimiento.domicilio.localidad}|"></p>
+                                    <p th:if="${emprendimiento.domicilio.calle!=''}" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|" class="card-text"></p>
+                                    <p class="card-text" th:if="${emprendimiento.domicilio.referencia != ''}" th:text="|Referencia: ${emprendimiento.domicilio.referencia}|"></p>
+                                    <p class="card-text" th:text="|Horario de atención: ${emprendimiento.horario}|"></p>
+                                    <p class="card-text" th:text="|Inicio de actividades: ${emprendimiento.inicioActividades}|">
+                                    </p>
+                                    <a sec:authorize="hasRole('EMPRENDEDOR')"
+                                        th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
+                                        class="btn btn-primary">Editar perfil</a>
+                                    <!-- <p class="card-text">Registrarse para obtener datos de contacto<a href="#"
+                                            class="btn btn-primary">Registrarse</a></p> -->
+                                </div>
+                                <div sec:authorize="hasRole('EMPRENDEDOR')" class="card-body"
+                                    th:if="${emprendimiento.nombre == null}">
+                                    <div class="alert alert-info mt-3" role="alert">Completa tu perfil</div>
+                                    <a th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
+                                        class="btn btn-primary">Completar</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body" th:if="${emprendimiento.nombre != null}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="card-group">
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Producto</h5>
+                            <p class="card-text">Descripción</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-primary">Ver Producto</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Producto</h5>
+                            <p class="card-text">Descripción</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-primary">Ver Producto</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Producto</h5>
+                            <p class="card-text">Descripción</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-primary">Ver Producto</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                            <h5 class="card-title" th:text="${emprendimiento.nombre}"></h5>
-                            <p class="card-text" th:text="${emprendimiento.descripcion}"></p>
-                            <p class="card-text" th:text="${emprendimiento.inicioActividades}"></p>
-                            <p class="card-text" th:text="${emprendimiento.formasPago}"></p>
-                            <p class="card-text" th:text="${emprendimiento.categorias}"></p>
-                            <p class="card-text" th:text="${emprendimiento.horario}"></p>
-                            <a sec:authorize="hasRole('EMPRENDEDOR')"
-                                th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                                class="btn btn-primary" >Editar perfil</a>
-                            <!-- <p class="card-text">Registrarse para obtener datos de contacto<a href="#"
-                                    class="btn btn-primary">Registrarse</a></p> -->
-                        </div>
-                        <div sec:authorize="hasRole('EMPRENDEDOR')" class="card-body"
-                            th:if="${emprendimiento.nombre == null}">
-                            <div class="alert alert-info mt-3" role="alert">Completa tu perfil</div>
-                            <a th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                            class="btn btn-primary">Completar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <div class="card">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Producto</h5>
-                        <p class="card-text">Descripción</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Producto</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Producto</h5>
-                        <p class="card-text">Descripción</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Producto</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Producto</h5>
-                        <p class="card-text">Descripción</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
     </main>
     <footer th:replace="fragmentos/footer :: footer"></footer>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

@@ -1,75 +1,101 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragmentos/head :: head"></head>
 
-    <body>
-        <header th:replace="fragmentos/header :: header"></header>
-        <main>
-            <div class="container">
-                <div class="row mt-5">
-                    <div class="col-8">
-                        <form th:action="@{/articulos/__${action}__}" th:object="${articuloDTO}" method="post" 
-                        class="needs-validation" enctype="multipart/form-data" novalidate>
-                            <input type="hidden" th:field="*{articuloId}">
-                            <input type="hidden" th:field="*{demoraId}">
-                            <input type="hidden" th:value="${session.id}" name="usuarioId"/>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre producto</label>
-                                <input type="text" th:field="*{nombre}" placeholder="nombre producto" class="form-control" required/>
-                                <div class="invalid-feedback">Nombre de producto es requerido</div>
-                            </div>
+<head th:replace="fragmentos/head :: head"></head>
 
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="text" th:field="*{descripcion}" placeholder="descripcion" class="form-control" required/>
-                                <div class="invalid-feedback">Descripción es requerida</div>        
-                            </div>
-                            <div class="mb-3">
-                                <label for="precio" class="form-label">Precio</label>
-                                <input type="number"th:field="*{precio}" placeholder="precio" class="form-control" required/>
-                                <div class="invalid-feedback">Precio es requerido</div>        
-                            </div>     
-                            <div class="mt-3">
-                                <label for="foto">Subir imagen</label>
-                                <input class="form-control mt-3" type="file" name="foto" accept="image/*">
-                            </div>
-                            <div class="mb-3">
-                                <label for="categoria" class="form-label">Categoria</label>
-                                <select th:field="*{categoria}" id="categoria" class="form-select" aria-label="Select categoria" required>
-                                    <option selected value="">Categoría</option>
-                                    <option th:each="categoria : ${categorias}" th:text="${categoria.nombre}" th:value="${categoria.id}"></option>   
-                                </select>
-                            </div>
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" th:field="*{envioADomicilio}" >
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Envío a domicilio</label>
-                            </div>
-                            <div class="row">
-                                <label for="disabledSelect" class="form-label">Demora</label>
-                                <div class="mb-3 col-6">
-                                    <input type="number" id="disabledTextInput" class="form-control" placeholder="Cantidad" th:field="*{cantidad}">
-                                    <div class="invalid-feedback">Cantidad es Requerido</div>
-                                </div>
-                                <div class="mb-3 col-6">   
-                                    <select th:field="*{unidadTiempo}" id="unidadTiempo" class="form-select">
-                                        <option Selected value="">Tipo</option>
-                                        <option th:each="unidad : ${unidadesTiempo}" th:text="${unidad.name}" th:value="${unidad.name}"></option>   
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-5">
-                                <div>
-                                    <button class="btn btn-primary" type="submit" th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+<body>
+    <header th:replace="fragmentos/header :: header"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col lead mt-3">
+                    Cargá los datos del artículo
                 </div>
             </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-8 mt-3">
+                    <form th:action="@{/articulos/__${action}__}" th:object="${articuloDTO}" method="post"
+                        class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <div class="text-danger my-3 small">(*) Campo obligatorio</div>
+                        <input type="hidden" th:field="*{articuloId}">
+                        <input type="hidden" th:field="*{demoraId}">
+                        <input type="hidden" th:value="${session.id}" name="usuarioId" />
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del artículo <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" th:field="*{nombre}" class="form-control"
+                                required />
+                            <div class="invalid-feedback">Nombre de artículo es requerido</div>
+                        </div>
 
-        </main>
-        <footer th:replace="fragmentos/footer :: footer"></footer>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/js/validation.js}"></script>
-    </body>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción <span
+                                    class="text-danger">*</span></label>
+                            <textarea rows="3" th:field="*{descripcion}" placeholder="Cuéntale a los clientes sobre este artículo" class="form-control"
+                            required></textarea>
+                            <div class="invalid-feedback">Descripción es requerida</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio <span class="text-danger">*</span></label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                                <input type="number" th:field="*{precio}" step="0.01" 
+                                    class="form-control" required />
+                            </div>
+                            <div class="invalid-feedback">Precio es requerido</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="foto">Foto del artículo</label>
+                            <input class="form-control mt-3" type="file" name="foto" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría <span
+                                    class="text-danger">*</span></label>
+                            <select th:field="*{categoria}" id="categoria" class="form-select"
+                                aria-label="Select categoria" required>
+                                <option selected value="">Categoría</option>
+                                <option th:each="categoria : ${categorias}" th:text="${categoria.nombre}"
+                                    th:value="${categoria.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" role="switch" id="envio"
+                                th:field="*{envioADomicilio}">
+                            <label class="form-check-label" for="envio">Envío a domicilio</label>
+                        </div>
+                        <div class="row">
+                            <label for="demora" class="form-label">Demora</label>
+                            <div class="mb-3 col-6">
+                                <input type="number" id="cantidad" class="form-control" placeholder="Cantidad"
+                                    th:field="*{cantidad}">
+                                <div class="invalid-feedback">Cantidad es Requerido</div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <select th:field="*{unidadTiempo}" id="unidadTiempo" class="form-select">
+                                    <option Selected value="">Tipo</option>
+                                    <option th:each="unidad : ${unidadesTiempo}" th:text="${unidad.name}"
+                                        th:value="${unidad.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div>
+                                <button class="btn btn-primary" type="submit"
+                                    th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer th:replace="fragmentos/footer :: footer"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/validation.js}"></script>
+</body>
+
 </html>
-
