@@ -24,7 +24,6 @@ import edu.egg.loquebusques.entidades.Demora;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
 import edu.egg.loquebusques.servicios.ArticuloServicio;
-import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DemoraServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 
@@ -36,8 +35,6 @@ public class ArticuloControlador {
     private ArticuloServicio articuloServicio;
     @Autowired
     private DemoraServicio demoraServicio;
-    @Autowired
-    private CategoriaServicio categoriaServicio;
     @Autowired
     private EmprendimientoServicio emprendimientoServicio;
 
@@ -166,7 +163,14 @@ public class ArticuloControlador {
         articulo.setDescripcion(articuloDTO.getDescripcion());
         articulo.setPrecio(articuloDTO.getPrecio());
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
-        articulo.setDemora(demora);
+        if(demora.getCantidad() != null && demora.getUnidadTiempo() != null){
+            articulo.setDemora(demora);
+        }else{ //verificar si antes tenia, si tenia eliminar la demora asociada al articulo
+            if(articulo.getDemora()!= null){
+                demoraServicio.eliminarPorId(articulo.getDemora().getId());
+                articulo.setDemora(null);
+            }
+        }
         articulo.setCategoria(articuloDTO.getCategoria());
         articulo.setEmprendimiento(emprendimiento);
         
@@ -193,10 +197,10 @@ public class ArticuloControlador {
     }
 
     //ver un articulo
-    @PreAuthorize("hasAnyRole('USUARIO', 'EMPRENDEDOR')")
+    //@PreAuthorize("hasAnyRole('USUARIO', 'EMPRENDEDOR')")
     @GetMapping("/ver/{id}")
     public ModelAndView verArticulo(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("");                //nombre vista
+        ModelAndView mav = new ModelAndView("articulos/un-articulo.html");
         mav.addObject("articulo", articuloServicio.obtenerPorId(id));
         return mav;
     }

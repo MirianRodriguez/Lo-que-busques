@@ -155,11 +155,11 @@ public class EmprendimientoControlador {
         if(emprendimientoDTO.getDomicilioId() != null){
             domicilio = domicilioServicio.obtenerPorId(emprendimientoDTO.getDomicilioId());
         }
-            domicilio.setLocalidad(emprendimientoDTO.getLocalidad());
-            domicilio.setCalle(emprendimientoDTO.getCalle());
-            domicilio.setNumero(emprendimientoDTO.getNumero());
-            domicilio.setCodPostal(emprendimientoDTO.getCodPostal());
-            domicilio.setReferencia(emprendimientoDTO.getReferencia());
+        domicilio.setLocalidad(emprendimientoDTO.getLocalidad());
+        domicilio.setCalle(emprendimientoDTO.getCalle());
+        domicilio.setNumero(emprendimientoDTO.getNumero());
+        domicilio.setCodPostal(emprendimientoDTO.getCodPostal());
+        domicilio.setReferencia(emprendimientoDTO.getReferencia());
 
         //creo el objeto emprendimiento
         Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorId(emprendimientoDTO.getEmprendimientoId());

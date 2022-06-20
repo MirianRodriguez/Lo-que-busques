@@ -35,9 +35,9 @@
                                             </li>
                                         </ul>
                                     </ul>
-                                    
-                                    <p th:if="${emprendimiento.domicilio.calle != null}" class="card-text" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|"></p>
-                                    <p class="card-text" th:if="${emprendimiento.domicilio.calle != null}" th:text="|Referencia: ${emprendimiento.domicilio.referencia}"></p>
+                                    <p th:text="|Estamos en ${emprendimiento.domicilio.localidad}|"></p>
+                                    <p th:if="${emprendimiento.domicilio.calle!=''}" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|" class="card-text"></p>
+                                    <p class="card-text" th:if="${emprendimiento.domicilio.referencia != ''}" th:text="|Referencia: ${emprendimiento.domicilio.referencia}|"></p>
                                     <p class="card-text" th:text="|Horario de atención: ${emprendimiento.horario}|"></p>
                                     <p class="card-text" th:text="|Inicio de actividades: ${emprendimiento.inicioActividades}|">
                                     </p>
