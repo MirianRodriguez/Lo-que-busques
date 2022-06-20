@@ -9,11 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "usuario")
-@SQLDelete(sql = "UPDATE usuario SET alta = false WHERE usuario_id = ?")
+@SQLDelete(sql = "UPDATE usuario SET eliminado = true WHERE usuario_id = ?")
+@Where(clause = "eliminado = false")
 
 public class Usuario {
     @Id

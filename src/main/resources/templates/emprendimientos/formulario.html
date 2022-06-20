@@ -5,41 +5,103 @@
 <body>
     <header th:replace="fragmentos/header :: header"></header>
     <main>
-
         <div class="container">
-            <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></div>
-            <div th:if="${exito}" th:text="${exito}" class="alert alert-success" role="alert"></div>
-            <div class="row mt-5">
-                <div class="col-8">
+            <div class="row">
+                <div class="col lead mt-3">
+                    Completá los datos de tu emprendimiento para que los clientes puedan encontrarte!
+                </div>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-8 mt-3">
                     <form th:action="@{/emprendimientos/__${action}__}" th:object="${emprendimientoDTO}" method="post"
                         class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <div class="text-danger my-3 small">(*) Campo obligatorio</div>
                         <input type="hidden" th:field="*{emprendimientoId}">
                         <input type="hidden" th:field="*{domicilioId}">
+                        <input type="hidden" th:value="${session.id}" name="usuarioId"/>
 
                         <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre emprendimiento</label>
-                            <input type="text" th:field="*{nombre}" placeholder="Nombre emprendimiento"
+                            <label for="nombre" class="form-label">Nombre de tu emprendimiento <span
+                                class="text-danger">*</span></label>
+                            <input type="text" th:field="*{nombre}" placeholder="Nombre de tu emprendimiento"
                                 class="form-control" required />
-                            <div class="invalid-feedback">El nombre de emprendimiento es requerido</div>
+                            <div class="invalid-feedback">El nombre de emprendimiento es requerido.</div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" th:field="*{descripcion}" placeholder="Descripción" class="form-control"
-                                required />
-                            <div class="invalid-feedback">La descripción es requerida</div>
+                            <label for="descripcion" class="form-label">Descripción <span
+                                class="text-danger">*</span></label>
+                            <textarea rows="3" th:field="*{descripcion}" placeholder="Cuéntale a los clientes sobre tu emprendimiento" class="form-control"
+                            required></textarea>
+                            <div class="invalid-feedback">La descripción es requerida.</div>
                         </div>
 
-                        <div class="mt-3">
-                            <label for="foto">Subir imagen</label>
+                        <div class="mb-3">
+                            <label for="foto">Imagen de tu marca, producto o algo que identifique tu emprendimiento</label>
                             <input class="form-control mt-3" type="file" name="foto" accept="image/*">
                         </div>
 
                         <div class="mb-3">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="number" th:field="*{telefono}" name="telefono" placeholder="Teléfono"
+                            <label for="telefono" class="form-label">Teléfono <span
+                                class="text-danger">*</span></label>
+                            <input type="number" th:field="*{telefono}" name="telefono" placeholder="Sólo números."
                                 class="form-control" required />
-                            <div class="invalid-feedback">Teléfono es requerido</div>
+                            <div class="invalid-feedback">El teléfono es requerido.</div>
+                        </div>
+
+                        
+                        <div class="mb-3">
+                            <label for="horario" class="form-label">Horarios de atención <span
+                                class="text-danger">*</span></label>
+                            <input type="text" th:field="*{horario}" placeholder="Ej: De 8 a 12, y de 16 a 20." class="form-control"
+                                required />
+                                <div class="invalid-feedback">El horario es requerido.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="formasPago" class="form-label">Formas de pago <span
+                                class="text-danger">*</span></label>
+                            <select th:field="*{FormasPago}" id="FormasPago" class="form-select" multiple required>
+            
+                                <option th:each="tipo : ${formasPagos}" th:text="${tipo.name}" th:value="${tipo.name}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback">Las formas de pago son requeridas.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría/s (rubro)<span
+                                class="text-danger">*</span></label>
+                            <select th:field="*{categorias}" id="categoria" class="form-select"
+                                aria-label="Select categoría" multiple required>
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                    th:text="${categoria.nombre}"> </option>
+                            </select>
+                            <div class="invalid-feedback">Al menos una categoría es requerida.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inicioActividades">Fecha de inicio actividades <span
+                                class="text-danger">*</span></label>
+                            <input type="date" class="form-control" th:field="*{inicioActividades}" placeholder="Año de inicio actividad" required />
+                            <div class="invalid-feedback">La fecha de inicio de actividades es requerida.</div>
+                        </div>
+                        <div class="border-top"><h5 class="mt-3">A continuación ingresá los datos del domicilio donde los clientes pueden encontrarte.</h5> 
+                            <p>No es obligatorio, con la localidad es suficiente, podés volver a actualizar esta info cuando quieras!</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="localidades" class="form-label">Localidad <span
+                                class="text-danger">*</span></label>
+                            <select th:field="*{Localidad}" id="localidad" class="form-select" required>
+                                <option Selected value="">Localidad</option>
+                                <option th:each="tipo : ${localidades}" th:text="${tipo.name}" th:value="${tipo.name}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback">La localidad es requerida.</div>
                         </div>
 
                         <div class="mb-3">
@@ -55,54 +117,13 @@
 
                         <div class="mb-3">
                             <label for="codPostal" class="form-label">Código Postal</label>
-                            <input type="number" th:field="*{codPostal}" name="codPostal" placeholder="Código Postal"
+                            <input type="text" th:field="*{codPostal}" name="codPostal" placeholder="Código Postal"
                                 class="form-control" />
                         </div>
 
                         <div class="mb-3">
                             <label for="referencia" class="form-label">Referencia</label>
-                            <input type="text" th:field="*{referencia}" placeholder="Referencia" class="form-control" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="localidades" class="form-label">Localidad</label>
-                            <select th:field="*{Localidad}" id="localidad" class="form-select">
-                                <option Selected value=""></option>
-                                <option th:each="tipo : ${localidades}" th:text="${tipo.name}" th:value="${tipo.name}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="horario" class="form-label">Horarios de atención</label>
-                            <input type="text" th:field="*{horario}" placeholder="Horarios" class="form-control"
-                                required />
-                            <div class="invalid-feedback">Horario es requerido</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="formasPago" class="form-label">Formas de pago</label>
-                            <select th:field="*{FormasPago}" id="FormasPago" class="form-select" multiple>
-                                <option Selected value=""></option>
-                                <option th:each="tipo : ${formasPagos}" th:text="${tipo.name}" th:value="${tipo.name}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="categoria" class="form-label">Categoría</label>
-                            <select th:field="*{categorias}" id="categoria" class="form-select"
-                                aria-label="Select categoría" multiple>
-                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
-                                    th:text="${categoria.nombre}"> </option>
-                            </select>
-                            <div class="invalid-feedback">Categoria es Requerido</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="inicioActividades">Inicio actividad</label>
-                            <input type="date" th:field="*{inicioActividades}" placeholder="Año de inicio actividad" required />
-                            <div class="invalid-feedback">Inicio Actividad es Requerido</div>
+                            <input type="text" th:field="*{referencia}" placeholder="Otro dato útil para encontrarte" class="form-control" />
                         </div>
 
                         <div class="mb-3">

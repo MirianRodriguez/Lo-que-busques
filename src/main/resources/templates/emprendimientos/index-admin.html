@@ -1,53 +1,61 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="fragmentos/head :: head"></head>
-    <body>
-        <header th:replace="fragmentos/header :: header"></header>
-        <main>
-            <div class="container">
-                <div class="row mt-5">
 
-                    <div class="col-auto">
-                        <a th:href="@{/emprendimientos/alta-emprendimiento}" class="btn btn-primary">Crear</a>
-                    </div>
+<head th:replace="fragmentos/head :: head"></head>
 
-                    <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                        <span th:text="${exito}"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                        <span th:text="${error}"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <div th:if="${emprendimientos.isEmpty()}" class="alert alert-info mt-3" role="alert">No Existen emprendimientos</div>
-                    <table th:unless="${emprendimientos.isEmpty()}" class="table table-hover table-bordered mt-3">
-                        <thead>
-                            <tr class="table-dark">
-                                <th sec:authorize="hasRole('ADMIN')">Email</th>
-                                <th sec:authorize="hasRole('ADMIN')">Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="emprendimiento : ${emprendimientos}">
-                                <td><a th:text="${emprendimiento.usuario.email}" th:href="@{/emprendimientos/ver/__${emprendimiento.id}__}"></a></td>
-                                <td sec:authorize="hasRole('ADMIN')">
-                                    <form method="POST" th:action="@{/emprendimientos/eliminar/__${emprendimiento.id}__}">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button> 
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+<body>
+    <header th:replace="fragmentos/header :: header"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col lead mt-3">
+                    Emprendimientos registrados
                 </div>
             </div>
+            <div class="row">
+                <div class="col-auto mt-3">
+                    <a th:href="@{/emprendimientos/alta-emprendimiento}" class="btn btn-primary">Crear</a>
+                </div>
+
+                <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <span th:text="${exito}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${emprendimientos.isEmpty()}" class="alert alert-info mt-3" role="alert">No Existen
+                    emprendimientos</div>
+                <table th:unless="${emprendimientos.isEmpty()}" class="table table-hover table-bordered mt-3">
+                    <thead>
+                        <tr class="table-dark">
+                            <th sec:authorize="hasRole('ADMIN')">Email</th>
+                            <th sec:authorize="hasRole('ADMIN')">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="emprendimiento : ${emprendimientos}">
+                            <td><a th:text="${emprendimiento.usuario.email}"
+                                    th:href="@{/emprendimientos/ver/__${emprendimiento.usuario.id}__}"></a></td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <form method="POST" th:action="@{/emprendimientos/eliminar/__${emprendimiento.id}__}">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</main>
+        </div>
+        </div>
+    </main>
 
-<footer th:replace="fragmentos/footer :: footer"></footer>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/validation.js}"></script>
+    <footer th:replace="fragmentos/footer :: footer"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/validation.js}"></script>
 </body>
 
 </body>
+
 </html>
-

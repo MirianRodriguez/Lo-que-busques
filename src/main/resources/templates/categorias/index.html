@@ -1,11 +1,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="fragmentos/head :: head"></head>
     <body>
-        <header th:replace="fragmentos/header :: header"></header>
+        <div th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"></div>
         <main>
             <div class="container">
-                <div class="row mt-5">
-                    <div class="col">
+                <div class="row">
+                    <div class="col lead mt-3">
+                        Categorías de emprendimientos y productos del sistema
+                    </div>
+                </div>
+                <div sec:authorize="hasRole('EMPRENDEDOR')" class="row">
+                    <div class="alert alert-info mt-3" role="alert">
+                        Si la categoría de tu emprendimiento no figura en esta lista, ponete en contacto con el administrador del sitio!
+                    </div>                  
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
                         <div sec:authorize="hasRole('ADMIN')" class="col-auto">
                             <a th:href="@{/categorias/formulario}" class="btn btn-primary">Crear</a>
                         </div>
@@ -49,6 +59,4 @@
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/js/validation.js}"></script>
     </body>
-
-</body>
 </html>

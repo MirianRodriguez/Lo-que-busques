@@ -4,10 +4,23 @@
         <header th:replace="fragmentos/header :: header"></header>
         <main>
             <div class="container">
-                <div class="row mt-5">
-                    <div class="col">
+                <div class="row">
+                    <div sec:authorize="hasRole('ADMIN')" class="row">
+                        <div class="col lead mt-3">
+                            Artículos de los emprendimientos
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole('EMPRENDEDOR')" class="row">
+                        <div class="col lead mt-3">
+                            Tus artículos
+                        </div>
+                    </div>
+                    <div class="col mt-3">
                         <div sec:authorize="hasRole('EMPRENDEDOR')" class="col-auto">
-                            <a th:href="@{/articulos/formulario}" class="btn btn-primary">Crear</a>
+                            <form method="POST" th:action="@{/articulos/formulario}">
+                                <input type="hidden" th:value="${session.id}" name="usuarioId"/>
+                                <button type="submit" class="btn btn-primary">Crear</button> 
+                            </form>
                         </div>
 
                         <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -18,7 +31,7 @@
                             <span th:text="${error}"></span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen articulos</div>
+                        <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen artículos</div>
                         <table th:unless="${articulos.isEmpty()}" class="table table-hover table-bordered mt-3">
                             <thead>
                                 <tr class="table-dark">
@@ -39,14 +52,20 @@
                                     <td><img class="rounded-circle"
                                         th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
                                         width="50" height="50"></td>
-                                    <td th:text="${articulo.nombre}"></td>
+                                    <td>
+                                        <a th:text="${articulo.nombre}" th:href="@{/articulos/ver/__${articulo.id}__}"></a>
+                                    </td>
                                     <td th:text="${articulo.descripcion}"></td>
                                     <td th:text="|$${articulo.precio}|"></td>
                                     <td th:text="${articulo.envioADomicilio ? 'Si' : 'No'}"></td>
                                     <td th:text="${articulo.fechaPublicacion}"></td>
                                     <td th:text="${articulo.demora !=null} ? |${articulo.demora.cantidad} ${articulo.demora.unidadTiempo}| : '-'"></td>
                                     <td sec:authorize="hasRole('ADMIN')" th:text="${articulo.emprendimiento.usuario.email}"></td>
-                                    <td sec:authorize="hasRole('EMPRENDEDOR')"><a th:href="@{/articulos/formulario/__${articulo.id}__}">Actualizar</a></td>
+                                    <td sec:authorize="hasRole('EMPRENDEDOR')">
+                                        <form method="POST" th:action="@{/articulos/formulario/__${articulo.id}__}">
+                                            <input type="hidden" th:value="${session.id}" name="usuarioId"/>
+                                            <button type="submit" class="btn btn-primary">Actualizar</button> 
+                                        </form>
                                     <td>
                                         <form method="POST" th:action="@{/articulos/eliminar/__${articulo.id}__}">
                                             <button type="submit" class="btn btn-danger">Eliminar</button> 

@@ -24,7 +24,6 @@ import edu.egg.loquebusques.entidades.Demora;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
 import edu.egg.loquebusques.servicios.ArticuloServicio;
-import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DemoraServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 
@@ -36,8 +35,6 @@ public class ArticuloControlador {
     private ArticuloServicio articuloServicio;
     @Autowired
     private DemoraServicio demoraServicio;
-    @Autowired
-    private CategoriaServicio categoriaServicio;
     @Autowired
     private EmprendimientoServicio emprendimientoServicio;
 
@@ -60,8 +57,8 @@ public class ArticuloControlador {
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
-    @GetMapping("/formulario")
-    public ModelAndView obtenerFormulario(HttpServletRequest request) {
+    @PostMapping("/formulario")
+    public ModelAndView obtenerFormulario(HttpServletRequest request, @RequestParam Integer usuarioId) {
         ModelAndView mav = new ModelAndView("articulos/formulario");               
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
@@ -71,7 +68,8 @@ public class ArticuloControlador {
         }else{
             mav.addObject("articuloDTO", new ArticuloDTO());
         }
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        mav.addObject("categorias", emprendimiento.getCategorias());
         mav.addObject("unidadesTiempo", UnidadTiempo.values());
         mav.addObject("action", "crear");
         return mav;        
@@ -113,9 +111,9 @@ public class ArticuloControlador {
     }
 
     @PreAuthorize("hasRole('EMPRENDEDOR')")
-    @GetMapping("/formulario/{id}")
-    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("articulos/formulario");            //nombre formulario
+    @PostMapping("/formulario/{id}")
+    public ModelAndView obtenerFormularioActualizar(@PathVariable Integer id, HttpServletRequest request, @RequestParam Integer usuarioId) {
+        ModelAndView mav = new ModelAndView("articulos/formulario");  
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null){
@@ -140,7 +138,8 @@ public class ArticuloControlador {
 
             mav.addObject("articuloDTO", articuloDTO);
         }
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        Emprendimiento emprendimiento = emprendimientoServicio.obtenerPorUsuario(usuarioId);
+        mav.addObject("categorias", emprendimiento.getCategorias());
         mav.addObject("unidadesTiempo", UnidadTiempo.values());
         mav.addObject("action", "actualizar");
         return mav;
@@ -164,7 +163,14 @@ public class ArticuloControlador {
         articulo.setDescripcion(articuloDTO.getDescripcion());
         articulo.setPrecio(articuloDTO.getPrecio());
         articulo.setEnvioADomicilio(articuloDTO.getEnvioADomicilio());
-        articulo.setDemora(demora);
+        if(demora.getCantidad() != null && demora.getUnidadTiempo() != null){
+            articulo.setDemora(demora);
+        }else{ //verificar si antes tenia, si tenia eliminar la demora asociada al articulo
+            if(articulo.getDemora()!= null){
+                demoraServicio.eliminarPorId(articulo.getDemora().getId());
+                articulo.setDemora(null);
+            }
+        }
         articulo.setCategoria(articuloDTO.getCategoria());
         articulo.setEmprendimiento(emprendimiento);
         
@@ -191,10 +197,10 @@ public class ArticuloControlador {
     }
 
     //ver un articulo
-    @PreAuthorize("hasAnyRole('USUARIO', 'EMPRENDEDOR')")
+    //@PreAuthorize("hasAnyRole('USUARIO', 'EMPRENDEDOR')")
     @GetMapping("/ver/{id}")
     public ModelAndView verArticulo(@PathVariable Integer id){
-        ModelAndView mav = new ModelAndView("");                //nombre vista
+        ModelAndView mav = new ModelAndView("articulos/un-articulo.html");
         mav.addObject("articulo", articuloServicio.obtenerPorId(id));
         return mav;
     }
