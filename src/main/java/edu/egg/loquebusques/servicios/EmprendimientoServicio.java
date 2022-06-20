@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.egg.loquebusques.entidades.Articulo;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.Usuario;
 import edu.egg.loquebusques.repositorios.DomicilioRepositorio;
@@ -22,7 +23,16 @@ public class EmprendimientoServicio {
     private DomicilioRepositorio domicilioRepositorio;
 
     @Autowired
+    private DomicilioServicio domicilioServicio;
+
+    @Autowired
     private ImagenServicio imagenServicio;
+
+    @Autowired
+    private ArticuloServicio articuloServicio;
+
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
     @Transactional
     public void crear(Usuario usuarioDTO) {
@@ -91,12 +101,21 @@ public class EmprendimientoServicio {
     @Transactional
     public void eliminarPorId(Integer id) {
 
-        //CORREGIR: para eliminar los articulos del emprendimiento no hacerlo por repositorio, sino por servicio
-        //porque por repositorio no elimina las demoras asociadas a cada articulo
-        emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
+
+
+        List<Articulo> articulosEmprendimiento = articuloServicio.articulosDeUnEmprendimiento(id);
+        for(Articulo articulo : articulosEmprendimiento){
+            articuloServicio.eliminarPorId(articulo.getId());;
+        }
         Emprendimiento emprendimiento = emprendimientoRepositorio.findById(id).get();
-        domicilioRepositorio.deleteById(emprendimiento.getDomicilio().getId());
+        if(emprendimiento.getDomicilio() != null){
+            domicilioServicio.eliminarPorId(emprendimiento.getDomicilio().getId());
+        }
+
+        Integer usuarioId = emprendimiento.getUsuario().getId();
         emprendimientoRepositorio.deleteById(id);
+        usuarioServicio.eliminarPorId(usuarioId);
+        
     }
 
 }

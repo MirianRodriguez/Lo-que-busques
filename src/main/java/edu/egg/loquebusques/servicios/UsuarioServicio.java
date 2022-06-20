@@ -79,4 +79,11 @@ public class UsuarioServicio implements UserDetailsService {
         return new User(usuario.getEmail(), usuario.getContrasenia(), singletonList(authority));
     }
 
+    @Transactional
+    public void eliminarPorId(Integer id) {
+
+        usuarioRepositorio.deleteById(id);
+        
+    }
+
 }
