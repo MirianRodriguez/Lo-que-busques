@@ -1,0 +1,69 @@
+<div th:fragment="cards-articulos">
+    <div th:if="${articulosMasRecientes.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay articulos
+        cargados.</div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="articulo : ${articulosMasRecientes}">
+            <div class="card">
+                <img th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
+                    class="card-img-top" height="280" alt="..." width="350" >
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${articulo.nombre}"></h5>
+                    <p class="card-text" th:text="${articulo.descripcion}"></p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:data-bs-target="|#articuloModal${articulo.id}|">
+                        Ver màs
+                    </button>
+                    <div class="modal fade" th:id="|articuloModal${articulo.id}|" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="articulo.nombre" id="exampleModalLabel" th:text="${articulo.nombre}"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card mb-3 col-12" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img th:src="${articulo.imagen} ? @{/subidas/${articulo.imagen}} : @{/subidas/default-image.png}"
+                                                    class="img-fluid rounded-start" alt="Img. del artículo" width="50px">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h2 class="card-title" th:text="${articulo.nombre}"></h2>
+                                                    <p class="card-text" th:text="${articulo.descripcion}"></p>
+                                                    <p class="card-text" th:text="|$${articulo.precio}|"></p>
+                                                    <p class="card-text" th:if="${articulo.demora != null}"
+                                                        th:text="|Tenemos una demora de ${articulo.demora.cantidad} ${articulo.demora.unidadTiempo} desde que hacés el pedido.|">
+                                                    </p>
+                                                    <p class="card-text"
+                                                        th:text="${articulo.envioADomicilio} ? 'Hacemos envío a domicilio' : 'No hacemos envío a domicilio'">
+                                                    </p>
+                                                    <p class="card-text" th:text='|Vendido por: ${articulo.emprendimiento.nombre}|'></p>
+                                                    <p class="card-text" th:text='|Publicado el: ${articulo.fechaPublicacion}|'></p>
+                                                    <div sec:authorize="hasRole('USUARIO')" class="alert alert-info" role="alert">
+                                                        <p class="card-text" th:text="${articulo.emprendimiento.formasPago}"></p>
+                                                        <p class="card-text" th:text="${articulo.emprendimiento.horario}"></p>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</head>
