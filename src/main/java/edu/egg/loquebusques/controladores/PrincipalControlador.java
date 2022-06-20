@@ -20,7 +20,7 @@ public class PrincipalControlador {
 
     @GetMapping
     public ModelAndView getIndex() {
-        ModelAndView mav = new ModelAndView("home");
+        ModelAndView mav = new ModelAndView("home2");
         mav.addObject("emprendimientos", emprendimientoServicio.obtenerTodos());
         mav.addObject("articulos", articuloServicio.obtenerTodos());
         mav.addObject("articulosMasRecientes", articuloServicio.obtenerMasRecientes());
