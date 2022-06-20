@@ -18,6 +18,7 @@
                     <div class="col-8 mt-3">
                         <form th:action="@{/categorias/__${action}__}" th:object="${categoria}" method="post" class="needs-validation" novalidate>
                             <input type="hidden" th:field="*{id}">
+                            <div class="text-danger my-3 small">(*) Campo obligatorio</div>
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre <span
                                     class="text-danger">*</span></label>

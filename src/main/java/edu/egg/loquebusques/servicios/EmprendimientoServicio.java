@@ -90,7 +90,12 @@ public class EmprendimientoServicio {
 
     @Transactional
     public void eliminarPorId(Integer id) {
+
+        //CORREGIR: para eliminar los articulos del emprendimiento no hacerlo por repositorio, sino por servicio
+        //porque por repositorio no elimina las demoras asociadas a cada articulo
         emprendimientoRepositorio.eliminarArticulosDelEmprendimiento(id);
+        Emprendimiento emprendimiento = emprendimientoRepositorio.findById(id).get();
+        domicilioRepositorio.deleteById(emprendimiento.getDomicilio().getId());
         emprendimientoRepositorio.deleteById(id);
     }
 

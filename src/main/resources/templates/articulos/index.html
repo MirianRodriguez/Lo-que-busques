@@ -31,7 +31,7 @@
                             <span th:text="${error}"></span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen articulos</div>
+                        <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen artículos</div>
                         <table th:unless="${articulos.isEmpty()}" class="table table-hover table-bordered mt-3">
                             <thead>
                                 <tr class="table-dark">
@@ -52,7 +52,9 @@
                                     <td><img class="rounded-circle"
                                         th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
                                         width="50" height="50"></td>
-                                    <td th:text="${articulo.nombre}"></td>
+                                    <td>
+                                        <a th:text="${articulo.nombre}" th:href="@{/articulos/ver/__${articulo.id}__}"></a>
+                                    </td>
                                     <td th:text="${articulo.descripcion}"></td>
                                     <td th:text="|$${articulo.precio}|"></td>
                                     <td th:text="${articulo.envioADomicilio ? 'Si' : 'No'}"></td>

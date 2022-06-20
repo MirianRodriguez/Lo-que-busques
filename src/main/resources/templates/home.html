@@ -54,6 +54,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div th:if="${articulosMasRecientes.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay libros cargados.</div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+              <div class="col" th:each="articulo : ${articulosMasRecientes}">
+                    <div class="card">
+                      <img src="..." class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title"th:text="${articulo.nombre}"></h5>
+                        <p class="card-text" th:text="${articulo.descripcion}"></p>
+                      </div>
 
                 <h4 class="text-danger mt-5">Emprendimientos recientes</h4>
 

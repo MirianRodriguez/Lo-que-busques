@@ -19,6 +19,7 @@
                 <div class="col-8 mt-3">
                     <form th:action="@{/emprendimientos/__${action}__}" th:object="${emprendimientoDTO}" method="post"
                         class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <div class="text-danger my-3 small">(*) Campo obligatorio</div>
                         <input type="hidden" th:field="*{emprendimientoId}">
                         <input type="hidden" th:field="*{domicilioId}">
                         <input type="hidden" th:value="${session.id}" name="usuarioId"/>
