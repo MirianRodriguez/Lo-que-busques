@@ -18,5 +18,5 @@ public interface ArticuloRepositorio extends JpaRepository<Articulo, Integer>{
     List<Articulo> articulosDeUnEmprendimiento(Integer emprendimiento_id);
 
     @Query(value = "SELECT * FROM articulo WHERE categoria_id = ?1 AND eliminado = false" , nativeQuery = true)
-    List<Articulo> buscarPorCategoria(Integer categoria_id);
+    List<Articulo>buscarPorCategoria(Integer categoria_id);
 }

@@ -12,20 +12,13 @@ import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 @Controller
 public class PrincipalControlador {
     @Autowired
-    private EmprendimientoServicio emprendimientoServicio;
-    @Autowired
     private ArticuloServicio articuloServicio;
-    @Autowired
-    private CategoriaServicio categoriaServicio;
+    
 
     @GetMapping
     public ModelAndView getIndex() {
         ModelAndView mav = new ModelAndView("home");
-        mav.addObject("emprendimientos", emprendimientoServicio.obtenerTodos());
-        mav.addObject("articulos", articuloServicio.obtenerTodos());
-        mav.addObject("articulosMasRecientes", articuloServicio.obtenerMasRecientes());
-        mav.addObject("emprendimientosMasRecientes", emprendimientoServicio.obtenerMasRecientes());
-        mav.addObject("categorias", categoriaServicio.obtenerTodos());
+        mav.addObject("articulos", articuloServicio.obtenerMasRecientes());
         return mav;
     }
 }
