@@ -1,0 +1,18 @@
+<div th:fragment="cards-emprendimientos">
+    <div th:if="${emprendimientos.isEmpty()}" class="row alert alert-info mt-3" role="alert">No hay articulos
+        cargados.</div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="emprendimiento : ${emprendimientos}">
+            <div class="card border-warning">
+                <img th:src="${emprendimiento.imagen} ? @{/subidas/__${emprendimiento.imagen}__} : @{/subidas/default-image.png}"
+                    class="card-img-top" height="280" alt="..." width="350" >
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${emprendimiento.nombre}"></h5>
+                </div>
+                <div class="card-footer">
+                    <div><a th:href="@{/emprendimientos/ver/__${emprendimiento.usuario.id}__}" class="btn btn-warning">Ir al perfil</a></td>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,9 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragmentos/head :: head"></head>
 
 <body>
-    <header th:replace="fragmentos/header :: header"></header>
+    <div th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"></div>
     <main>
         <div class="container">
             <div class="row">
@@ -12,43 +12,8 @@
                 </div>
             </div>
             <div class="row">
-
-                <div th:if="${exito}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    <span th:text="${exito}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <span th:text="${error}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <div th:if="${emprendimientos.isEmpty()}" class="alert alert-info mt-3" role="alert">No Existen
-                    emprendimientos</div>
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr class="table-dark">
-                            <th>Nombre</th>
-                            <th>Descripcion</th>
-                            <th>Foto</th>
-                            <th>Telefono</th>
-                            <th>Horarios</th>
-                            <th>Formas De Pago</th>
-                            <th>categorias</th>
-                            <th>Inicio Actividad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="emprendimiento : ${emprendimientos}">
-                            <td th:text="${emprendimiento.nombre}"></td>
-                            <td th:text="${emprendimiento.descripcion}"></td>
-                            <td th:text="${emprendimiento.imagen}"></td>
-                            <td th:text="${emprendimiento.telefono}"></td>
-                            <td th:text="${emprendimiento.horario}"></td>
-                            <td th:text="${emprendimiento.formasPago}"></td>
-                            <td th:text="${emprendimiento.categorias}"></td>
-                            <td th:text="${emprendimiento.inicioActividades}"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div th:if="${emprendimientos.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen emprendimientos</div>
+                <div th:insert="fragmentos/cards-emprendimientos :: cards-emprendimientos" class="mt-3"></div>
             </div>
         </div>
         </div>
@@ -58,8 +23,6 @@
     <footer th:replace="fragmentos/footer :: footer"></footer>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/validation.js}"></script>
-</body>
-
 </body>
 
 </html>
