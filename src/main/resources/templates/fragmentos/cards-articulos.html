@@ -13,7 +13,7 @@
                 <div class="card-footer">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                         th:data-bs-target="|#articuloModal${articulo.id}|">
-                        Ver màs
+                        Ver más
                     </button>
                     <div class="modal fade" th:id="|articuloModal${articulo.id}|" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -28,8 +28,8 @@
                                     <div class="card mb-3 col-12 border-warning" style="max-width: 540px;">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img th:src="${articulo.imagen} ? @{/subidas/${articulo.imagen}} : @{/subidas/default-image.png}"
-                                                    class="img-fluid rounded-start" alt="Img. del artículo" width="50px">
+                                                <img th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
+                                                    class="img-fluid rounded-start" alt="Img. del artículo">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
@@ -45,8 +45,9 @@
                                                     <p class="card-text" th:text='|Vendido por: ${articulo.emprendimiento.nombre}|'></p>
                                                     <p class="card-text" th:text='|Publicado el: ${articulo.fechaPublicacion}|'></p>
                                                     <div sec:authorize="hasRole('USUARIO')" class="alert alert-info" role="alert">
-                                                        <p class="card-text" th:text="${articulo.emprendimiento.formasPago}"></p>
-                                                        <p class="card-text" th:text="${articulo.emprendimiento.horario}"></p>
+                                                        <p class="card-text" th:text='|Formas de pago: ${articulo.emprendimiento.formasPago}|'></p>
+                                                        <p class="card-text" th:text= '| Horario de atención ${articulo.emprendimiento.horario}|'></p>
+                                                        <p class="card-text" th:if= "${articulo.emprendimiento.telefono != null}" th:text = "|Telefono: ${articulo.emprendimiento.telefono|"></p>
                                                       </div>
                                                 </div>
                                             </div>
@@ -54,10 +55,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-warning">Save changes</button>
-                                </div>
+                   </div>
                             </div>
                         </div>
                     </div>
