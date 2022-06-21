@@ -1,8 +1,8 @@
 <div th:fragment="cards-articulos">
-    <div th:if="${articulosMasRecientes.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay articulos
+    <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay articulos
         cargados.</div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col" th:each="articulo : ${articulosMasRecientes}">
+        <div class="col" th:each="articulo : ${articulos}">
             <div class="card">
                 <img th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
                     class="card-img-top" height="280" alt="..." width="350" >

@@ -40,7 +40,8 @@
                             </thead>
                             <tbody>
                                 <tr th:each="categoria : ${categorias}">
-                                    <td th:text="${categoria.nombre}"></td>
+                                    <td><a th:text="${categoria.nombre}"
+                                        th:href="@{/articulos/categoria/__${categoria.id}__}"></a></td>
                                     <td th:text="${categoria.descripcion}"></td>
                                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/categorias/formulario/__${categoria.id}__}">Actualizar</a></td>
                                     <td sec:authorize="hasRole('ADMIN')">
