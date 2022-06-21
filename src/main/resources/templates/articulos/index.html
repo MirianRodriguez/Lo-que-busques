@@ -19,7 +19,7 @@
                         <div sec:authorize="hasRole('EMPRENDEDOR')" class="col-auto">
                             <form method="POST" th:action="@{/articulos/formulario}">
                                 <input type="hidden" th:value="${session.id}" name="usuarioId"/>
-                                <button type="submit" class="btn btn-primary">Crear</button> 
+                                <button type="submit" class="btn btn-warning">Crear</button> 
                             </form>
                         </div>
 
@@ -64,7 +64,7 @@
                                     <td sec:authorize="hasRole('EMPRENDEDOR')">
                                         <form method="POST" th:action="@{/articulos/formulario/__${articulo.id}__}">
                                             <input type="hidden" th:value="${session.id}" name="usuarioId"/>
-                                            <button type="submit" class="btn btn-primary">Actualizar</button> 
+                                            <button type="submit" class="btn btn-warning">Actualizar</button> 
                                         </form>
                                     <td>
                                         <form method="POST" th:action="@{/articulos/eliminar/__${articulo.id}__}">

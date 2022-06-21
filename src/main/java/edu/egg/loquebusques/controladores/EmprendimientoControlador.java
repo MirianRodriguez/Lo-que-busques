@@ -207,7 +207,7 @@ public class EmprendimientoControlador {
     }
 
     //ver articulos del emprendimiento
-    @PreAuthorize("hasAnyRole('EMPRENDEDOR', 'USUARIO')")
+    //@PreAuthorize("hasAnyRole('EMPRENDEDOR', 'USUARIO')")
     @GetMapping("/ver-articulos/{id}")
     public ModelAndView verArticulos(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("articulos/index"); 
