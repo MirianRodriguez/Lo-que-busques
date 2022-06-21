@@ -100,4 +100,9 @@ public class ArticuloServicio {
         return articuloRepositorio.articulosDeUnEmprendimiento(emprendimiento_id);
     }
 
+    @Transactional(readOnly = true)
+    public List<Articulo> buscarPorCategoria(Integer categoria_id) {
+        return articuloRepositorio.buscarPorCategoria(categoria_id);
+    }
+
 }
