@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col mt-3">
-                    <div class="card mb-3" style="max-width: 540px;">
+                    <div class="card mb-3 border-warning" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img th:src="${emprendimiento.imagen} ? @{/subidas/__${emprendimiento.imagen}__} : @{/subidas/default-image.png}"
@@ -35,23 +35,30 @@
                                             </li>
                                         </ul>
                                     </ul>
-                                    <p th:text="|Estamos en ${emprendimiento.domicilio.localidad}|"></p>
-                                    <p th:if="${emprendimiento.domicilio.calle!=''}" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|" class="card-text"></p>
-                                    <p class="card-text" th:if="${emprendimiento.domicilio.referencia != ''}" th:text="|Referencia: ${emprendimiento.domicilio.referencia}|"></p>
                                     <p class="card-text" th:text="|Horario de atención: ${emprendimiento.horario}|"></p>
                                     <p class="card-text" th:text="|Inicio de actividades: ${emprendimiento.inicioActividades}|">
-                                    </p>
+                                    <p th:text="|Estamos en ${emprendimiento.domicilio.localidad}|"></p>
+                                    <div th:if="${session.id!=null}">
+                                        <p class="card-text" th:if="${emprendimiento.telefono!=''}" th:text="|Teléfono: ${emprendimiento.telefono}|"></p>
+                                        <p class="card-text" th:if="${emprendimiento.domicilio.calle!=''}" th:text="|Dirección: ${emprendimiento.domicilio.calle} ${emprendimiento.domicilio.numero}|"></p>
+                                        <p class="card-text" th:if="${emprendimiento.domicilio.referencia != ''}" th:text="|Referencia: ${emprendimiento.domicilio.referencia}|"></p>
+                                    </div>
+                                    <div th:if="${session.id==null}">
+                                        <div class="alert alert-info" role="alert">
+                                            Para ver la info de contacto de este emprendedor, registrate!
+                                          </div>
+                                    </div>
                                     <a sec:authorize="hasRole('EMPRENDEDOR')"
                                         th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                                        class="btn btn-primary">Editar perfil</a>
+                                        class="btn btn-warning">Editar perfil</a>
                                     <!-- <p class="card-text">Registrarse para obtener datos de contacto<a href="#"
-                                            class="btn btn-primary">Registrarse</a></p> -->
+                                            class="btn btn-warning">Registrarse</a></p> -->
                                 </div>
                                 <div sec:authorize="hasRole('EMPRENDEDOR')" class="card-body"
                                     th:if="${emprendimiento.nombre == null}">
                                     <div class="alert alert-info mt-3" role="alert">Completa tu perfil</div>
                                     <a th:href="@{/emprendimientos/perfil/__${emprendimiento.id}__}"
-                                        class="btn btn-primary">Completar</a>
+                                        class="btn btn-warning">Completar</a>
                                 </div>
                             </div>
                         </div>
@@ -59,39 +66,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card-group">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Ver Producto</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Ver Producto</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Ver Producto</a>
-                        </div>
-                    </div>
-                </div>
+                <div class="col lead mt-3" th:text="|Productos de ${emprendimiento.nombre}|"></div>
+                
             </div>
+            <div th:insert="fragmentos/cards-articulos :: cards-articulos" class="mt-3"></div>
         </div>
 
     </main>

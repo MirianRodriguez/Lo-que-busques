@@ -20,7 +20,7 @@ public interface EmprendimientoRepositorio extends JpaRepository<Emprendimiento,
     @Query(value = "UPDATE articulo SET eliminado = 1 WHERE emprendimiento_id = ?1" , nativeQuery = true)
     void eliminarArticulosDelEmprendimiento(Integer emprendimiento_id);
 
-    @Query(value = "SELECT * FROM emprendimiento WHERE nombre != null AND eliminado = false" , nativeQuery = true)
+    @Query(value = "SELECT * FROM emprendimiento WHERE eliminado = false AND nombre != '';" , nativeQuery = true)
     List<Emprendimiento> obtenerTodosActivos();
 
     @Query(value = "SELECT * FROM emprendimiento where usuario_id = ?1" , nativeQuery = true)
