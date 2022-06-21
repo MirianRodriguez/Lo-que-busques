@@ -45,10 +45,6 @@ public class EmprendimientoServicio {
     @Transactional
     public void actualizar(Emprendimiento emprendimientoDTO, MultipartFile foto) {
 
-        /*if (emprendimientoRepositorio.existsByNombre(emprendimientoDTO.getNombre())) {
-            throw new IllegalArgumentException("Ya existe un emprendimiento con ese nombre");
-        }*/
-
         Emprendimiento emprendimiento = emprendimientoRepositorio.findById(emprendimientoDTO.getId()).get();
 
         emprendimiento.setNombre(emprendimientoDTO.getNombre());
@@ -93,6 +89,7 @@ public class EmprendimientoServicio {
     public Emprendimiento obtenerPorUsuario(Integer id) {
         return emprendimientoRepositorio.buscarPorUsuario(id).get();
     }
+
     @Transactional(readOnly = true)
     public List<Emprendimiento> obtenerMasRecientes() {
         return emprendimientoRepositorio.obtenerMasRecientes();
@@ -101,21 +98,21 @@ public class EmprendimientoServicio {
     @Transactional
     public void eliminarPorId(Integer id) {
 
-
-
         List<Articulo> articulosEmprendimiento = articuloServicio.articulosDeUnEmprendimiento(id);
-        for(Articulo articulo : articulosEmprendimiento){
-            articuloServicio.eliminarPorId(articulo.getId());;
+        for (Articulo articulo : articulosEmprendimiento) {
+            articuloServicio.eliminarPorId(articulo.getId());
+            ;
         }
+
         Emprendimiento emprendimiento = emprendimientoRepositorio.findById(id).get();
-        if(emprendimiento.getDomicilio() != null){
+        if (emprendimiento.getDomicilio() != null) {
             domicilioServicio.eliminarPorId(emprendimiento.getDomicilio().getId());
         }
 
         Integer usuarioId = emprendimiento.getUsuario().getId();
         emprendimientoRepositorio.deleteById(id);
         usuarioServicio.eliminarPorId(usuarioId);
-        
+
     }
 
 }
