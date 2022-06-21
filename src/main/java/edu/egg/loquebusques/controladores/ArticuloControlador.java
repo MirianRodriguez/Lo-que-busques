@@ -224,6 +224,11 @@ public class ArticuloControlador {
         mav.addObject("articulos", articuloServicio.articulosDeUnEmprendimiento(emprendimiento.getId()));
         return mav;
     }
-
-    
+    //ver articulo/os de una determinada categoria
+    @GetMapping("/articulo/{categoriaId}")
+    public ModelAndView verArticuloDeUnaCategoria(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView("articulos/articulos-por-categoria.html");
+        mav.addObject("articulo", articuloServicio.buscarPorCategoria(id));
+        return mav;
+    }
 }
