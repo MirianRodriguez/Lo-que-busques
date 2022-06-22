@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragmentos/head :: head"></head>
+
+<body>
+    <div th:replace="${session.id == null} ? ~{fragmentos/auth-header :: auth-header} : ~{fragmentos/header :: header}"></div>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col lead mt-3">
+                    Lo que busques! 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
+                    <p>Somos un proyecto web orientado a brindarte una conexión entre tu emprendimiento y el cliente.</p>
+                    <h5>¿Tenés un emprendimiento?</h5>
+                    <p>
+                        En "Lo que busques" el visitante explora a través de nuestra página web, teniendo como objetivo  final la oferta o venta de tus productos. Es la mejor opción para que tu emprendimiento trabaje para ti en piloto automático, aumentando tu facturación.
+Podrás personalizar tu perfil con tu marca y datos personales. Como así también subir detalles e imágenes de tus productos para que los distintos usuarios puedan conocer tu negocio y de esa manera contactarse contigo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="fragmentos/footer :: footer"></footer>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/validation.js}"></script>
+</body>
+</html>
+
