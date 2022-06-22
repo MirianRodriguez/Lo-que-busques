@@ -62,6 +62,10 @@ public class EmprendimientoControlador {
         }
         mav.addObject("emprendimientos", emprendimientoServicio.obtenerTodos());
 
+        emprendimientoServicio.obtenerTodos()
+            .stream()
+            .map(e->e.getDescripcion())
+            .forEach(System.out::println);
         return mav;
     }
 

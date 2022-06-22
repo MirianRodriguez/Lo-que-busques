@@ -4,6 +4,12 @@ body {
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
     background-image: url("../img/background8.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 main {
@@ -21,7 +27,6 @@ thead {
 
 a {
     color: #fd7e14;
-    
 }
 
 a:hover {
