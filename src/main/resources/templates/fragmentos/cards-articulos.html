@@ -47,7 +47,7 @@
                                                     <div sec:authorize="hasRole('USUARIO')" class="alert alert-info" role="alert">
                                                         <p class="card-text" th:text='|Formas de pago: ${articulo.emprendimiento.formasPago}|'></p>
                                                         <p class="card-text" th:text= '| Horario de atención ${articulo.emprendimiento.horario}|'></p>
-                                                        <p class="card-text" th:if= "${articulo.emprendimiento.telefono != null}" th:text = "|Telefono: ${articulo.emprendimiento.telefono|"></p>
+                                                        <p class="card-text" th:if = "${articulo.emprendimiento.telefono != ''} " th:text = "|Telefono: ${articulo.emprendimiento.telefono}|"></p>
                                                       </div>
                                                 </div>
                                             </div>

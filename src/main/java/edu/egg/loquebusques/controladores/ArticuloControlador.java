@@ -24,6 +24,7 @@ import edu.egg.loquebusques.entidades.Demora;
 import edu.egg.loquebusques.entidades.Emprendimiento;
 import edu.egg.loquebusques.entidades.UnidadTiempo;
 import edu.egg.loquebusques.servicios.ArticuloServicio;
+import edu.egg.loquebusques.servicios.CategoriaServicio;
 import edu.egg.loquebusques.servicios.DemoraServicio;
 import edu.egg.loquebusques.servicios.EmprendimientoServicio;
 
@@ -37,6 +38,8 @@ public class ArticuloControlador {
     private DemoraServicio demoraServicio;
     @Autowired
     private EmprendimientoServicio emprendimientoServicio;
+    @Autowired
+    private CategoriaServicio categoriaServicio;
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
@@ -229,6 +232,7 @@ public class ArticuloControlador {
     public ModelAndView verArticuloDeUnaCategoria(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("articulos/articulos-por-categoria.html");
         mav.addObject("articulos", articuloServicio.buscarPorCategoria(id));
+        mav.addObject("categoria", categoriaServicio.obtenerPorId(id));
         return mav;
     }
 }
