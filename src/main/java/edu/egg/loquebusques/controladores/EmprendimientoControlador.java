@@ -49,7 +49,7 @@ public class EmprendimientoControlador {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ModelAndView obtenerEmprendimientos(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("emprendimientos/index-admin.html");                    //nombre de la vista
+        ModelAndView mav = new ModelAndView("emprendimientos/index-admin.html");
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (inputFlashMap != null) {
@@ -62,10 +62,6 @@ public class EmprendimientoControlador {
         }
         mav.addObject("emprendimientos", emprendimientoServicio.obtenerTodos());
 
-        emprendimientoServicio.obtenerTodos()
-            .stream()
-            .map(e->e.getDescripcion())
-            .forEach(System.out::println);
         return mav;
     }
 
