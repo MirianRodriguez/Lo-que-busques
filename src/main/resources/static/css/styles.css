@@ -26,13 +26,17 @@ thead {
 }
 
 a {
-    color: #fd7e14;
-}
-
-a:hover {
     color: #58391c;
 }
 
+a:hover {
+    color: #cb6511;
+}
+
+.card {
+    background-color: #FDF3EB;
+    padding: 3px;
+}
 
 .carousel-caption{
     width: 70%;
