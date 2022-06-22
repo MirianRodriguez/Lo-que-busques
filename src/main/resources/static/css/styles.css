@@ -10,6 +10,24 @@ main {
     min-height: calc(100vh - 112px);
 }
 
+.navbar {
+    background-color: #cb6511 !important;
+}
+
+thead {
+    background-color: #cb6511 !important;
+    color: #ffffff;
+}
+
+a {
+    color: #fd7e14;
+    
+}
+
+a:hover {
+    color: #58391c;
+}
+
 
 .carousel-caption{
     width: 70%;

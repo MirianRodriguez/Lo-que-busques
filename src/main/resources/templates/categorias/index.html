@@ -31,7 +31,7 @@
                         <div th:if="${categorias.isEmpty()}" class="alert alert-info mt-3" role="alert">No existen categorías de artículos</div>
                         <table th:unless="${categorias.isEmpty()}" class="table table-hover table-bordered mt-3">
                             <thead>
-                                <tr class="table-dark">
+                                <tr>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th sec:authorize="hasRole('ADMIN')">Actualizar</th>
