@@ -66,7 +66,7 @@ public class CategoriaControlador {
 
         try {
             categoriaServicio.crear(categoria);
-            atributos.addFlashAttribute("exito", "La categoria se ha almacenado.");
+            atributos.addFlashAttribute("exito", "La categoría se ha almacenado.");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("categoria", categoria);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -92,7 +92,7 @@ public class CategoriaControlador {
 
         try {
             categoriaServicio.actualizar(categoria);
-            atributos.addFlashAttribute("exito", "Categoria modificada.");
+            atributos.addFlashAttribute("exito", "La categoría se ha modificado.");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("categoria", categoria);
             atributos.addFlashAttribute("error", e.getMessage());
@@ -108,7 +108,7 @@ public class CategoriaControlador {
         RedirectView redireccion = new RedirectView("/categorias");
         try {
             categoriaServicio.eliminarPorId(id);
-            atributos.addFlashAttribute("exito", "Categoria eliminada.");
+            atributos.addFlashAttribute("exito", "Ha eliminado la categoría.");
         } catch (Exception e) {
             atributos.addFlashAttribute("error", e.getMessage());
         }

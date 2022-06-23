@@ -28,7 +28,7 @@
                     emprendimientos</div>
                 <table th:unless="${emprendimientos.isEmpty()}" class="table table-hover table-bordered mt-3">
                     <thead>
-                        <tr class="table-dark">
+                        <tr>
                             <th sec:authorize="hasRole('ADMIN')">Email</th>
                             <th sec:authorize="hasRole('ADMIN')">Eliminar</th>
                         </tr>

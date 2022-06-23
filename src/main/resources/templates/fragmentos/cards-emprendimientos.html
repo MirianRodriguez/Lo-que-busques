@@ -2,7 +2,7 @@
     <div th:if="${emprendimientos.isEmpty()}" class="row alert alert-info mt-3" role="alert">No hay articulos
         cargados.</div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col" th:each="emprendimiento : ${emprendimientos}">
+        <div class="col card-group" th:each="emprendimiento : ${emprendimientos}">
             <div class="card border-warning">
                 <img th:src="${emprendimiento.imagen} ? @{/subidas/__${emprendimiento.imagen}__} : @{/subidas/default-image.png}"
                     class="card-img-top" height="280" alt="..." width="350" >

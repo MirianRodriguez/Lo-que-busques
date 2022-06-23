@@ -25,6 +25,12 @@ thead {
     color: #ffffff;
 }
 
+tbody {
+    background-color: #FEE4D0;
+    opacity: 0.9;
+    
+}
+
 a {
     color: #58391c;
 }
