@@ -1,11 +1,11 @@
 <div th:fragment="cards-articulos">
-    <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay articulos
+    <div th:if="${articulos.isEmpty()}" class="alert alert-info mt-3" role="alert">No hay artículos
         cargados.</div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col mb-3" th:each="articulo : ${articulos}">
+        <div class="col mb-3 card-group" th:each="articulo : ${articulos}">
             <div class="card border-warning">
                 <img th:src="${articulo.imagen} ? @{/subidas/__${articulo.imagen}__} : @{/subidas/default-image.png}"
-                    class="card-img-top" height="280" alt="..." width="350" >
+                    class="card-img-top" height="280" alt="..." width="350">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${articulo.nombre}"></h5>
                     <p class="card-text" th:text="${articulo.descripcion}"></p>
@@ -20,7 +20,8 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="articulo.nombre" id="exampleModalLabel" th:text="${articulo.nombre}"></h5>
+                                    <h5 class="articulo.nombre" id="exampleModalLabel" th:text="${articulo.nombre}">
+                                    </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -42,20 +43,30 @@
                                                     <p class="card-text"
                                                         th:text="${articulo.envioADomicilio} ? 'Hacemos envío a domicilio' : 'No hacemos envío a domicilio'">
                                                     </p>
-                                                    <p class="card-text" th:text='|Vendido por: ${articulo.emprendimiento.nombre}|'></p>
-                                                    <p class="card-text" th:text='|Publicado el: ${articulo.fechaPublicacion}|'></p>
-                                                    <div sec:authorize="hasRole('USUARIO')" class="alert alert-info" role="alert">
-                                                        <p class="card-text" th:text='|Formas de pago: ${articulo.emprendimiento.formasPago}|'></p>
-                                                        <p class="card-text" th:text= '| Horario de atención ${articulo.emprendimiento.horario}|'></p>
-                                                        <p class="card-text" th:if = "${articulo.emprendimiento.telefono != ''} " th:text = "|Telefono: ${articulo.emprendimiento.telefono}|"></p>
-                                                      </div>
+                                                    <p class="card-text"
+                                                        th:text='|Vendido por: ${articulo.emprendimiento.nombre}|'></p>
+                                                    <p class="card-text"
+                                                        th:text='|Publicado el: ${articulo.fechaPublicacion}|'></p>
+                                                    <div sec:authorize="hasRole('USUARIO')" class="alert alert-info"
+                                                        role="alert">
+                                                        <p class="card-text"
+                                                            th:text='|Formas de pago: ${articulo.emprendimiento.formasPago}|'>
+                                                        </p>
+                                                        <p class="card-text"
+                                                            th:text='| Horario de atención ${articulo.emprendimiento.horario}|'>
+                                                        </p>
+                                                        <p class="card-text"
+                                                            th:if="${articulo.emprendimiento.telefono != ''} "
+                                                            th:text="|Telefono: ${articulo.emprendimiento.telefono}|">
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                   </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,4 +75,4 @@
             </div>
         </div>
     </div>
-</head>
+    </head>

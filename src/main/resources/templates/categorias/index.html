@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col lead mt-3">
-                        Categorías de emprendimientos y productos del sistema
+                        Categorías de artículos del sistema
                     </div>
                 </div>
                 <div sec:authorize="hasRole('EMPRENDEDOR')" class="row">
@@ -40,8 +40,10 @@
                             </thead>
                             <tbody>
                                 <tr th:each="categoria : ${categorias}">
-                                    <td><a th:text="${categoria.nombre}"
-                                        th:href="@{/articulos/categoria/__${categoria.id}__}"></a></td>
+                                    <td>
+                                        <p sec:authorize="hasRole('EMPRENDEDOR')" th:text="${categoria.nombre}"></p>
+                                        <a sec:authorize="!hasRole('EMPRENDEDOR')" th:text="${categoria.nombre}" th:href="@{/articulos/categoria/__${categoria.id}__}"></a>
+                                    </td>
                                     <td th:text="${categoria.descripcion}"></td>
                                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/categorias/formulario/__${categoria.id}__}">Actualizar</a></td>
                                     <td sec:authorize="hasRole('ADMIN')">
